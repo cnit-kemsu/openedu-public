@@ -16,7 +16,6 @@ const signinQuery = `
       role
       email
       verified
-      username
       bearer
     }
   }
