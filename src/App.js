@@ -1,101 +1,101 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { GraphqlClient, GraphqlProvider, useQuery, useMutation } from '@kemsu/graphql-client';
-import { useForm } from '@kemsu/form';
-import { TextField } from '@kemsu/inputs';
-import { Paper, Form } from '@kemsu/core';
+import { GraphqlProvider, useQuery } from '@kemsu/graphql-client';
+import { Router, useRouting } from '@kemsu/router';
+import { client } from './client';
+import AuthorizeView from './Views/Authorize';
 
 import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 
-const client = new GraphqlClient('/api');
-const signinQuery = `
-  query signIn($login: String!, $password: String!) {
-    signIn(login: $login, password: $password) {
-      id
-      role
-      email
-      verified
-      bearer
-    }
-  }
-`;
+// const studentsQuery = `
+//   query students($limit: Int!) {
+//     students(limit: $limit) {
+//       id
+//       verified
+//       email
+//     }
+//   }
+// `;
 
-function validateLogin(value) {
-  if (!value) return 'Необходимо указать имя пользователя или адрес электронной почты';
-  return undefined;
-}
-function validatePassword(value) {
-  if (!value) return 'Необходимо ввести пароль';
-  return undefined;
-}
+// function Students() {
 
-function SigninView() {
-  const signin = useMutation(signinQuery);
-  const form = useForm(signin, () => ({}));
+//   console.log('render Users');
+//   const [data, , loading, ] = useQuery(studentsQuery, { limit: 10 }, {
+//     onComplete: () => console.log('fetch users success'),
+//     onError: console.error
+//   });
 
-  return (<>
-    <Paper style={{ width: '600px' }}>
-      <Form form={form} title="Войти" actions='submit' submitText="Войти" submitIcon={null}>
-        <div>
-        <TextField comp={form} name="login" validate={validateLogin}
-          label="Имя пользователя / Адрес электронной почты" style={{ width: '500px' }}
-        />
-        </div>
-        <div>
-        <TextField comp={form} name="password" validate={validatePassword}
-          label="Пароль" style={{ width: '500px' }}
-        />
-        </div>
-      </Form>
-    </Paper>
-    
-  </>);
-}
+//   if (localStorage.getItem('authtoken') === undefined) return (
+//     <div>Not authorized to show</div>
+//   );
 
-const usersQuery = `
-  query users($limit: Int!) {
-    users(limit: $limit) {
-      id
-      verified
-      email
-      username
-    }
-  }
-`;
+//   return (<>
+//     {loading ? 'loading...' : (
+//       data.students?.map(
+//         ({ id, verified, email }) => <div key={id}>
+//           <div>id: {id}</div>
+//           <div>email: {email}</div>
+//           <div>verified: {verified}</div>
+//         </div>
+//       )
+//     )}
+//   </>);
+// }
 
-function Users() {
-
-  console.log('render Users');
-  const [data, , loading, ] = useQuery(usersQuery, { limit: 10 }, {
-    onComplete: () => console.log('fetch users success'),
-    onError: console.error
-  });
-
-  return (<>
-    {loading ? 'loading...' : (
-      data.users?.map(
-        ({ id, username, verified, email }) => <div key={id}>
-          <div>id: {id}</div>
-          <div>email: {email}</div>
-          <div>verified: {verified}</div>
-          <div>username: {username}</div>
-        </div>
-      )
-    )}
-  </>);
-}
+const routes = {
+  '/(?<variant>signin|register|verify)': ({ variant }) => <AuthorizeView key={1} variant={variant} />,
+  '^/$': <div key={0} style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>
+};
 
 const theme = createMuiTheme({});
+
+const useStyles = makeStyles(theme => ({
+  // root: {
+  //   flexGrow: 1,
+  // },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+}));
 
 function App() {
 
   console.log('render App');
 
+  const classes = useStyles();
+  
+  const routing = useRouting(routes);
+
   return (
     <ThemeProvider theme={theme}>
       <GraphqlProvider client={client}>
-        <SigninView />
+
+        <div className={classes.root}>
+          <AppBar position="static" style={{ backgroundColor: '#282828' }}>
+            <Toolbar>
+              {/* <IconButton edge="start" className={classes.menuButton} color="inherit">
+                <MenuIcon />
+              </IconButton> */}
+              <Typography variant="h6" color="inherit" className={classes.title}>
+                Открытое образование
+              </Typography>
+              <Button color="inherit" onClick={() => Router.push({ pathname: '/signin' })}>Войти</Button>
+            </Toolbar>
+          </AppBar>
+        </div>
+
+        <div id="main-routing" style={{ textAlign: 'center' }}>
+          {routing}
+        </div>
+
       </GraphqlProvider>
     </ThemeProvider>
   );
