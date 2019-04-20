@@ -4,7 +4,7 @@ import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
 import { Router } from '@kemsu/router';
-import { setAuthToken } from '../client';
+import { setAuthHeader } from '../../client';
 
 const createStudentMutation = `
   mutation createStudent($email: String!, $password: String!) {
@@ -43,12 +43,12 @@ function validateForm({ password, confirmPassword }) {
   return undefined;
 }
 
-function completeRegistration({ createStudent }) {
-  setAuthToken(createStudent);
-  Router.push({ pathname: '/verify' });
+function completeRegistration({ createStudent: { bearer } }) {
+  setAuthHeader(bearer);
+  Router.push('/verify');
 }
 
-function RegisterView() {
+function Register() {
   const createStudent = useMutation(createStudentMutation, {}, {
     onComplete: completeRegistration
   });
@@ -77,4 +77,4 @@ function RegisterView() {
   </>);
 }
 
-export default React.memo(RegisterView);
+export default React.memo(Register);

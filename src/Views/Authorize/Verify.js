@@ -24,10 +24,10 @@ function validateCode(value) {
 
 function completeVerification() {
   localStorage.setItem('verified', true);
-  Router.push({ pathname: '/' });
+  Router.push('/');
 }
 
-function VerificationView() {
+function Verify() {
   const verifyStudent = useMutation(verifyStudentMutation, {}, {
     onComplete: completeVerification
   });
@@ -46,4 +46,4 @@ function VerificationView() {
   </>);
 }
 
-export default React.memo(VerificationView);
+export default React.memo(Verify);

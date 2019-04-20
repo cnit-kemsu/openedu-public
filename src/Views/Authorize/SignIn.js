@@ -3,23 +3,23 @@ import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { setAuthToken } from '../client';
+import { setAuthHeader } from '../../client';
 import { Router } from '@kemsu/router';
 
-const signinQuery = `
-  query signIn($login: String!, $password: String!) {
-    signIn(login: $login, password: $password) {
-      id
+const signInQuery = `
+  query signIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
       role
-      email
       verified
       bearer
     }
   }
 `;
 
-function validateLogin(value) {
+const validEmail = /\S+@\S+\.\S+/;
+function validateEmail(value) {
   if (!value) return 'Необходимо указать адрес электронной почты';
+  if (!validEmail.test(value)) return 'Указан неверный адрес электронной почты';
   return undefined;
 }
 function validatePassword(value) {
@@ -27,22 +27,28 @@ function validatePassword(value) {
   return undefined;
 }
 
-function completeSignin({ signIn}) {
-  setAuthToken(signIn);
-  Router.push({ pathname: '/' });
+function completeSignIn({ signIn: { role, verified, bearer } }, { email }) {
+  localStorage.setItem('role', role);
+  localStorage.setItem('email', email);
+  localStorage.setItem('verified', verified);
+  localStorage.setItem('bearer', bearer);
+  setAuthHeader(bearer);
+  Router.push('/');
 }
 
-function SigninView() {
-  const signin = useMutation(signinQuery, {}, {
-    onComplete: completeSignin
+function SignIn() {
+  const signIn = useMutation(signInQuery, {}, {
+    onComplete: completeSignIn
   });
-  const form = useForm(signin, () => ({}));
+  const form = useForm(signIn, () => ({}));
+
+  console.log('render SignIn');
 
   return (<>
     <div style={{ textAlign: 'left' }}>
       <Form form={form} actions='submit' submitText="Войти" submitIcon={null}>
         <div>
-          <TextField comp={form} name="login" validate={validateLogin}
+          <TextField comp={form} name="email" validate={validateEmail}
             label="Адрес электронной почты" style={{ width: '100%' }}
           />
         </div>
@@ -51,9 +57,10 @@ function SigninView() {
             type="password" label="Пароль" style={{ width: '100%' }}
           />
         </div>
+        <div>johncooper87@mail.ru</div>
       </Form>
     </div>
   </>);
 }
 
-export default React.memo(SigninView);
+export default React.memo(SignIn);

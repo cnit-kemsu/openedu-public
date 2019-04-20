@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { GraphqlProvider, useQuery } from '@kemsu/graphql-client';
-import { Router, useRouting } from '@kemsu/router';
+import { Router, useRoute } from '@kemsu/router';
 import { client } from './client';
 import AuthorizeView from './Views/Authorize';
 
@@ -47,11 +47,6 @@ import Button from '@material-ui/core/Button';
 //   </>);
 // }
 
-const routes = {
-  '/(?<variant>signin|register|verify)': ({ variant }) => <AuthorizeView key={1} variant={variant} />,
-  '^/$': <div key={0} style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>
-};
-
 const theme = createMuiTheme({});
 
 const useStyles = makeStyles(theme => ({
@@ -72,11 +67,7 @@ function App() {
 
   const classes = useStyles();
   
-  const routing = useRouting(routes);
-
-  return (
-    <ThemeProvider theme={theme}>
-      <GraphqlProvider client={client}>
+  return (<>
 
         <div className={classes.root}>
           <AppBar position="static" style={{ backgroundColor: '#282828' }}>
@@ -84,24 +75,36 @@ function App() {
               {/* <IconButton edge="start" className={classes.menuButton} color="inherit">
                 <MenuIcon />
               </IconButton> */}
-              <Typography variant="h6" color="inherit" className={classes.title}>
+              <Typography variant="h6" color="inherit" className={classes.title} onClick={() => Router.push('/')}>
                 Открытое образование
               </Typography>
-              <Button color="inherit" onClick={() => Router.push({ pathname: '/signin' })}>Войти</Button>
+              <Button color="inherit" onClick={() => Router.push('/signin')}>Войти</Button>
             </Toolbar>
           </AppBar>
         </div>
 
         <div id="main-routing" style={{ textAlign: 'center' }}>
-          {routing}
+          {useRoute('/(?<variant>signin|register|verify)', props => <AuthorizeView {...props} />)}
+          {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
+          {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
+          {/* {useRoute('/123/123', <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)} */}
         </div>
 
+      
+  </>);
+}
+
+function Root() {
+  return (
+    <ThemeProvider theme={theme}>
+      <GraphqlProvider client={client}>
+        <App></App>
       </GraphqlProvider>
     </ThemeProvider>
   );
 }
 
 ReactDOM.render(
-  <App />,
+  <Root />,
   document.getElementById('root')
 );
