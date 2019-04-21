@@ -5,76 +5,37 @@ import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
 import { Router } from '@kemsu/router';
 import { setAuthHeader } from '../../client';
+import { UserInfo } from '../../classes/UserInfo';
+import { validateEmail, validatePassword, validateConfirmPassword } from '../_shared/validate';
+import { Register as useStyles } from './styles';
 
 const createStudentMutation = `
   mutation createStudent($email: String!, $password: String!) {
-    createStudent(email: $email, password: $password) {
-      id
-      role
-      email
-      verified
-      bearer
-    }
+    createStudent(email: $email, password: $password)
   }
 `;
-
-const validEmail = /\S+@\S+\.\S+/;
-function validateEmail(value) {
-  if (!value) return 'Необходимо указать адрес электронной почты';
-  if (!validEmail.test(value)) return 'Указан неверный адрес электронной почты';
-  return undefined;
-}
-function validatePassword(value) {
-  if (!value) return 'Необходимо ввести пароль';
-  return undefined;
-}
-function validateConfirmPassword(value) {
-  if (!value) return 'Необходимо подтвердить пароль';
-  return undefined;
-}
-const PASSWORDS_MISMATCH = 'Пароли должны совпадать';
-function validateForm({ password, confirmPassword }) {
-  if (password && confirmPassword) if (password !== confirmPassword) {
-    return {
-      password: PASSWORDS_MISMATCH,
-      confirmPassword: PASSWORDS_MISMATCH
-    };
-  }
-  return undefined;
-}
-
-function completeRegistration({ createStudent: { bearer } }) {
+function onComplete({ createStudent: bearer }, { email }) {
+  UserInfo.update({ role: 'student', email, verified: false, bearer });
   setAuthHeader(bearer);
   Router.push('/verify');
 }
 
-function Register() {
-  const createStudent = useMutation(createStudentMutation, {}, {
-    onComplete: completeRegistration
-  });
-  const form = useForm(createStudent, () => ({}), validateForm);
+function RegisterView() {
+  const createStudent = useMutation(createStudentMutation, { onComplete });
+  const form = useForm(createStudent, validateConfirmPassword);
 
-  return (<>
-  <div style={{ textAlign: 'left', width: '600px' }}>
-      <Form form={form} actions='submit' submitText="Зарегистрироваться" submitIcon={null}>
-        <div>
-          <TextField comp={form} name="email" validate={validateEmail}
-            label="Адрес электронной почты" style={{ width: '100%' }}
-          />
-        </div>
-        <div>
-          <TextField comp={form} name="password" validate={validatePassword}
-            type="password" label="Пароль" style={{ width: '100%' }}
-          />
-        </div>
-        <div>
-          <TextField comp={form} name="confirmPassword" validate={validateConfirmPassword}
-            type="password" label="Повторите пароль" style={{ width: '100%' }}
-          />
-        </div>
-      </Form>
-    </div>
-  </>);
+  const classes = useStyles();
+  return <Form form={form} actions='submit' submitText="Зарегистрироваться" submitIcon={null}>
+    <TextField comp={form} name="email" validate={validateEmail}
+      label="Адрес электронной почты" className={classes.email}
+    />
+    <TextField comp={form} name="password" validate={validatePassword}
+      type="password" label="Пароль" className={classes.password}
+    />
+    <TextField comp={form} name="confirmPassword"
+      type="password" label="Повторите пароль" className={classes.confirmPassword}
+    />
+  </Form>;
 }
 
-export default React.memo(Register);
+export default React.memo(RegisterView);

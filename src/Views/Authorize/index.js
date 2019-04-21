@@ -1,13 +1,12 @@
 import React from 'react';
 import { Router } from '@kemsu/router';
-
 import SignInView from './SignIn';
 import RegisterView from './Register';
 import VerifyView from './Verify';
-
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import useStyles from './styles';
 
 function handleTabChange(event, value) {
   if (value === 0) Router.push('/signin');
@@ -15,23 +14,24 @@ function handleTabChange(event, value) {
 }
 
 const tabs = {
-  'signin': [0, <SignInView />],
-  'register': [1, <RegisterView />],
-  'verify': [-1, <VerifyView />]
+  'signin': [0, <SignInView />, '500px'],
+  'register': [1, <RegisterView />, '600px'],
+  'verify': [-1, <VerifyView />, '500px']
 };
 
 function Authorize({ variant }) {
-  const [tabValue, tabView] = tabs[variant];
-
-  return (
-    <Paper square style={{ padding: '25px', minWidth: '500px', display: 'inline-block' }}>
+  const [tabValue, tabView, width] = tabs[variant];
+  
+  const classes = useStyles();
+  return <div className={classes.root}>
+    <Paper className={classes.paper} style={{ width }}>
 
       {tabValue >= 0 &&
         <Tabs value={tabValue} onChange={handleTabChange}
-          indicatorColor="primary" textColor="primary" style={{ marginBottom: '50px', width: '450px', display: 'inline-block' }}
+          indicatorColor="primary" textColor="primary" className={classes.tabs}
         >
-          <Tab label="Вход" style={{ width: '50%' }} />
-          <Tab label="Регистрация" style={{ width: '50%' }} />
+          <Tab label="Вход" className={classes.tab} />
+          <Tab label="Регистрация" className={classes.tab} />
         </Tabs>
       }
 
@@ -40,7 +40,7 @@ function Authorize({ variant }) {
       </div>
 
     </Paper>
-  );
+  </div>;
 }
 
 export default React.memo(Authorize);

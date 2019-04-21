@@ -4,46 +4,35 @@ import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
 import { Router } from '@kemsu/router';
+import { setAuthHeader } from '../../client';
+import { UserInfo } from '../../classes/UserInfo';
+import { Verify as useStyles } from './styles';
 
 const verifyStudentMutation = `
   mutation verifyStudent($code: String!) {
-    verifyStudent(code: $code) {
-      id
-      role
-      email
-      verified
-      bearer
-    }
+    verifyStudent(code: $code)
   }
 `;
-
-function validateCode(value) {
-  if (!value) return 'Необходимо ввести код подтверждения';
-  return undefined;
-}
-
-function completeVerification() {
-  localStorage.setItem('verified', true);
+function onComplete({ verifyStudent: bearer }) {
+  UserInfo.update({ verified: true, bearer });
+  setAuthHeader(bearer);
   Router.push('/');
 }
 
-function Verify() {
-  const verifyStudent = useMutation(verifyStudentMutation, {}, {
-    onComplete: completeVerification
-  });
-  const form = useForm(verifyStudent, () => ({}));
-
-  return (<>
-    <div style={{ textAlign: 'left' }}>
-      <Form form={form} actions='submit' submitText="Подтвердить" submitIcon={null}>
-        <div>
-          <TextField comp={form} name="code" validate={validateCode}
-            label="Код подтверждения" style={{ width: '100%' }}
-          />
-        </div>
-      </Form>
-    </div>
-  </>);
+function validateCode(value) {
+  if (!value) return 'Необходимо ввести код подтверждения';
 }
 
-export default React.memo(Verify);
+function VerifyView() {
+  const verifyStudent = useMutation(verifyStudentMutation, { onComplete });
+  const form = useForm(verifyStudent);
+
+  const classes = useStyles();
+  return <Form form={form} actions='submit' submitText="Подтвердить" submitIcon={null}>
+    <TextField comp={form} name="code" validate={validateCode}
+      label="Код подтверждения" className={classes.code}
+    />
+  </Form>;
+}
+
+export default React.memo(VerifyView);

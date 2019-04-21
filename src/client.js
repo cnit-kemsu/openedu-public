@@ -1,12 +1,12 @@
 import { GraphqlClient } from '@kemsu/graphql-client';
+import { UserInfo } from './classes/UserInfo';
 
 export const client = new GraphqlClient('/api');
 
 export function setAuthHeader(bearer) {
-  client.headers = {
+  if (bearer) client.headers = {
     'x-access-token': bearer
   };
 }
 
-localStorage.getItem('bearer')
-|> # !== undefined && setAuthHeader(#);
+setAuthHeader(UserInfo.bearer);

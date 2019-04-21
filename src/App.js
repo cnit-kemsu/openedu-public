@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { GraphqlProvider, useQuery } from '@kemsu/graphql-client';
 import { Router, useRoute } from '@kemsu/router';
 import { client } from './client';
+import { UserInfo } from './classes/UserInfo';
 import AuthorizeView from './Views/Authorize';
+import UserInfoView from './Views/UserInfo';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
@@ -11,6 +13,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+
+console.log(UserInfo.verified);
+if (UserInfo.verified === 'false') Router.push('/verify');
 
 // const studentsQuery = `
 //   query students($limit: Int!) {
@@ -47,7 +52,15 @@ import Button from '@material-ui/core/Button';
 //   </>);
 // }
 
-const theme = createMuiTheme({});
+const theme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      label: {
+        //fontWeight: 'bold'
+      }
+    }
+  }
+});
 
 const useStyles = makeStyles(theme => ({
   // root: {
@@ -67,41 +80,32 @@ function App() {
 
   const classes = useStyles();
   
-  return (<>
+  return <>
+    <div className={classes.root}>
+      <AppBar position="static" style={{ backgroundColor: '#282828' }}>
+        <Toolbar>
+          {/* <IconButton edge="start" className={classes.menuButton} color="inherit">
+            <MenuIcon />
+          </IconButton> */}
+          <Typography variant="h6" color="inherit" className={classes.title} onClick={() => Router.push('/')}>
+            Открытое образование
+          </Typography>
+          <UserInfoView />
+        </Toolbar>
+      </AppBar>
+    </div>
 
-        <div className={classes.root}>
-          <AppBar position="static" style={{ backgroundColor: '#282828' }}>
-            <Toolbar>
-              {/* <IconButton edge="start" className={classes.menuButton} color="inherit">
-                <MenuIcon />
-              </IconButton> */}
-              <Typography variant="h6" color="inherit" className={classes.title} onClick={() => Router.push('/')}>
-                Открытое образование
-              </Typography>
-              <Button color="inherit" onClick={() => Router.push('/signin')}>Войти</Button>
-            </Toolbar>
-          </AppBar>
-        </div>
-
-        <div id="main-routing" style={{ textAlign: 'center' }}>
-          {useRoute('/(?<variant>signin|register|verify)', props => <AuthorizeView {...props} />)}
-          {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
-          {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
-          {/* {useRoute('/123/123', <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)} */}
-        </div>
-
-      
-  </>);
+    {useRoute('/(?<variant>signin|register|verify)', props => <AuthorizeView {...props} />)}
+    {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
+  </>;
 }
 
 function Root() {
-  return (
-    <ThemeProvider theme={theme}>
-      <GraphqlProvider client={client}>
-        <App></App>
-      </GraphqlProvider>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={theme}>
+    <GraphqlProvider client={client}>
+      <App></App>
+    </GraphqlProvider>
+  </ThemeProvider>;
 }
 
 ReactDOM.render(

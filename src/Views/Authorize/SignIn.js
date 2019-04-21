@@ -3,8 +3,11 @@ import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { setAuthHeader } from '../../client';
 import { Router } from '@kemsu/router';
+import { setAuthHeader } from '../../client';
+import { UserInfo } from '../../classes/UserInfo';
+import { validateEmail, validatePassword } from '../_shared/validate';
+import { SignIn as useStyles } from './styles';
 
 const signInQuery = `
   query signIn($email: String!, $password: String!) {
@@ -15,52 +18,26 @@ const signInQuery = `
     }
   }
 `;
-
-const validEmail = /\S+@\S+\.\S+/;
-function validateEmail(value) {
-  if (!value) return 'Необходимо указать адрес электронной почты';
-  if (!validEmail.test(value)) return 'Указан неверный адрес электронной почты';
-  return undefined;
-}
-function validatePassword(value) {
-  if (!value) return 'Необходимо ввести пароль';
-  return undefined;
-}
-
-function completeSignIn({ signIn: { role, verified, bearer } }, { email }) {
-  localStorage.setItem('role', role);
-  localStorage.setItem('email', email);
-  localStorage.setItem('verified', verified);
-  localStorage.setItem('bearer', bearer);
+function onComplete({ signIn: { role, verified, bearer } }, { email }) {
+  UserInfo.update({ role, email, verified, bearer });
   setAuthHeader(bearer);
-  Router.push('/');
+  if (verified) Router.push('/');
+  else Router.push('/verify');
 }
 
-function SignIn() {
-  const signIn = useMutation(signInQuery, {}, {
-    onComplete: completeSignIn
-  });
-  const form = useForm(signIn, () => ({}));
+function SignInView() {
+  const signIn = useMutation(signInQuery, { onComplete });
+  const form = useForm(signIn);
 
-  console.log('render SignIn');
-
-  return (<>
-    <div style={{ textAlign: 'left' }}>
-      <Form form={form} actions='submit' submitText="Войти" submitIcon={null}>
-        <div>
-          <TextField comp={form} name="email" validate={validateEmail}
-            label="Адрес электронной почты" style={{ width: '100%' }}
-          />
-        </div>
-        <div>
-          <TextField comp={form} name="password" validate={validatePassword}
-            type="password" label="Пароль" style={{ width: '100%' }}
-          />
-        </div>
-        <div>johncooper87@mail.ru</div>
-      </Form>
-    </div>
-  </>);
+  const classes = useStyles();
+  return <Form form={form} actions='submit' submitText="Войти" submitIcon={null}>
+    <TextField comp={form} name="email" validate={validateEmail}
+      label="Адрес электронной почты" className={classes.email}
+    />
+    <TextField comp={form} name="password" validate={validatePassword}
+      type="password" label="Пароль" className={classes.password}
+    />
+  </Form>;
 }
 
-export default React.memo(SignIn);
+export default React.memo(SignInView);
