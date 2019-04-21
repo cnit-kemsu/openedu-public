@@ -23,7 +23,7 @@ function validateCode(value) {
   if (!value) return 'Необходимо ввести код подтверждения';
 }
 
-function VerifyView() {
+function VerifyAccount() {
   const verifyStudent = useMutation(verifyStudentMutation, { onComplete });
   const form = useForm(verifyStudent);
 
@@ -35,4 +35,4 @@ function VerifyView() {
   </Form>;
 }
 
-export default React.memo(VerifyView);
+export default React.memo(VerifyAccount);

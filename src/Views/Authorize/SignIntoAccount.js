@@ -22,15 +22,15 @@ function onComplete({ signIn: { role, verified, bearer } }, { email }) {
   UserInfo.update({ role, email, verified, bearer });
   setAuthHeader(bearer);
   if (verified) Router.push('/');
-  else Router.push('/verify');
+  else Router.push('/account/verify');
 }
 
-function SignInView() {
+function SignIntoAccount() {
   const signIn = useMutation(signInQuery, { onComplete });
   const form = useForm(signIn);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Войти" submitIcon={null}>
+  return <Form form={form} actions='submit' submitText="Войти в аккаунт" submitIcon={null}>
     <TextField comp={form} name="email" validate={validateEmail}
       label="Адрес электронной почты" className={classes.email}
     />
@@ -40,4 +40,4 @@ function SignInView() {
   </Form>;
 }
 
-export default React.memo(SignInView);
+export default React.memo(SignIntoAccount);

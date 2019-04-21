@@ -17,15 +17,15 @@ const createStudentMutation = `
 function onComplete({ createStudent: bearer }, { email }) {
   UserInfo.update({ role: 'student', email, verified: false, bearer });
   setAuthHeader(bearer);
-  Router.push('/verify');
+  Router.push('/account/verify');
 }
 
-function RegisterView() {
+function CreateAccount() {
   const createStudent = useMutation(createStudentMutation, { onComplete });
   const form = useForm(createStudent, validateConfirmPassword);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Зарегистрироваться" submitIcon={null}>
+  return <Form form={form} actions='submit' submitText="Создать аккаунт" submitIcon={null}>
     <TextField comp={form} name="email" validate={validateEmail}
       label="Адрес электронной почты" className={classes.email}
     />
@@ -38,4 +38,4 @@ function RegisterView() {
   </Form>;
 }
 
-export default React.memo(RegisterView);
+export default React.memo(CreateAccount);

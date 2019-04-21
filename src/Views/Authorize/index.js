@@ -1,22 +1,22 @@
 import React from 'react';
 import { Router } from '@kemsu/router';
-import SignInView from './SignIn';
-import RegisterView from './Register';
-import VerifyView from './Verify';
+import SignIntoAccountView from './SignIntoAccount';
+import CreateAccountView from './CreateAccount';
+import VerifyAccountView from './VerifyAccount';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import useStyles from './styles';
 
 function handleTabChange(event, value) {
-  if (value === 0) Router.push('/signin');
-  if (value === 1) Router.push('/register');
+  if (value === 0) Router.push('/account/signin');
+  if (value === 1) Router.push('/account/signup');
 }
 
 const tabs = {
-  'signin': [0, <SignInView />, '500px'],
-  'register': [1, <RegisterView />, '600px'],
-  'verify': [-1, <VerifyView />, '500px']
+  'signin': [0, <SignIntoAccountView />, '500px'],
+  'signup': [1, <CreateAccountView />, '600px'],
+  'verify': [-1, <VerifyAccountView />, '500px']
 };
 
 function Authorize({ variant }) {

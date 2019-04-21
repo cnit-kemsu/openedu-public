@@ -5,7 +5,7 @@ import { Router, useRoute } from '@kemsu/router';
 import { client } from './client';
 import { UserInfo } from './classes/UserInfo';
 import AuthorizeView from './Views/Authorize';
-import UserInfoView from './Views/UserInfo';
+import AuthInfo from './Views/AuthInfo';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
@@ -90,12 +90,12 @@ function App() {
           <Typography variant="h6" color="inherit" className={classes.title} onClick={() => Router.push('/')}>
             Открытое образование
           </Typography>
-          <UserInfoView />
+          <AuthInfo />
         </Toolbar>
       </AppBar>
     </div>
 
-    {useRoute('/(?<variant>signin|register|verify)', props => <AuthorizeView {...props} />)}
+    {useRoute('/account/(?<variant>signin|signup|verify)', props => <AuthorizeView {...props} />)}
     {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
   </>;
 }
