@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { GraphqlProvider, useQuery } from '@kemsu/graphql-client';
-import { Router, useRoute } from '@kemsu/router';
+import { Router, useRoute, useDefaultRoute } from '@kemsu/router';
 import { client } from './client';
 import { UserInfo } from './classes/UserInfo';
+import PageNotFound from './PageNotFound';
 import AuthorizeView from './Views/Authorize';
 import AuthInfo from './Views/AuthInfo';
 
@@ -15,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 console.log(UserInfo.verified);
-if (UserInfo.verified === 'false') Router.push('/verify');
+if (UserInfo.verified === 'false') Router.push('/account/verify');
 
 // const studentsQuery = `
 //   query students($limit: Int!) {
@@ -74,6 +75,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 function App() {
 
   console.log('render App');
@@ -95,8 +98,9 @@ function App() {
       </AppBar>
     </div>
 
-    {useRoute('/account/(?<variant>signin|signup|verify)', props => <AuthorizeView {...props} />)}
+    {useRoute('/account/(?<variant>signin|create|verify)', props => <AuthorizeView {...props} />)}
     {useRoute('^/$', () => <div style={{ marginTop: '50px', fontSize: '25px' }}>Главная страница</div>)}
+    {useDefaultRoute(PageNotFound)}
   </>;
 }
 

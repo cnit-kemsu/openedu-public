@@ -10,21 +10,21 @@ import useStyles from './styles';
 
 function handleTabChange(event, value) {
   if (value === 0) Router.push('/account/signin');
-  if (value === 1) Router.push('/account/signup');
+  if (value === 1) Router.push('/account/create');
 }
 
 const tabs = {
-  'signin': [0, <SignIntoAccountView />, '500px'],
-  'signup': [1, <CreateAccountView />, '600px'],
-  'verify': [-1, <VerifyAccountView />, '500px']
+  'signin': [0, <SignIntoAccountView />],
+  'create': [1, <CreateAccountView />],
+  'verify': [-1, <VerifyAccountView />]
 };
 
 function Authorize({ variant }) {
-  const [tabValue, tabView, width] = tabs[variant];
+  const [tabValue, tabView] = tabs[variant];
   
   const classes = useStyles();
   return <div className={classes.root}>
-    <Paper className={classes.paper} style={{ width }}>
+    <Paper className={classes.paper}>
 
       {tabValue >= 0 &&
         <Tabs value={tabValue} onChange={handleTabChange}

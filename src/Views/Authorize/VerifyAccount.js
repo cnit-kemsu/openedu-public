@@ -9,8 +9,8 @@ import { UserInfo } from '../../classes/UserInfo';
 import { Verify as useStyles } from './styles';
 
 const verifyStudentMutation = `
-  mutation verifyStudent($code: String!) {
-    verifyStudent(code: $code)
+  mutation verifyStudent($verifyCode: String!) {
+    verifyStudent(verifyCode: $verifyCode)
   }
 `;
 function onComplete({ verifyStudent: bearer }) {
@@ -19,7 +19,7 @@ function onComplete({ verifyStudent: bearer }) {
   Router.push('/');
 }
 
-function validateCode(value) {
+function validateVerifyCode(value) {
   if (!value) return 'Необходимо ввести код подтверждения';
 }
 
@@ -29,7 +29,7 @@ function VerifyAccount() {
 
   const classes = useStyles();
   return <Form form={form} actions='submit' submitText="Подтвердить" submitIcon={null}>
-    <TextField comp={form} name="code" validate={validateCode}
+    <TextField comp={form} name="verifyCode" validate={validateVerifyCode}
       label="Код подтверждения" className={classes.code}
     />
   </Form>;

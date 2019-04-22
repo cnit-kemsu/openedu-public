@@ -18,3 +18,10 @@ export function validateConfirmPassword({ password, confirmPassword }) {
     confirmPassword: 'Пароли должны совпадать'
   };
 }
+
+export function validateFirstname(value) {
+  if (!value) return 'Необходимо указать имя';
+}
+export function validateLastname(value) {
+  if (!value) return 'Необходимо указать фамилию';
+}

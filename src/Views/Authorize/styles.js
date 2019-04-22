@@ -10,7 +10,8 @@ export default makeStyles({
     padding: '50px'
   },
   paper: {
-    padding: '50px'
+    padding: '50px',
+    width: '500px'
   },
   tabs: {
     width: '450px',
@@ -31,7 +32,7 @@ export const SignIn = makeStyles({
   }
 });
 
-export const Register = makeStyles({
+export const CreateAccount = makeStyles({
   email: {
     width: '100%'
   },
@@ -39,6 +40,13 @@ export const Register = makeStyles({
     width: '100%'
   },
   confirmPassword: {
+    width: '100%'
+  },
+  firstname: {
+    width: '100%',
+    marginTop: '50px'
+  },
+  lastname: {
     width: '100%'
   }
 });

@@ -14,12 +14,13 @@ const signInQuery = `
     signIn(email: $email, password: $password) {
       role
       verified
+      complete
       bearer
     }
   }
 `;
-function onComplete({ signIn: { role, verified, bearer } }, { email }) {
-  UserInfo.update({ role, email, verified, bearer });
+function onComplete({ signIn: { role, verified, complete, bearer } }, { email }) {
+  UserInfo.update({ role, email, verified, complete, bearer });
   setAuthHeader(bearer);
   if (verified) Router.push('/');
   else Router.push('/account/verify');

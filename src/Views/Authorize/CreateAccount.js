@@ -6,16 +6,25 @@ import { Form } from '@kemsu/core';
 import { Router } from '@kemsu/router';
 import { setAuthHeader } from '../../client';
 import { UserInfo } from '../../classes/UserInfo';
-import { validateEmail, validatePassword, validateConfirmPassword } from '../_shared/validate';
-import { Register as useStyles } from './styles';
-
+import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '../_shared/validate';
+import { CreateAccount as useStyles } from './styles';
 const createStudentMutation = `
-  mutation createStudent($email: String!, $password: String!) {
-    createStudent(email: $email, password: $password)
+  mutation createStudent(
+    $email: String!,
+    $password: String!,
+    $firstname: String!,
+    $lastname: String!
+  ) {
+    createStudent(
+      email: $email, 
+      password: $password, 
+      firstname: $firstname, 
+      lastname: $lastname
+    )
   }
 `;
 function onComplete({ createStudent: bearer }, { email }) {
-  UserInfo.update({ role: 'student', email, verified: false, bearer });
+  UserInfo.update({ role: 'student', email, verified: false, complete: true, bearer });
   setAuthHeader(bearer);
   Router.push('/account/verify');
 }
@@ -34,6 +43,12 @@ function CreateAccount() {
     />
     <TextField comp={form} name="confirmPassword"
       type="password" label="Повторите пароль" className={classes.confirmPassword}
+    />
+    <TextField comp={form} name="firstname" validate={validateFirstname}
+      label="Имя" className={classes.firstname}
+    />
+    <TextField comp={form} name="lastname" validate={validateLastname}
+      label="Фамилия" className={classes.lastname}
     />
   </Form>;
 }
