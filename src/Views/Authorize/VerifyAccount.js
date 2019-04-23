@@ -3,7 +3,7 @@ import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { Router } from '@kemsu/router';
+import { History } from '@kemsu/router';
 import { setAuthHeader } from '../../client';
 import { UserInfo } from '../../classes/UserInfo';
 import { Verify as useStyles } from './styles';
@@ -16,7 +16,7 @@ const verifyStudentMutation = `
 function onComplete({ verifyStudent: bearer }) {
   UserInfo.update({ verified: true, bearer });
   setAuthHeader(bearer);
-  Router.push('/');
+  History.push('/');
 }
 
 function validateVerifyCode(value) {

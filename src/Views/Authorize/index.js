@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from '@kemsu/router';
+import { History } from '@kemsu/router';
 import SignIntoAccountView from './SignIntoAccount';
 import CreateAccountView from './CreateAccount';
 import VerifyAccountView from './VerifyAccount';
@@ -9,13 +9,13 @@ import Tab from '@material-ui/core/Tab';
 import useStyles from './styles';
 
 function handleTabChange(event, value) {
-  if (value === 0) Router.push('/account/signin');
-  if (value === 1) Router.push('/account/create');
+  if (value === 0) History.push('/account/signin');
+  if (value === 1) History.push('/account/signup');
 }
 
 const tabs = {
   'signin': [0, <SignIntoAccountView />],
-  'create': [1, <CreateAccountView />],
+  'signup': [1, <CreateAccountView />],
   'verify': [-1, <VerifyAccountView />]
 };
 

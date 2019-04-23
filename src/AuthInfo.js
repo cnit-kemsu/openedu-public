@@ -1,18 +1,18 @@
 import React from 'react';
-import { Router } from '@kemsu/router';
-import { UserInfo } from '../classes/UserInfo';
-import { useUserInfo } from '../hooks/useUserInfo';
+import { History } from '@kemsu/router';
+import { UserInfo } from './classes/UserInfo';
+import { useUserInfo } from './hooks/useUserInfo';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { AuthInfo as useStyles } from './styles';
 
 function routeToSignIntoAccountView() {
-  Router.push('/account/signin');
+  History.push('/account/signin');
 }
 
 function deleteUserInfo() {
   UserInfo.clear();
-  Router.push('/account/signin');
+  History.push('/account/signin');
 }
 
 function AuthInfo() {

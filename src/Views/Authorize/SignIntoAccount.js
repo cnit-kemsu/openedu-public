@@ -3,7 +3,7 @@ import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { Router } from '@kemsu/router';
+import { History } from '@kemsu/router';
 import { setAuthHeader } from '../../client';
 import { UserInfo } from '../../classes/UserInfo';
 import { validateEmail, validatePassword } from '../_shared/validate';
@@ -22,8 +22,8 @@ const signInQuery = `
 function onComplete({ signIn: { role, verified, complete, bearer } }, { email }) {
   UserInfo.update({ role, email, verified, complete, bearer });
   setAuthHeader(bearer);
-  if (verified) Router.push('/');
-  else Router.push('/account/verify');
+  if (verified) History.push('/');
+  else History.push('/account/verify');
 }
 
 function SignIntoAccount() {
