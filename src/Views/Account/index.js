@@ -1,12 +1,12 @@
 import React from 'react';
 import { History } from '@kemsu/router';
-import SignIntoAccountView from './SignIntoAccount';
-import CreateAccountView from './CreateAccount';
-import VerifyAccountView from './VerifyAccount';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import useStyles from './styles';
+import SignIntoAccountView from './SignIn';
+import SignUpAccountView from './SignUp';
+import VerifyAccountView from './Verify';
 
 function handleTabChange(event, value) {
   if (value === 0) History.push('/account/signin');
@@ -15,11 +15,11 @@ function handleTabChange(event, value) {
 
 const tabs = {
   'signin': [0, <SignIntoAccountView />],
-  'signup': [1, <CreateAccountView />],
+  'signup': [1, <SignUpAccountView />],
   'verify': [-1, <VerifyAccountView />]
 };
 
-function Authorize({ variant }) {
+function AccountView({ variant }) {
   const [tabValue, tabView] = tabs[variant];
   
   const classes = useStyles();
@@ -43,4 +43,4 @@ function Authorize({ variant }) {
   </div>;
 }
 
-export default React.memo(Authorize);
+export default React.memo(AccountView);

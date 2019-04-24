@@ -32,7 +32,7 @@ export const SignIn = makeStyles({
   }
 });
 
-export const CreateAccount = makeStyles({
+export const SignUp = makeStyles({
   email: {
     width: '100%'
   },

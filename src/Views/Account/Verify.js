@@ -8,29 +8,29 @@ import { setAuthHeader } from '../../client';
 import { UserInfo } from '../../classes/UserInfo';
 import { Verify as useStyles } from './styles';
 
-const verifyStudentMutation = `
-  mutation verifyStudent($verifyCode: String!) {
-    verifyStudent(verifyCode: $verifyCode)
+const verifyAccountMutation = `
+  mutation verifyAccount($passkey: String!) {
+    bearer: verifyAccount(passkey: $passkey)
   }
 `;
-function onComplete({ verifyStudent: bearer }) {
+function onComplete({ bearer }) {
   UserInfo.update({ verified: true, bearer });
   setAuthHeader(bearer);
   History.push('/');
 }
 
-function validateVerifyCode(value) {
-  if (!value) return 'Необходимо ввести код подтверждения';
+function validatePasskey(value) {
+  if (!value) return 'Необходимо ввести ключ подтверждения';
 }
 
 function VerifyAccount() {
-  const verifyStudent = useMutation(verifyStudentMutation, { onComplete });
-  const form = useForm(verifyStudent);
+  const verifyAccount = useMutation(verifyAccountMutation, { onComplete });
+  const form = useForm(verifyAccount);
 
   const classes = useStyles();
   return <Form form={form} actions='submit' submitText="Подтвердить" submitIcon={null}>
-    <TextField comp={form} name="verifyCode" validate={validateVerifyCode}
-      label="Код подтверждения" className={classes.code}
+    <TextField comp={form} name="passkey" validate={validatePasskey}
+      label="Ключ подтверждения" className={classes.code}
     />
   </Form>;
 }

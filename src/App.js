@@ -6,7 +6,7 @@ import { client } from './client';
 import { UserInfo } from './classes/UserInfo';
 import AppBar from './AppBar';
 import PageNotFound from './PageNotFound';
-import AuthorizeView from './Views/Authorize';
+import AccountView from './Views/Account';
 import UsersView from './Views/Users';
 
 import { ThemeProvider } from '@material-ui/styles';
@@ -66,7 +66,7 @@ const theme = createMuiTheme({
 function Routing() {
   console.log('routing');
   return <>
-    {useRoute(/\/account\/(?<variant>signin|signup|verify)/, props => <AuthorizeView {...props} />)}
+    {useRoute(/\/account\/(?<variant>signin|signup|verify)/, props => <AccountView {...props} />)}
     {useRoute(/\/users/, props => <UsersView {...props}/>)}
     {useRoute(/^\/$/, () => <div style={{ marginTop: '50px', fontSize: '25px' }}>
       Главная страница

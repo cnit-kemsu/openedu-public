@@ -1,18 +1,19 @@
 import React from 'react';
 import { useQuery } from '@kemsu/graphql-client';
-import { useElementArray, List, Paginator } from '@kemsu/core';
+import { useElementArray, Loader, List, ListNavigator } from '@kemsu/core';
 import { changeOffset } from '../../pagination';
 import ListItem from '@material-ui/core/ListItem';
+import Paper from '@material-ui/core/Paper';
 //import useStyles from './styles';
 
 const totalUsersQuery = `
   query totalUsers {
-    totalStudents
+    totalUsers: totalStudents
   }
 `;
 const usersQuery = `
   query users($offset: Int) {
-    students(offset: $offset) {
+    users: students(offset: $offset) {
       id
       email
     }
@@ -20,6 +21,7 @@ const usersQuery = `
 `;
 
 function UserItemView({ role, email }) {
+  console.log('UserItemView');
   return (
     <ListItem>
       <div>
@@ -36,16 +38,18 @@ function UserItemView({ role, email }) {
 
 function Users({ offset }) {
   
-  const [{ totalStudents }, , loading1, ] = useQuery(totalUsersQuery);
-  const [{ students }, , loading2, ] = useQuery(usersQuery, { offset });
-  const userItems = useElementArray(UserItemView, students, { key: user => user.id });
+  const [{ totalUsers }, loading_totalUsers] = useQuery(totalUsersQuery);
+  const [{ users }, loading_users] = useQuery(usersQuery, { offset });
+  const userItems = useElementArray(UserItemView, users, { key: user => user.id });
 
-  return <div>
-    <List>
-      {userItems}
-    </List>
-    {!loading1 && <Paginator total={totalStudents} offset={offset} onChange={changeOffset} />}
-  </div>;
+  return <Paper>
+    <Loader loading={loading_totalUsers || loading_users}>
+      {users !== undefined && <List>
+        {userItems}
+      </List>}
+      {totalUsers > 0 && <ListNavigator total={totalUsers} offset={offset} onChange={changeOffset} />}
+    </Loader>
+  </Paper>;
 }
 
 export default React.memo(Users);

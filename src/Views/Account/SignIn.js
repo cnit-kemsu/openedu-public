@@ -9,9 +9,9 @@ import { UserInfo } from '../../classes/UserInfo';
 import { validateEmail, validatePassword } from '../_shared/validate';
 import { SignIn as useStyles } from './styles';
 
-const signInQuery = `
-  query signIn($email: String!, $password: String!) {
-    signIn(email: $email, password: $password) {
+const signIntoAccountQuery = `
+  query signIntoAccount($email: String!, $password: String!) {
+    token: signIntoAccount(email: $email, password: $password) {
       role
       verified
       complete
@@ -19,16 +19,16 @@ const signInQuery = `
     }
   }
 `;
-function onComplete({ signIn: { role, verified, complete, bearer } }, { email }) {
-  UserInfo.update({ role, email, verified, complete, bearer });
-  setAuthHeader(bearer);
-  if (verified) History.push('/');
+function onComplete({ token }, { email }) {
+  UserInfo.update({ ...token, email });
+  setAuthHeader(token.bearer);
+  if (token.verified) History.push('/');
   else History.push('/account/verify');
 }
 
 function SignIntoAccount() {
-  const signIn = useMutation(signInQuery, { onComplete });
-  const form = useForm(signIn);
+  const signIntoAccount = useMutation(signIntoAccountQuery, { onComplete });
+  const form = useForm(signIntoAccount);
 
   const classes = useStyles();
   return <Form form={form} actions='submit' submitText="Войти в аккаунт" submitIcon={null}>

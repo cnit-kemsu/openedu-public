@@ -7,32 +7,32 @@ import { History } from '@kemsu/router';
 import { setAuthHeader } from '../../client';
 import { UserInfo } from '../../classes/UserInfo';
 import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '../_shared/validate';
-import { CreateAccount as useStyles } from './styles';
+import { SignUp as useStyles } from './styles';
 
-const createStudentMutation = `
-  mutation createStudent(
-    $email: String!,
-    $password: String!,
-    $firstname: String!,
+const signUpAccountMutation = `
+  mutation signUpAccount(
+    $email: String!
+    $password: String!
+    $firstname: String!
     $lastname: String!
   ) {
-    createStudent(
-      email: $email, 
-      password: $password, 
-      firstname: $firstname, 
+    bearer: signUpAccount(
+      email: $email
+      password: $password
+      firstname: $firstname
       lastname: $lastname
     )
   }
 `;
-function onComplete({ createStudent: bearer }, { email }) {
+function onComplete({ bearer }, { email }) {
   UserInfo.update({ role: 'student', email, verified: false, complete: true, bearer });
   setAuthHeader(bearer);
   History.push('/account/verify');
 }
 
-function CreateAccount() {
-  const createStudent = useMutation(createStudentMutation, { onComplete });
-  const form = useForm(createStudent, validateConfirmPassword);
+function SignUpAccount() {
+  const signUpAccount = useMutation(signUpAccountMutation, { onComplete });
+  const form = useForm(signUpAccount, validateConfirmPassword);
 
   const classes = useStyles();
   return <Form form={form} actions='submit' submitText="Создать аккаунт" submitIcon={null}>
@@ -54,4 +54,4 @@ function CreateAccount() {
   </Form>;
 }
 
-export default React.memo(CreateAccount);
+export default React.memo(SignUpAccount);
