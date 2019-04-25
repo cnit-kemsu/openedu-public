@@ -20,7 +20,7 @@ const usersQuery = `
   }
 `;
 
-function UserItemView({ role, email }) {
+function UserItem({ role, email }) {
   console.log('UserItemView');
   return (
     <ListItem>
@@ -36,20 +36,31 @@ function UserItemView({ role, email }) {
   );
 }
 
+import { makeStyles } from "@material-ui/core/styles";
+
+export const useStyles = makeStyles(theme => ({
+  main: {
+    padding: '75px'
+  }
+}));
+
 function Users({ offset }) {
   
   const [{ totalUsers }, loading_totalUsers] = useQuery(totalUsersQuery);
   const [{ users }, loading_users] = useQuery(usersQuery, { offset });
-  const userItems = useElementArray(UserItemView, users, { key: user => user.id });
+  const userItems = useElementArray(UserItem, users, { key: user => user.id });
 
-  return <Paper>
-    <Loader loading={loading_totalUsers || loading_users}>
-      {users !== undefined && <List>
-        {userItems}
-      </List>}
-      {totalUsers > 0 && <ListNavigator total={totalUsers} offset={offset} onChange={changeOffset} />}
-    </Loader>
-  </Paper>;
+  const classess = useStyles();
+  return <div className={classess.main}>
+    <Paper>
+      <Loader loading={loading_totalUsers || loading_users}>
+        {users !== undefined && <List>
+          {userItems}
+        </List>}
+        {totalUsers > 0 && <ListNavigator total={totalUsers} offset={offset} onChange={changeOffset} />}
+      </Loader>
+    </Paper>
+  </div>;
 }
 
 export default React.memo(Users);

@@ -12,16 +12,16 @@ function routeToMainPage() {
 
 function AppBar() {
   const classes = useStyles();
-  return <div className={classes.root}>
-    <MuiAppBar position="static" style={{ backgroundColor: '#282828' }}>
+  return <div>
+    <MuiAppBar position="static" className={classes.root}>
       <Toolbar>
         {/* <IconButton edge="start" className={classes.menuButton} color="inherit">
           <MenuIcon />
         </IconButton> */}
-        <Typography variant="h6" color="inherit" className={classes.title} onClick={routeToMainPage}>
+        {/* <Typography variant="h6" color="inherit" className={classes.title} onClick={routeToMainPage}>
           Открытое образование
-        </Typography>
-        <AuthInfo />
+        </Typography> */}
+        {/* <AuthInfo /> */}
       </Toolbar>
     </MuiAppBar>
   </div>;
