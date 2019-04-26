@@ -4,8 +4,8 @@ import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
 import { History } from '@kemsu/router';
-import { setAuthHeader } from '../../client';
-import { UserInfo } from '../../classes/UserInfo';
+import { setAuthHeader } from '../../../../client';
+import { UserInfo } from '../../../../classes/UserInfo';
 import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '../_shared/validate';
 import { SignUp as useStyles } from './styles';
 

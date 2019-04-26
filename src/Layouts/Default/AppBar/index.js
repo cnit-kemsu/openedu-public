@@ -1,12 +1,12 @@
 import React from 'react';
 import { History } from '@kemsu/router';
-import AuthInfo from './AuthInfo';
+import AccountInfo from './AccountInfo';
 import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { AppBar as useStyles } from './styles';
+//import Typography from '@material-ui/core/Typography';
+import useStyles from './styles';
 
-function routeToMainPage() {
+function routeToMainView() {
   History.push('/');
 }
 
@@ -21,7 +21,7 @@ function AppBar() {
         {/* <Typography variant="h6" color="inherit" className={classes.title} onClick={routeToMainPage}>
           Открытое образование
         </Typography> */}
-        {/* <AuthInfo /> */}
+        <AccountInfo />
       </Toolbar>
     </MuiAppBar>
   </div>;
