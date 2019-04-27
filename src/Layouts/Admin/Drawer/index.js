@@ -8,9 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import AccountIcon from '@material-ui/icons/AccountCircle';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import Logo from '../../../Logo';
+import School from '@material-ui/icons/School';
 import Navigation from './Navigation';
 import useStyles from './styles';
 
@@ -23,7 +23,7 @@ function deleteUserInfo() {
 }
 function UserMenu() {
   return <>
-    <MenuItem onClick={() => { routeToMainView(); }}>На главную страницу</MenuItem>
+    <MenuItem onClick={() => { routeToMainView(); }}>К обычному просмотру</MenuItem>
     <MenuItem onClick={() => { deleteUserInfo(); }}>Выйти из аккаунта</MenuItem>
   </>;
 }
@@ -35,22 +35,17 @@ function AdminDrawer() {
   const classes = useStyles();
   return <Drawer variant="permanent" className={classes.root} classes={{ paper: classes.paper }}>
 
-    <div className={classes.title}>
-      <Logo className={classes.logo} />
-      <div>
-        <Typography variant="h6" color="inherit" className={classes.titleFragment}>
-          Открытое
-        </Typography>
-        <Typography variant="h6" color="inherit" className={classes.titleFragment}>
-          образование
-        </Typography>
-      </div>
+    <div className={classes.sitename}>
+      <School className={classes.logo} />
+      <Typography variant="h6" color="inherit">
+        Открытое образование
+      </Typography>
     </div>
 
     <Divider className={classes.divider} />
 
     <div className={classes.accountInfo}>
-      <AccountIcon className={classes.userIcon} />
+      <AccountCircle className={classes.userIcon} />
       <div className={classes.userEmail}>
         <Typography>{UserInfo.email}</Typography>
         <IconButton className={classes.menuButton} onClick={userMenu.open}>

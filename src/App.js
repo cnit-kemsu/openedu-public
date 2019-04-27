@@ -11,7 +11,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 console.log(UserInfo.verified);
-if (UserInfo.verified === 'false') History.push('/account/verify');
+if (UserInfo.verified === 'false') History.replace('/account/verify');
 
 const theme = createMuiTheme({
   overrides: {

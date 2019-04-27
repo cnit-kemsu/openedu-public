@@ -30,22 +30,17 @@ export default makeStyles(theme => ({
     border: 'none !important'
   },
   logo: {
-    fontSize: '36px',
-    marginRight: '8px'
+    fontSize: '64px',
+    padding: '8px',
+    marginLeft: '-12px'
   },
-  title: {
+  sitename: {
     backgroundColor: theme.palette.primary.dark,
     //backgroundColor: '#8f6e91',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '63px'
-  },
-  titleFragment: {
-    fontSize: '14px',
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    letterSpacing: '1px'
+    height: '64px'
   },
   accountInfo: {
     backgroundColor: theme.palette.primary.main,

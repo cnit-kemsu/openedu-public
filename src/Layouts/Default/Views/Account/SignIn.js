@@ -31,7 +31,7 @@ function SignIntoAccount() {
   const form = useForm(signIntoAccount);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Войти в аккаунт" submitIcon={null}>
+  return <Form form={form} actions='submit' submitText="Войти" submitIcon={null}>
     <TextField comp={form} name="email" validate={validateEmail}
       label="Адрес электронной почты" className={classes.email}
     />

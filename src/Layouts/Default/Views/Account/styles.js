@@ -7,16 +7,16 @@ export default makeStyles({
     width: 'fit-content',
     minHeight: '50%',
     margin: 'auto',
-    padding: '50px'
+    padding: '48px'
   },
   paper: {
-    padding: '50px',
-    width: '500px'
+    padding: '48px',
+    width: '600px'
   },
   tabs: {
     width: '450px',
     margin: 'auto',
-    marginBottom: '25px'
+    marginBottom: '24px'
   },
   tab: {
     width: '50%'
@@ -44,7 +44,7 @@ export const SignUp = makeStyles({
   },
   firstname: {
     width: '100%',
-    marginTop: '50px'
+    marginTop: '48px'
   },
   lastname: {
     width: '100%'
