@@ -9,12 +9,18 @@ export const AccountView = makeStyles(theme => ({
   menuButton: {
     marginLeft: '8px'
   },
-  icon: {
+  accountIcon: {
     color: theme.palette.text.secondary,
     fontSize: '44px',
     marginRight: '8px'
   }
 }));
+
+export const AccountInfo = makeStyles({
+  accountIcon: {
+    marginRight: '8px'
+  }
+});
 
 export default makeStyles(theme => ({
   root: {

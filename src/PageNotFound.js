@@ -15,5 +15,6 @@ function PageNotFound() {
     </Paper>
   </div>;
 }
+PageNotFound = React.memo(PageNotFound);
 
-export default React.memo(PageNotFound);
+export default <PageNotFound />;

@@ -1,16 +1,31 @@
 import React from 'react';
-import { useRoute, TryRoutes } from '@kemsu/router';
-import PageNotFound from '../../PageNotFound';
+import { useRoutes } from '@kemsu/router';
+import { Breadcrumbs } from '@kemsu/core';
+import AppBar from './AppBar';
+import pageNotFound from '../../PageNotFound';
 import UsersView from './Views/Users';
+import Paper from '@material-ui/core/Paper';
+import { Routing as useStyles } from './styles';
+import { TextCrumb } from './Views/_shared';
 
-const pageNotFound = <PageNotFound />;
-const usersView = props => <UsersView {...props}/>;
+const routes = [
+  [/\/admin\/users/, UsersView]
+];
 
 function Routing() {
-  return <>
-    <TryRoutes defaultOutput={pageNotFound}>
-      {useRoute(/\/admin\/users/, usersView)}
-    </TryRoutes>
+
+  const classess = useStyles();
+  return useRoutes(routes)
+  |> # === undefined && pageNotFound
+  || <>
+    <AppBar>{#[0]}</AppBar>
+    <div className={classess.root}>
+      <Breadcrumbs className={classess.breadcrumbs} path={[
+        <TextCrumb>Администрирование</TextCrumb>,
+        ...#[1]
+      ]} />
+      <Paper className={classess.paper}>{#[2]}</Paper>
+    </div>;
   </>;
 }
 

@@ -16,25 +16,26 @@ function deleteUserInfo() {
   UserInfo.clear();
   History.push('/');
 }
-function UserMenu(close) {
+
+function UserActionMenu(close) {
   return <>
-    <MenuItem onClick={routeToAdminView}>К администрированию</MenuItem>
+    <MenuItem onClick={routeToAdminView}>К управлению сайтом</MenuItem>
     <MenuItem onClick={() => { close(); deleteUserInfo(); }}>Выйти из аккаунта</MenuItem>
   </>;
 }
 
 function AccountView() {
-  const userMenu = useMenu();
+  const userActionMenu = useMenu();
 
   const classes = useStyles();
   return <div className={classes.root}>
-    <AccountCircle className={classes.icon} />
+    <AccountCircle className={classes.accountIcon} />
     <Typography>{UserInfo.email}</Typography>
-    <IconButton className={classes.menuButton} onClick={userMenu.open}>
+    <IconButton className={classes.menuButton} onClick={userActionMenu.open}>
       <ArrowDropDown />
     </IconButton>
-    <MenuModal mgr={userMenu}>
-      {UserMenu}
+    <MenuModal mgr={userActionMenu}>
+      {UserActionMenu}
     </MenuModal>
   </div>;
 }

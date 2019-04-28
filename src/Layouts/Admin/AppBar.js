@@ -1,23 +1,18 @@
-import React, { useMemo, useEffect } from 'react';
-import { useForceUpdate } from '@kemsu/force-update';
-import AppBar from '@material-ui/core/AppBar';
+import React from 'react';
+import MuiAppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { AppBarContent } from '../../classes/AppBarContent';
 import { AppBar as useStyles } from './styles';
 
-function AdminAppBar() {
-  const forceUpdate = useForceUpdate();
-  const appBar = (() => new AppBarContent(forceUpdate)) |> useMemo(#, []);
-  useEffect(appBar.handleUpdateEventSubscription, []);
+function AppBar({ children }) {
 
   const classes = useStyles();
   return <div>
-    <AppBar position="static" className={classes.root}>
+    <MuiAppBar position="static" className={classes.root}>
       <Toolbar>
-        {AppBarContent.content}
+        {children}
       </Toolbar>
-    </AppBar>
+    </MuiAppBar>
   </div>;
 }
 
-export default React.memo(AdminAppBar);
+export default React.memo(AppBar);

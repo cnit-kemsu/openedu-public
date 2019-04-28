@@ -1,20 +1,23 @@
 import React from 'react';
 import { History } from '@kemsu/router';
 import { UserInfo } from '../../../classes/UserInfo';
-import { useUserInfo } from '../../../hooks/useUserInfo';
+import { useUserInfoUpdateSubscription } from '../../../hooks/useUserInfoUpdateSubscription';
 import AccountView from './AccountView';
 import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { AccountInfo as useStyles } from './styles';
 
 function routeToSignIntoAccountView() {
   History.push('/account/signin');
 }
 
 function AccountInfo() {
-  useUserInfo();
+  useUserInfoUpdateSubscription();
+
+  const classes = useStyles();
   return UserInfo.email === null
     ? <Button color="primary" variant="outlined" onClick={routeToSignIntoAccountView}>
-      <AccountCircle style={{ marginRight: '8px' }} />
+      <AccountCircle className={classes.accountIcon} />
       Войти в аккаунт
     </Button>
     : <AccountView />;

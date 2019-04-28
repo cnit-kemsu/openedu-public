@@ -2,8 +2,7 @@ import React from 'react';
 import { History } from '@kemsu/router';
 import { useMenu, MenuModal } from '@kemsu/core';
 import { UserInfo } from '../../../classes/UserInfo';
-import { useUserInfo } from '../../../hooks/useUserInfo';
-import Drawer from '@material-ui/core/Drawer';
+import MuiDrawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
@@ -21,19 +20,18 @@ function deleteUserInfo() {
   UserInfo.clear();
   History.push('/');
 }
-function UserMenu() {
+function UserActionMenu() {
   return <>
-    <MenuItem onClick={() => { routeToMainView(); }}>К обычному просмотру</MenuItem>
-    <MenuItem onClick={() => { deleteUserInfo(); }}>Выйти из аккаунта</MenuItem>
+    <MenuItem onClick={routeToMainView}>К обычному просмотру</MenuItem>
+    <MenuItem onClick={deleteUserInfo}>Выйти из аккаунта</MenuItem>
   </>;
 }
 
-function AdminDrawer() {
-  useUserInfo();
-  const userMenu = useMenu();
+function Drawer() {
+  const userActionMenu = useMenu();
 
   const classes = useStyles();
-  return <Drawer variant="permanent" className={classes.root} classes={{ paper: classes.paper }}>
+  return <MuiDrawer variant="permanent" className={classes.root} classes={{ paper: classes.paper }}>
 
     <div className={classes.sitename}>
       <School className={classes.logo} />
@@ -48,21 +46,21 @@ function AdminDrawer() {
       <AccountCircle className={classes.userIcon} />
       <div className={classes.userEmail}>
         <Typography>{UserInfo.email}</Typography>
-        <IconButton className={classes.menuButton} onClick={userMenu.open}>
+        <IconButton className={classes.menuButton} onClick={userActionMenu.open}>
           <ArrowDropDown />
         </IconButton>
       </div>
     </div>
 
-    <MenuModal mgr={userMenu}>
-      {UserMenu}
+    <MenuModal mgr={userActionMenu}>
+      {UserActionMenu}
     </MenuModal>
 
     <Divider className={classes.divider} />
     
     <Navigation />
       
-  </Drawer>;
+  </MuiDrawer>;
 }
 
-export default React.memo(AdminDrawer);
+export default React.memo(Drawer);

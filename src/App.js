@@ -20,11 +20,11 @@ const theme = createMuiTheme({
     //     fontWeight: 'bold'
     //   }
     // }
-    MuiMenuItem: {
-      root: {
-        padding: '0px'
-      }
-    }
+    // MuiMenuItem: {
+    //   root: {
+    //     padding: '0px'
+    //   }
+    // }
   }
 });
 

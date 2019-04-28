@@ -1,6 +1,5 @@
 import React from 'react';
 import Drawer from './Drawer';
-import AppBar from './AppBar';
 import Routing from './Routing';
 import useStyles from './styles';
 
@@ -10,7 +9,6 @@ function AdminLayout() {
   return <>
     <Drawer />
     <div className={classes.content}>
-      <AppBar />
       <Routing />
     </div>
   </>;
