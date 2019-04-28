@@ -21,6 +21,6 @@ export const Routing = makeStyles({
 
 export default makeStyles({
   content: {
-    width: '100%',
+    width: '100%'
   }
 });
