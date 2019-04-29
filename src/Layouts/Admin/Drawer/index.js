@@ -2,6 +2,7 @@ import React from 'react';
 import { History } from '@kemsu/router';
 import { useMenu, MenuModal } from '@kemsu/core';
 import { UserInfo } from '../../../classes/UserInfo';
+import Navigation from './Navigation';
 import MuiDrawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import School from '@material-ui/icons/School';
-import Navigation from './Navigation';
 import useStyles from './styles';
 
 function routeToMainView() {

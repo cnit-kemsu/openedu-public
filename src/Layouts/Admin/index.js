@@ -1,7 +1,13 @@
 import React from 'react';
+import { useRoutes } from '@kemsu/router';
 import Drawer from './Drawer';
-import Routing from './Routing';
+import UsersView from './Views/Users';
 import useStyles from './styles';
+import pageNotFound from '../../PageNotFound';
+
+const routes = [
+  [/.+\/users/, UsersView]
+];
 
 function AdminLayout() {
   
@@ -9,7 +15,7 @@ function AdminLayout() {
   return <>
     <Drawer />
     <div className={classes.content}>
-      <Routing />
+      {useRoutes(routes) || pageNotFound}
     </div>
   </>;
 }
