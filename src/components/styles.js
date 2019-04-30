@@ -13,3 +13,19 @@ export const PageNotFound = makeStyles({
     padding: '32px'
   }
 });
+
+export const Logo = makeStyles({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  logo: {
+    fontWeight: 'bold',
+    marginRight: '12px',
+    color: 'inherit'
+  },
+  title: {
+    color: 'inherit'
+  }
+});

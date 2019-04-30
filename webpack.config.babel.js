@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { DuplicatesPlugin } from 'inspectpack/plugin';
@@ -9,7 +8,7 @@ export default {
   cache: true,
   target: 'web',
 
-  entry: './src/App.js',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
@@ -25,8 +24,7 @@ export default {
           'node_modules/@kemsu',
           'test',
         ].map(_ => path.resolve(__dirname, _)),
-        loader: 'babel-loader',
-        //options: fs.readFileSync('.babelrc') |> JSON.parse
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,
@@ -57,6 +55,15 @@ export default {
           chunks: 'all'
         }
       }
+    }
+  },
+
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, 'src/components/'),
+      '@layouts': path.resolve(__dirname, 'src/layouts/'),
+      '@lib': path.resolve(__dirname, 'src/lib/'),
+      '@views': path.resolve(__dirname, 'src/views/')
     }
   },
 
