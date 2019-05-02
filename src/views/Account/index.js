@@ -3,44 +3,47 @@ import { History, useRoutes } from '@kemsu/router';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import useStyles from './styles';
+import pageNotFound from '@components/PageNotFound';
 import SignIntoAccountView from './SignIn';
 import SignUpAccountView from './SignUp';
 import VerifyAccountView from './Verify';
+import useStyles from './styles';
 
 function handleTabChange(event, value) {
   if (value === 0) History.push('/account/signin');
   if (value === 1) History.push('/account/signup');
 }
 
-const tabs = {
-  'signin': [0, <SignIntoAccountView />],
-  'signup': [1, <SignUpAccountView />],
-  'verify': [-1, <VerifyAccountView />]
-};
+const routes = [
+  [/.+\/signin$/, () => ([<SignIntoAccountView />, 0])],
+  [/.+\/signup$/, () => ([<SignUpAccountView />, 1])],
+  [/.+\/verify$/, () => ([<VerifyAccountView />])]
+];
 
-function AccountView({ variant }) {
-  const [tabValue, tabView] = tabs[variant];
+function AccountView() {
+  const [view, tabValue] = useRoutes(routes) || [];
   
   const classes = useStyles();
-  return <div className={classes.root}>
-    <Paper className={classes.paper}>
+  return view === undefined
+  ? pageNotFound
+  : <div className={classes.root}>
+      <Paper className={classes.paper}>
 
-      {tabValue >= 0 &&
-        <Tabs value={tabValue} onChange={handleTabChange}
-          indicatorColor="primary" textColor="primary" className={classes.tabs}
-        >
-          <Tab label="Вход" className={classes.tab} />
-          <Tab label="Регистрация" className={classes.tab} />
-        </Tabs>
-      }
+        {tabValue !== undefined &&
+          <Tabs value={tabValue} onChange={handleTabChange}
+            indicatorColor="primary" textColor="primary" className={classes.tabs}
+          >
+            <Tab label="Войти" className={classes.tab} />
+            <Tab label="Регистрация" className={classes.tab} />
+          </Tabs>
+        }
 
-      <div>
-        {tabView}
-      </div>
+        <div>
+          {view}
+        </div>
 
-    </Paper>
-  </div>;
+      </Paper>
+    </div>;
 }
 
 export default React.memo(AccountView);

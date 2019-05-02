@@ -1,15 +1,12 @@
 import React from 'react';
 import { useRoutes } from '@kemsu/router';
-import UsersView from './List';
+import UsersView from './Users';
 import CreateUserView from './Create';
 
 const routes = [
-  [/.+\/users$/, UsersView],
-  [/.+\/users\/create/, CreateUserView]
+  [/.+\/users$/, props => <UsersView {...props} />],
+  [/.+\/users\/create/, () => <CreateUserView />]
 ];
 
-function Index() {
-  return useRoutes(routes);
-}
-
-export default () => <Index />;
+export default (() => useRoutes(routes))
+|> React.memo(#);

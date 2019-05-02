@@ -1,12 +1,12 @@
 import React from 'react';
 import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
+import { History } from '@kemsu/router';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { History } from '@kemsu/router';
-import { setAuthHeader } from '../../client';
-import { UserInfo } from '../../lib/UserInfo';
-import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '../_shared/validate';
+import { setAuthHeader } from '@lib/client';
+import { UserInfo } from '@lib/UserInfo';
+import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '@lib/validate';
 import { SignUp as useStyles } from './styles';
 
 const signUpAccountMutation = `

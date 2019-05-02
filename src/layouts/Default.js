@@ -7,8 +7,8 @@ import AccountView from '@views/Account';
 import { DefaultLayout as useStyles } from './styles';
 
 const routes = [
-  [/^\/$/, props => <MainView {...props} />],
-  [/\/account\/(?<variant>signin|signup|verify)/, props => <AccountView {...props} />]
+  [/^\/$/, () => <MainView />],
+  [/\/account/, () => <AccountView />]
 ];
 
 function DefaultLayout() {

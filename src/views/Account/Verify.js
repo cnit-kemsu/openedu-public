@@ -1,11 +1,11 @@
 import React from 'react';
 import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
+import { History } from '@kemsu/router';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { History } from '@kemsu/router';
-import { setAuthHeader } from '../../client';
-import { UserInfo } from '../../lib/UserInfo';
+import { setAuthHeader } from '@lib/client';
+import { UserInfo } from '@lib/UserInfo';
 import { Verify as useStyles } from './styles';
 
 const verifyAccountMutation = `

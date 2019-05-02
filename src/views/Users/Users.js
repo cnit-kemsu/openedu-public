@@ -1,12 +1,12 @@
 import React from 'react';
-import { History } from '@kemsu/router';
-import { useQuery } from '@kemsu/graphql-client';
-import { useElementArray, Loader, List, ListNavigator } from '@kemsu/core';
-import { AppBar, Breadcrumbs, Paper } from '../../components/AdminLayout';
-import { changeOffset } from '../../lib/listnav';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import { History } from '@kemsu/router';
+import { useQuery } from '@kemsu/graphql-client';
+import { useElementArray, Loader, List, ListNavigator } from '@kemsu/core';
+import { changeOffset } from '@lib/listnav';
+import AdminView from '@components/AdminView';
 
 const totalUsersQuery = `
   query totalUsers {
@@ -52,17 +52,18 @@ function Users({ offset }) {
     {totalUsers > 0 && <ListNavigator total={totalUsers} offset={offset} onChange={changeOffset} />}
   </Loader>;
 }
-//Users = React.memo(Users);
+Users = React.memo(Users);
 
-export default props => <>
-  <AppBar>
+export default (props => <>
+  <AdminView.AppBar>
     <Typography variant="h6">Список пользователей</Typography>
-  </AppBar>
-  <Breadcrumbs>
+  </AdminView.AppBar>
+  <AdminView.Breadcrumbs>
     <Typography>Администрирование</Typography>
     <Typography color="textPrimary">Пользователи</Typography>
-  </Breadcrumbs>
-  <Paper>
+  </AdminView.Breadcrumbs>
+  <AdminView.Paper>
     <Users {...props}/>
-  </Paper>
-</>;
+  </AdminView.Paper>
+</>)
+|> React.memo(#);

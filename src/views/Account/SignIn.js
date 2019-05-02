@@ -1,12 +1,12 @@
 import React from 'react';
 import { useMutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
+import { History } from '@kemsu/router';
 import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
-import { History } from '@kemsu/router';
-import { setAuthHeader } from '../../client';
-import { UserInfo } from '../../lib/UserInfo';
-import { validateEmail, validatePassword } from '../_shared/validate';
+import { setAuthHeader } from '@lib/client';
+import { UserInfo } from '@lib/UserInfo';
+import { validateEmail, validatePassword } from '@lib/validate';
 import { SignIn as useStyles } from './styles';
 
 const signIntoAccountQuery = `
@@ -31,7 +31,7 @@ function SignIntoAccount() {
   const form = useForm(signIntoAccount);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Войти" submitIcon={null}>
+  return <Form form={form} actions='submit' submitText="Войти в аккаунт" submitIcon={null}>
     <TextField comp={form} name="email" validate={validateEmail}
       label="Адрес электронной почты" className={classes.email}
     />

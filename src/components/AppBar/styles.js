@@ -16,11 +16,12 @@ export const AccountInfo = makeStyles(theme => ({
   }
 }));
 
-export const AccountStatus = makeStyles({
-  buttonIcon: {
+export const AccountStatus = makeStyles(theme => ({
+  registerButton: {
+    color: theme.palette.text.secondary,
     marginRight: '8px'
   }
-});
+}));
 
 export default makeStyles(theme => ({
   root: {

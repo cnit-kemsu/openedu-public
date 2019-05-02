@@ -1,25 +1,25 @@
 import React from 'react';
-import { History } from '@kemsu/router';
-import { AppBar, Breadcrumbs, Paper } from '../../components/AdminLayout';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import { Link } from '@kemsu/core';
+import AdminView from '@components/AdminView';
 
 function CreateUser() {
   
   return <div>Create user view...</div>;
 }
-//CreateUser = React.memo(CreateUser);
+CreateUser = React.memo(CreateUser);
 
-export default props => <>
-  <AppBar>
+export default (props => <>
+  <AdminView.AppBar>
     <Typography variant="h6">Новый пользователь</Typography>
-  </AppBar>
-  <Breadcrumbs>
+  </AdminView.AppBar>
+  <AdminView.Breadcrumbs>
     <Typography>Администрирование</Typography>
-    <Link onClick={() => History.push('/admin/users')}>Пользователи</Link>
+    <Link styled path="/admin/users">Пользователи</Link>
     <Typography color="textPrimary">Создать</Typography>
-  </Breadcrumbs>
-  <Paper>
+  </AdminView.Breadcrumbs>
+  <AdminView.Paper>
     <CreateUser {...props}/>
-  </Paper>
-</>;
+  </AdminView.Paper>
+</>)
+|> React.memo(#);

@@ -1,5 +1,5 @@
 import { GraphqlClient } from '@kemsu/graphql-client';
-import { UserInfo } from './lib/UserInfo';
+import { UserInfo } from '@lib/UserInfo';
 
 export const client = new GraphqlClient('/api');
 

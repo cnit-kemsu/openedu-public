@@ -6,7 +6,7 @@ import UsersView from '@views/Users';
 import { AdminLayout as useStyles } from './styles';
 
 const routes = [
-  [/.+\/users/, UsersView]
+  [/.+\/users/, () => <UsersView />]
 ];
 
 function AdminLayout() {
