@@ -1,9 +1,10 @@
 import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
+import AddIcon from '@material-ui/icons/Add';
 import { History } from '@kemsu/router';
 import { useQuery } from '@kemsu/graphql-client';
+import { Fab } from '@kemsu/core';
 import { useElementArray, Loader, List, ListNavigator } from '@kemsu/core';
 import { changeOffset } from '@lib/listnav';
 import AdminView from '@components/AdminView';
@@ -48,11 +49,12 @@ function Users({ offset }) {
     {users !== undefined && <List>
       {userItems}
     </List>}
-    <Link onClick={() => History.push('/admin/users/create')}>Create</Link>
     {totalUsers > 0 && <ListNavigator total={totalUsers} offset={offset} onChange={changeOffset} />}
   </Loader>;
 }
 Users = React.memo(Users);
+
+function routeToCreateUserView() { History.push('/admin/users/create'); }
 
 export default (props => <>
   <AdminView.AppBar>
@@ -65,5 +67,8 @@ export default (props => <>
   <AdminView.Paper>
     <Users {...props}/>
   </AdminView.Paper>
+  <Fab icon={AddIcon} onClick={routeToCreateUserView}>
+    Создать пользователя
+  </Fab>
 </>)
 |> React.memo(#);

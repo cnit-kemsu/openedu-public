@@ -29,3 +29,9 @@ export const Logo = makeStyles({
     color: 'inherit'
   }
 });
+
+export const RouteBackBtn = makeStyles({
+  root: {
+    marginRight: '8px !important'
+  }
+});

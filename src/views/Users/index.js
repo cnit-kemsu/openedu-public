@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRoutes } from '@kemsu/router';
 import UsersView from './Users';
-import CreateUserView from './Create';
+import CreateUserView from './CreateUser';
 
 const routes = [
   [/.+\/users$/, props => <UsersView {...props} />],

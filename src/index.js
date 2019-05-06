@@ -15,11 +15,11 @@ if (UserInfo.verified === 'false') History.replace('/account/verify');
 
 const theme = createMuiTheme({
   overrides: {
-    MuiButton: {
-      label: {
-        fontWeight: 'bold'
-      }
-    }
+    // MuiButton: {
+    //   label: {
+    //     fontWeight: 'bold'
+    //   }
+    // }
     // MuiMenuItem: {
     //   root: {
     //     padding: '0px'
