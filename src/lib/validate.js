@@ -25,3 +25,7 @@ export function validateFirstname(value) {
 export function validateLastname(value) {
   if (!value) return 'Необходимо указать фамилию';
 }
+
+export function validatePasskey(value) {
+  if (!value) return 'Необходимо ввести ключ подтверждения';
+}

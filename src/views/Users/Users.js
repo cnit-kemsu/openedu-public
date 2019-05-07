@@ -4,19 +4,18 @@ import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { History } from '@kemsu/router';
 import { useQuery } from '@kemsu/graphql-client';
-import { Fab } from '@kemsu/core';
-import { useElementArray, Loader, List, ListNavigator } from '@kemsu/core';
+import { useElementArray, Loader, List, ListNavigator, Fab } from '@kemsu/core';
 import { changeOffset } from '@lib/listnav';
 import AdminView from '@components/AdminView';
 
 const totalUsersQuery = `
   query totalUsers {
-    totalUsers: totalStudents
+    totalUsers
   }
 `;
 const usersQuery = `
   query users($offset: Int) {
-    users: students(offset: $offset) {
+    users(offset: $offset) {
       id
       email
     }
@@ -65,10 +64,10 @@ export default (props => <>
     <Typography color="textPrimary">Пользователи</Typography>
   </AdminView.Breadcrumbs>
   <AdminView.Paper>
-    <Users {...props}/>
+    <Users {...props} />
   </AdminView.Paper>
   <Fab icon={AddIcon} onClick={routeToCreateUserView}>
-    Создать пользователя
+    Создать
   </Fab>
 </>)
 |> React.memo(#);

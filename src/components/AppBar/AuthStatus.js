@@ -17,10 +17,10 @@ function AuthStatus() {
   if (UserInfo.email !== null) return <AccountInfo />;
   if (hideButtons !== undefined) return null;
   return <div>
-    <Button color="default" className={classes.registerButton} onClick={routeToSignUpAccountView}>
+    <Button color="primary" size="small" className={classes.registerButton} onClick={routeToSignUpAccountView}>
       Регистрация
     </Button>
-    <Button color="primary" onClick={routeToSignIntoAccountView}>
+    <Button color="primary" size="small" onClick={routeToSignIntoAccountView}>
       Войти
     </Button>
   </div>;

@@ -52,7 +52,28 @@ export const SignUp = makeStyles({
 });
 
 export const Verify = makeStyles({
-  code: {
+  passkey: {
+    width: '100%'
+  }
+});
+
+export const Confirm = makeStyles({
+  passkey: {
+    width: '100%'
+  },
+  password: {
+    width: '100%'
+  },
+  confirmPassword: {
+    width: '100%'
+  },
+});
+
+export const Complete = makeStyles({
+  firstname: {
+    width: '100%'
+  },
+  lastname: {
     width: '100%'
   }
 });

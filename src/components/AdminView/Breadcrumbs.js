@@ -5,8 +5,8 @@ import { Breadcrumbs as useStyles } from './styles';
 function Breadcrumbs({ children }) {
 
   const classes = useStyles();
-  return <div>
-    <MuiBreadcrumbs className={classes.root}>
+  return <div className={classes.root}>
+    <MuiBreadcrumbs className={classes.breadcrumbs}>
       {children}
     </MuiBreadcrumbs>
   </div>;

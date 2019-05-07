@@ -7,6 +7,8 @@ import pageNotFound from '@components/PageNotFound';
 import SignIntoAccountView from './SignIn';
 import SignUpAccountView from './SignUp';
 import VerifyAccountView from './Verify';
+import ConfirmAccountView from './Confirm';
+import CompleteAccountView from './Complete';
 import useStyles from './styles';
 
 function handleTabChange(event, value) {
@@ -17,7 +19,9 @@ function handleTabChange(event, value) {
 const routes = [
   [/.+\/signin$/, () => ([<SignIntoAccountView />, 0])],
   [/.+\/signup$/, () => ([<SignUpAccountView />, 1])],
-  [/.+\/verify$/, () => ([<VerifyAccountView />])]
+  [/.+\/verify$/, () => ([<VerifyAccountView />])],
+  [/.+\/confirm$/, () => ([<ConfirmAccountView />])],
+  [/.+\/complete$/, () => ([<CompleteAccountView />])]
 ];
 
 function AccountView() {

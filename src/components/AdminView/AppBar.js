@@ -8,7 +8,7 @@ function AppBar({ children }) {
   const classes = useStyles();
   return <div>
     <MuiAppBar position="static" className={classes.root}>
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         {children}
       </Toolbar>
     </MuiAppBar>

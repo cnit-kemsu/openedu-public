@@ -52,10 +52,10 @@ export default (props => {
 
   return <>
     <AdminView.AppBar>
-      <span style={{ flex: '1', display: 'flex', alignItems: 'center' }}>
+      <AdminView.LeftBar>
         <RouteBackBtn path="/admin/users" />
         <Typography variant="h6">Новый пользователь</Typography>
-      </span>
+      </AdminView.LeftBar>
       <ResetButton form={form}>Очистить</ResetButton>
     </AdminView.AppBar>
     <AdminView.Breadcrumbs>
@@ -64,9 +64,11 @@ export default (props => {
       <Typography color="textPrimary">Создать</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <CreateUser form={form} {...props}/>
+      <CreateUser form={form} {...props} />
     </AdminView.Paper>
-    <FormErrors form={form} />
+    <AdminView.Div>
+      <FormErrors form={form} />
+    </AdminView.Div>
     <SubmitFab form={form} icon={SaveIcon}>Сохранить</SubmitFab>
   </>;
 }

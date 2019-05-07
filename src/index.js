@@ -12,6 +12,7 @@ import AdminLayout from '@layouts/Admin';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 if (UserInfo.verified === 'false') History.replace('/account/verify');
+else if (UserInfo.complete === 'false') History.replace('/account/complete');
 
 const theme = createMuiTheme({
   overrides: {

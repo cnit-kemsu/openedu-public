@@ -5,8 +5,8 @@ import { Paper as useStyles } from './styles';
 function Paper({ children }) {
 
   const classes = useStyles();
-  return <div>
-    <MuiPaper className={classes.root}>
+  return <div className={classes.root}>
+    <MuiPaper className={classes.paper}>
       {children}
     </MuiPaper>
   </div>;

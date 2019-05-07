@@ -6,6 +6,7 @@ import { TextField } from '@kemsu/inputs';
 import { Form } from '@kemsu/core';
 import { setAuthHeader } from '@lib/client';
 import { UserInfo } from '@lib/UserInfo';
+import { validatePasskey } from '@lib/validate';
 import { Verify as useStyles } from './styles';
 
 const verifyAccountMutation = `
@@ -19,10 +20,6 @@ function onComplete({ bearer }) {
   History.push('/');
 }
 
-function validatePasskey(value) {
-  if (!value) return 'Необходимо ввести ключ подтверждения';
-}
-
 function VerifyAccount() {
   const verifyAccount = useMutation(verifyAccountMutation, { onComplete });
   const form = useForm(verifyAccount);
@@ -30,7 +27,7 @@ function VerifyAccount() {
   const classes = useStyles();
   return <Form form={form} actions='submit' submitText="Подтвердить" submitIcon={null}>
     <TextField comp={form} name="passkey" validate={validatePasskey}
-      label="Ключ подтверждения" className={classes.code}
+      label="Ключ подтверждения" className={classes.passkey}
     />
   </Form>;
 }
