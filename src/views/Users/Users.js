@@ -1,5 +1,4 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import AddIcon from '@material-ui/icons/Add';
 import { History } from '@kemsu/router';
@@ -7,6 +6,7 @@ import { useQuery } from '@kemsu/graphql-client';
 import { useElementArray, Loader, List, ListNavigator, Fab } from '@kemsu/core';
 import { changeOffset } from '@lib/listnav';
 import AdminView from '@components/AdminView';
+import UserItem from './UserItem';
 
 const totalUsersQuery = `
   query totalUsers {
@@ -17,26 +17,14 @@ const usersQuery = `
   query users($offset: Int) {
     users(offset: $offset) {
       id
+      role
       email
+      verified
+      firstname
+      lastname
     }
   }
 `;
-
-function UserItem({ role, email }) {
-  console.log('UserItemView');
-  return (
-    <ListItem>
-      <div>
-        <div>
-          {email}
-        </div>
-        <div>
-          {role}
-        </div>
-      </div>
-    </ListItem>
-  );
-}
 
 function Users({ offset }) {
   

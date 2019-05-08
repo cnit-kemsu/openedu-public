@@ -5,18 +5,19 @@ import AppBar from '@components/AppBar';
 import MainView from '@views/Main';
 import AccountView from '@views/Account';
 import { DefaultLayout as useStyles } from './styles';
+import notAuthorisedPage from '@components/NotAuthorizedPage';
 
 const routes = [
   [/^\/$/, () => <MainView />],
   [/\/account/, () => <AccountView />]
 ];
 
-function DefaultLayout() {
+function DefaultLayout({ notAuthorized }) {
   
   const classes = useStyles();
   return <div className={classes.root}>
     <AppBar />
-    {useRoutes(routes) || pageNotFound}
+    {useRoutes(routes) || (notAuthorized ? notAuthorisedPage : pageNotFound)}
   </div >;
 }
 

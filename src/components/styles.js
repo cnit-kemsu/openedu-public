@@ -14,6 +14,20 @@ export const PageNotFound = makeStyles({
   }
 });
 
+export const NotAuthorizedPage = makeStyles({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+    width: 'fit-content',
+    minHeight: '25%',
+    margin: 'auto',
+    padding: '64px'
+  },
+  paper: {
+    padding: '32px'
+  }
+});
+
 export const Logo = makeStyles({
   root: {
     display: 'flex',

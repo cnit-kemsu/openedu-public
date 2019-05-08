@@ -6,6 +6,7 @@ import { GraphqlProvider } from '@kemsu/graphql-client';
 import { History, useRoute } from '@kemsu/router';
 import { client } from '@lib/client';
 import { UserInfo } from '@lib/UserInfo';
+import { allowedToAdmin } from '@lib/auth';
 import DefaultLayout from '@layouts/Default';
 import AdminLayout from '@layouts/Admin';
 
@@ -26,6 +27,11 @@ const theme = createMuiTheme({
     //     padding: '0px'
     //   }
     // }
+    MuiListItem: {
+      secondaryAction: {
+        paddingRight: '64px'
+      }
+    }
   }
 });
 
@@ -33,9 +39,7 @@ function App() {
 
   console.log('render App');
   
-  return <>
-    {useRoute(/^\/admin/, <AdminLayout />) || <DefaultLayout />}
-  </>;
+  return useRoute(/^\/admin/, () => allowedToAdmin() ? <AdminLayout /> : <DefaultLayout notAuthorized />) || <DefaultLayout />;
 }
 
 function Root() {

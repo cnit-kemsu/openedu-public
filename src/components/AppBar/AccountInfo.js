@@ -7,6 +7,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import { History } from '@kemsu/router';
 import { useMenu, MenuModal } from '@kemsu/core';
 import { UserInfo } from '@lib/UserInfo';
+import { allowedToAdmin } from '@lib/auth';
 import { AccountInfo as useStyles } from './styles';
 
 function routeToAdminView() { History.push('/admin'); }
@@ -14,7 +15,7 @@ function signout() { UserInfo.clear(); History.push('/'); }
 
 function Menu(close) {
   return <>
-    <MenuItem onClick={routeToAdminView}>Администрирование</MenuItem>
+    {allowedToAdmin() && <MenuItem onClick={routeToAdminView}>Администрирование</MenuItem>}
     <MenuItem onClick={() => { close(); signout(); }}>Выйти из аккаунта</MenuItem>
   </>;
 }
