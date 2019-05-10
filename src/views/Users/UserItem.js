@@ -8,7 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIconButton from '@components/MoreIconButton';
 import UserStatus from './UserStatus';
 
-export default function UserItem({ role, email, verified, firstname, lastname }) {
+export default function UserItem({ id, role, email, verified, firstname, lastname }, { menu, refreshList }) {
 
   return <ListItem>
     <ListItemAvatar>
@@ -19,7 +19,7 @@ export default function UserItem({ role, email, verified, firstname, lastname })
     <ListItemText primary={email} secondary={firstname + ' ' + lastname} />
     <UserStatus role={role} verified={verified} />
     <ListItemSecondaryAction>
-      <MoreIconButton />
+      <MoreIconButton onClick={event => menu.open(event, { id, email, refreshList })} />
     </ListItemSecondaryAction>
   </ListItem>;
 }

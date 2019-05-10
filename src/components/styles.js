@@ -49,3 +49,9 @@ export const RouteBackBtn = makeStyles({
     marginRight: '8px !important'
   }
 });
+
+export const MenuIcon = makeStyles({
+  root: {
+    marginRight: '8px'
+  }
+});
