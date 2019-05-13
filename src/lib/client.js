@@ -1,12 +1,31 @@
 import { GraphqlClient } from '@kemsu/graphql-client';
-import { UserInfo } from '@lib/UserInfo';
 
-export const client = new GraphqlClient('/api');
+GraphqlClient.url = '/api';
 
-export function setAuthHeader(bearer) {
-  if (bearer) client.headers = {
-    'x-access-token': bearer
-  };
+function errorToJson(error) {
+  return JSON.stringify(error, null, ' ').replace(/(\\{2})/g, '\\');
 }
 
-setAuthHeader(UserInfo.bearer);
+function logGraphqlError(error) {
+  errorToJson(error)
+  |> console.log('c% GraphqlError: ' + #, 'color: red');
+}
+GraphqlClient.onGraphqlErrors = errors => {
+  errors?.forEach(logGraphqlError);
+};
+
+function logServerError(error) {
+  errorToJson(error)
+  |> console.log('%c ServerError: ' + #, 'color: red');
+} 
+GraphqlClient.onServerErrors = errors => {
+  errors?.forEach(logServerError);
+};
+
+GraphqlClient.onError = error => {
+  console.error(error);
+};
+
+export function setAuthHeader(bearer) {
+  if (bearer) GraphqlClient.headers['x-access-token'] = bearer;
+}

@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from "@material-ui/core/styles";
-import { GraphqlProvider } from '@kemsu/graphql-client';
 import { History, useRoute } from '@kemsu/router';
-import { client } from '@lib/client';
+import { setAuthHeader } from '@lib/client';
 import { UserInfo } from '@lib/UserInfo';
 import { allowedToAdmin } from '@lib/auth';
 import DefaultLayout from '@layouts/Default';
@@ -12,6 +11,7 @@ import AdminLayout from '@layouts/Admin';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
+setAuthHeader(UserInfo.bearer);
 if (UserInfo.verified === 'false') History.replace('/account/verify');
 else if (UserInfo.complete === 'false') History.replace('/account/complete');
 
@@ -44,10 +44,8 @@ function App() {
 
 function Root() {
   return <ThemeProvider theme={theme}>
-    <GraphqlProvider client={client}>
-      <CssBaseline />
-      <App />
-    </GraphqlProvider>
+    <CssBaseline />
+    <App />
   </ThemeProvider>;
 }
 

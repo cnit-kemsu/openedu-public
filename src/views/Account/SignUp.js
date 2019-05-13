@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation } from '@kemsu/graphql-client';
+import { Mutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
 import { History } from '@kemsu/router';
 import { TextField } from '@kemsu/inputs';
@@ -9,7 +9,7 @@ import { UserInfo } from '@lib/UserInfo';
 import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '@lib/validate';
 import { SignUp as useStyles } from './styles';
 
-const signUpAccountMutation = `
+const SIGN_UP_ACCOUNT = `
   mutation signUpAccount(
     $email: String!
     $password: String!
@@ -29,9 +29,9 @@ function onComplete({ bearer }, { email }) {
   setAuthHeader(bearer);
   History.push('/account/verify');
 }
+const signUpAccount = new Mutation(SIGN_UP_ACCOUNT, { onComplete }).commit;
 
 function SignUpAccount() {
-  const signUpAccount = useMutation(signUpAccountMutation, { onComplete });
   const form = useForm(signUpAccount, validateConfirmPassword);
 
   const classes = useStyles();

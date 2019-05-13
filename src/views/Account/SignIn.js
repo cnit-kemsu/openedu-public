@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation } from '@kemsu/graphql-client';
+import { Mutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
 import { History } from '@kemsu/router';
 import { TextField } from '@kemsu/inputs';
@@ -9,7 +9,7 @@ import { UserInfo } from '@lib/UserInfo';
 import { validateEmail, validatePassword } from '@lib/validate';
 import { SignIn as useStyles } from './styles';
 
-const signIntoAccountQuery = `
+const SIGN_INTO_ACCOUNT = `
   query signIntoAccount($email: String!, $password: String!) {
     token: signIntoAccount(email: $email, password: $password) {
       role
@@ -25,9 +25,9 @@ function onComplete({ token }, { email }) {
   if (token.verified) History.push('/');
   else History.push('/account/verify');
 }
+const signIntoAccount = new Mutation(SIGN_INTO_ACCOUNT, { onComplete }).commit;
 
 function SignIntoAccount() {
-  const signIntoAccount = useMutation(signIntoAccountQuery, { onComplete });
   const form = useForm(signIntoAccount);
 
   const classes = useStyles();

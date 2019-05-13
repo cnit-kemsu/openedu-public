@@ -9,7 +9,7 @@ import { UserInfo } from '@lib/UserInfo';
 import { validatePassword, validateConfirmPassword, validatePasskey } from '@lib/validate';
 import { Confirm as useStyles } from './styles';
 
-const confirmAccountMutation = `
+const CONFIRM_ACCOUNT = `
   mutation confirmAccount($email: String!, $password: String!, $passkey: String!) {
     bearer: confirmAccount(email: $email, password: $password, passkey: $passkey)
   }
@@ -21,7 +21,7 @@ function onComplete({ bearer }, { email }) {
 }
 
 function ConfirmAccount() {
-  const confirmAccount = useMutation(confirmAccountMutation, { onComplete }, { email: Location.search.email });
+  const confirmAccount = useMutation(CONFIRM_ACCOUNT, { onComplete }, { email: Location.search.email });
   const form = useForm(confirmAccount, validateConfirmPassword);
 
   const classes = useStyles();
