@@ -1,15 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const Error = makeStyles({
-  root: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  icon: {
-    marginRight: '4px'
-  }
-});
-
 export const PageNotFound = makeStyles({
   root: {
     display: 'flex',

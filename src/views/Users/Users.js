@@ -7,12 +7,11 @@ import { useElementArray, useMenu, useDialog, Loader, List, ListNavigator, MenuM
 import { changeOffset, adjustOffset } from '@lib/listnav';
 import AdminView from '@components/AdminView';
 import RefreshBtn from '@components/RefreshBtn';
-import Error from '@components/Error';
 import UserItem from './UserItem';
 import UserContextMenu from './UserContextMenu';
 import ConfirmDeleteUserDialog from './ConfirmDeleteUserDialog';
 
-export const limit = 3;
+export const limit = 5;
 
 export const TOTAL_USERS = () => `
   totalUsers
@@ -35,8 +34,7 @@ function Users({ offset, menu }) {
   const [{ users }, loading, errors] = useQuery(USERS, { offset });
   const userItems = useElementArray(UserItem, users, { key: user => user.id, menu });
 
-  if (errors) return <Error />;
-  return <Loader loading={loading}>
+  return <Loader loading={loading} errors={errors}>
     {users && <List>
       {userItems}
     </List>}

@@ -21,4 +21,5 @@ function RefreshBtn({ queries }) {
   </IconButton>;
 }
 
-export default React.memo(RefreshBtn);
+export default RefreshBtn;
+//export default React.memo(RefreshBtn);

@@ -74,6 +74,8 @@ export default {
     contentBase: './test/server',
     historyApiFallback: true,
     watchContentBase: true,
+    disableHostCheck: true,
+    //host: '0.0.0.0',
     port: 3000
   }
 };

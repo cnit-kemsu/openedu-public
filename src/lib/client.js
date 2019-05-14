@@ -8,7 +8,7 @@ function errorToJson(error) {
 
 function logGraphqlError(error) {
   errorToJson(error)
-  |> console.log('c% GraphqlError: ' + #, 'color: red');
+  |> console.log('%c GraphqlError: ' + #, 'color: red');
 }
 GraphqlClient.onGraphqlErrors = errors => {
   errors?.forEach(logGraphqlError);
