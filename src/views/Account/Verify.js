@@ -9,10 +9,8 @@ import { UserInfo } from '@lib/UserInfo';
 import { validatePasskey } from '@lib/validate';
 import { Verify as useStyles } from './styles';
 
-const VERIFY_ACCOUNT = `
-  mutation verifyAccount($passkey: String!) {
-    bearer: verifyAccount(passkey: $passkey)
-  }
+const VERIFY_ACCOUNT = ({ passkey = 'String!' }) => `
+  bearer: verifyAccount(passkey: ${passkey})
 `;
 function onComplete({ bearer }) {
   UserInfo.update({ verified: true, bearer });

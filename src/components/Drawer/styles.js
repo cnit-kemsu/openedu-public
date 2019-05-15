@@ -34,7 +34,7 @@ export const AccountInfo = makeStyles(theme => ({
   }
 }));
 
-const drawerWidth = '300px';
+export const drawerWidth = '300px';
 
 export default makeStyles(theme => ({
   root: {

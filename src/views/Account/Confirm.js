@@ -9,10 +9,16 @@ import { UserInfo } from '@lib/UserInfo';
 import { validatePassword, validateConfirmPassword, validatePasskey } from '@lib/validate';
 import { Confirm as useStyles } from './styles';
 
-const CONFIRM_ACCOUNT = `
-  mutation confirmAccount($email: String!, $password: String!, $passkey: String!) {
-    bearer: confirmAccount(email: $email, password: $password, passkey: $passkey)
-  }
+const CONFIRM_ACCOUNT = ({
+  email = 'String!',
+  password = 'String!',
+  passkey = 'String!'
+}) => `
+  bearer: confirmAccount(
+    email: ${email}
+    password: ${password}
+    passkey: ${passkey}
+  )
 `;
 function onComplete({ bearer }, { email }) {
   UserInfo.update({ email, verified: true, complete: false, bearer });

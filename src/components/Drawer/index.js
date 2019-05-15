@@ -5,6 +5,7 @@ import Logo from '@components/Logo';
 import AccountInfo from './AccountInfo';
 import Navigation from './Navigation';
 import useStyles from './styles';
+export { drawerWidth } from './styles';
 
 function Drawer() {
 

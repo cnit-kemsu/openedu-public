@@ -9,14 +9,18 @@ import { UserInfo } from '@lib/UserInfo';
 import { validateEmail, validatePassword } from '@lib/validate';
 import { SignIn as useStyles } from './styles';
 
-const SIGN_INTO_ACCOUNT = `
-  query signIntoAccount($email: String!, $password: String!) {
-    token: signIntoAccount(email: $email, password: $password) {
-      role
-      verified
-      complete
-      bearer
-    }
+const SIGN_INTO_ACCOUNT = ({
+  email =' String!',
+  password = 'String!'
+}) => `
+  token: signIntoAccount(
+    email: ${email}
+    password: ${password}
+  ) {
+    role
+    verified
+    complete
+    bearer
   }
 `;
 function onComplete({ token }, { email }) {

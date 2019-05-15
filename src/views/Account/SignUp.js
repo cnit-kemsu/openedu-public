@@ -9,20 +9,18 @@ import { UserInfo } from '@lib/UserInfo';
 import { validateEmail, validatePassword, validateConfirmPassword, validateFirstname, validateLastname } from '@lib/validate';
 import { SignUp as useStyles } from './styles';
 
-const SIGN_UP_ACCOUNT = `
-  mutation signUpAccount(
-    $email: String!
-    $password: String!
-    $firstname: String!
-    $lastname: String!
-  ) {
-    bearer: signUpAccount(
-      email: $email
-      password: $password
-      firstname: $firstname
-      lastname: $lastname
-    )
-  }
+const SIGN_UP_ACCOUNT = ({
+  email = 'String!',
+  password = 'String!',
+  firstname = 'String!',
+  lastname = 'String!'
+}) => `
+  bearer: signUpAccount(
+    email: ${email}
+    password: ${password}
+    firstname: ${firstname}
+    lastname: ${lastname}
+  )
 `;
 function onComplete({ bearer }, { email }) {
   UserInfo.update({ role: 'student', email, verified: false, complete: true, bearer });

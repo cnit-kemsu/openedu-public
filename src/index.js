@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from "@material-ui/core/styles";
 import { History, useRoute } from '@kemsu/router';
+import { Notifier } from '@kemsu/core';
 import { setAuthHeader } from '@lib/client';
 import { UserInfo } from '@lib/UserInfo';
 import { allowedToAdmin } from '@lib/auth';
 import DefaultLayout from '@layouts/Default';
 import AdminLayout from '@layouts/Admin';
+import { drawerWidth } from '@components/Drawer';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -36,10 +38,13 @@ const theme = createMuiTheme({
 });
 
 function App() {
-
   console.log('render App');
-  
-  return useRoute(/^\/admin/, () => allowedToAdmin() ? <AdminLayout /> : <DefaultLayout notAuthorized />) || <DefaultLayout />;
+
+  return useRoute(/^\/admin/)
+  |> <>
+    {# && (allowedToAdmin() ? <AdminLayout /> : <DefaultLayout notAuthorized />) || <DefaultLayout />}
+    <Notifier marginLeft={# && drawerWidth} />
+  </>;
 }
 
 function Root() {

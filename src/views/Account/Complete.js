@@ -9,10 +9,11 @@ import { UserInfo } from '@lib/UserInfo';
 import { validateFirstname, validateLastname } from '@lib/validate';
 import { Complete as useStyles } from './styles';
 
-const COMPLETE_ACCOUNT = `
-  mutation completeAccount($firstname: String!, $lastname: String!) {
-    bearer: completeAccount(firstname: $firstname, lastname: $lastname)
-  }
+const COMPLETE_ACCOUNT = ({
+  firstname = 'String!',
+  lastname = 'String!'
+}) => `
+  bearer: completeAccount(firstname: ${firstname}, lastname: ${lastname})
 `;
 function onComplete({ bearer }) {
   UserInfo.update({ complete: true, bearer });

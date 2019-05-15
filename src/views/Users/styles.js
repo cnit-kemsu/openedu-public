@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const CreateUser = makeStyles({
+export const UserForm = makeStyles({
   root: {
     width: '400px'
   },

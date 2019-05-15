@@ -1,20 +1,16 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import MenuItem from '@material-ui/core/MenuItem';
 import SaveIcon from '@material-ui/icons/Save';
 import { History } from '@kemsu/router';
-import { useMutation } from '@kemsu/graphql-client';
+import { Mutation } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
-import { TextField, Select } from '@kemsu/inputs';
-import { Link, SubmitFab, ResetButton, FormErrors } from '@kemsu/core';
+import { TextField } from '@kemsu/inputs';
+import { Link, SubmitFab, ResetButton, FormErrors, Notifications } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import { validateEmail } from '@lib/validate';
-import { CreateUser as useStyles } from './styles';
-
-export function validateRole(value) {
-  if (!value) return 'Необходимо указать роль';
-}
+import UserRoleSelect from './UserRoleSelect';
+import { UserForm as useStyles } from './styles';
 
 function CreateUser({ form }) {
   
@@ -23,32 +19,28 @@ function CreateUser({ form }) {
     <TextField className={classes.email} comp={form} name="email" validate={validateEmail}
       label="Адрес электронной почты"
     />
-    <Select className={classes.role} comp={form} name="role" validate={validateRole} label="Роль">
-      <MenuItem value="ADMIN">Администратор</MenuItem>
-      <MenuItem value="INSTRUCTOR">Преподаватель</MenuItem>
-    </Select>
+    <UserRoleSelect className={classes.role} comp={form} />
   </div>;
 }
 CreateUser = React.memo(CreateUser);
 
-const createUserMutation = `
-  mutation createUser(
-    $role: RoleEnum!
-    $email: String!
-  ) {
-    createUser(
-      role: $role
-      email: $email
-    )
-  }
+const CREATE_USER = ({
+  role = 'RoleEnum!',
+  email = 'String!'
+}) => `
+  createUser(
+    role: ${role}
+    email: ${email}
+  )
 `;
 function onComplete() {
   History.push('/admin/users');
+  Notifications.push('Пользователь был успешно создан.', 'success');
 }
+const createUser = new Mutation(CREATE_USER, { onComplete }).commit;
 
-export default (props => {
-  const signUpAccount = useMutation(createUserMutation, { onComplete });
-  const form = useForm(signUpAccount);
+export default (() => {
+  const form = useForm(createUser);
 
   return <>
     <AdminView.AppBar>
@@ -64,7 +56,7 @@ export default (props => {
       <Typography color="textPrimary">Создать</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <CreateUser form={form} {...props} />
+      <CreateUser form={form} />
     </AdminView.Paper>
     <AdminView.Div>
       <FormErrors form={form} />
