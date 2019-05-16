@@ -3,10 +3,12 @@ import { History, Location, useRoutes } from '@kemsu/router';
 import pageNotFound from '@components/PageNotFound';
 import Drawer from '@components/Drawer';
 import UsersView from '@views/Users';
+import CoursesView from '@views/Courses';
 import { AdminLayout as useStyles } from './styles';
 
 const routes = [
-  [/.+\/users/, () => <UsersView />]
+  [/.+\/users/, () => <UsersView />],
+  [/.+\/courses/, () => <CoursesView />]
 ];
 
 function AdminLayout() {

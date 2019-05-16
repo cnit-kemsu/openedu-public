@@ -29,3 +29,7 @@ export function validateLastname(value) {
 export function validatePasskey(value) {
   if (!value) return 'Необходимо ввести ключ подтверждения';
 }
+
+export function validateCourseName(value) {
+  if (!value) return 'Необходимо указать название';
+}

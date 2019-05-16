@@ -7,57 +7,54 @@ import { TextField } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
-import { validateEmail } from '@lib/validate';
 import CreateFab from '@components/CreateFab';
 import ResetButton from '@components/ResetButton';
-import UserRoleSelect from './UserRoleSelect';
-import { UserForm as useStyles } from './styles';
+import { validateCourseName } from '@lib/validate';
+import { CourseForm as useStyles } from './styles';
 
-function CreateUser({ form }) {
+function CreateCourse({ form }) {
   
   const classes = useStyles();
   return <div className={classes.root}>
-    <TextField className={classes.email} comp={form} name="email" validate={validateEmail}
-      label="Адрес электронной почты"
-    />
-    <UserRoleSelect className={classes.role} comp={form} />
+    <TextField className={classes.name} comp={form} name="name" validate={validateCourseName} label="Название"/>
+    <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
   </div>;
 }
-CreateUser = React.memo(CreateUser);
+CreateCourse = React.memo(CreateCourse);
 
-const CREATE_USER = ({
-  role = 'RoleEnum!',
-  email = 'String!'
+const CREATE_COURSE = ({
+  name = 'String!',
+  summary = 'String'
 }) => `
-  createUser(
-    role: ${role}
-    email: ${email}
+  createCourse(
+    name: ${name}
+    summary: ${summary}
   )
 `;
 function onComplete() {
-  History.push('/admin/users');
-  Notifications.push('Пользователь был успешно создан.', 'success');
+  History.push('/admin/courses');
+  Notifications.push('Курс был успешно создан.', 'success');
 }
-const createUser = new Mutation(CREATE_USER, { onComplete }).commit;
+const createCourse = new Mutation(CREATE_COURSE, { onComplete }).commit;
 
 export default (() => {
-  const form = useForm(createUser);
+  const form = useForm(createCourse);
 
   return <>
     <AdminView.AppBar>
       <AdminView.LeftBar>
         <RouteBackBtn path="/admin/users" />
-        <Typography variant="h6">Новый пользователь</Typography>
+        <Typography variant="h6">Новый курс</Typography>
       </AdminView.LeftBar>
       <ResetButton form={form} />
     </AdminView.AppBar>
     <AdminView.Breadcrumbs>
       <Typography>Администрирование</Typography>
-      <Link styled path="/admin/users">Пользователи</Link>
+      <Link styled path="/admin/courses">Курсы</Link>
       <Typography color="textPrimary">Создать</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <CreateUser form={form} />
+      <CreateCourse form={form} />
     </AdminView.Paper>
     <AdminView.Div>
       <FormErrors form={form} />

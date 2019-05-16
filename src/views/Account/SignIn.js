@@ -10,7 +10,7 @@ import { validateEmail, validatePassword } from '@lib/validate';
 import { SignIn as useStyles } from './styles';
 
 const SIGN_INTO_ACCOUNT = ({
-  email =' String!',
+  email = 'String!',
   password = 'String!'
 }) => `
   token: signIntoAccount(

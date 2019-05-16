@@ -4,23 +4,20 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import SchoolIcon from '@material-ui/icons/School';
 import MoreIconButton from '@components/MoreIconButton';
-import { dispstr } from '@lib/dispstr';
-import UserStatus from './UserStatus';
 
-export default function UserItem({ id, role, email, verified, firstname, lastname }, { menu }) {
+export default function UserItem({ id, name, summary }, { menu }) {
 
   return <ListItem>
     <ListItemAvatar>
       <Avatar>
-        <AccountCircle />
+        <SchoolIcon />
       </Avatar>
     </ListItemAvatar>
-    <ListItemText primary={email} secondary={dispstr(firstname, lastname)} />
-    <UserStatus role={role} verified={verified} />
+    <ListItemText primary={name} secondary={summary} />
     <ListItemSecondaryAction>
-      <MoreIconButton onClick={event => menu.open(event, { id, email })} />
+      <MoreIconButton onClick={event => menu.open(event, { id, name })} />
     </ListItemSecondaryAction>
   </ListItem>;
 }
