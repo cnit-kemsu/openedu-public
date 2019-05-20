@@ -33,3 +33,7 @@ export function validatePasskey(value) {
 export function validateCourseName(value) {
   if (!value) return 'Необходимо указать название';
 }
+
+export function validateSectionName(value) {
+  if (!value) return 'Необходимо указать название';
+}
