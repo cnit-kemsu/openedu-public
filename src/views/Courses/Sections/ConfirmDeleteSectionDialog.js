@@ -5,14 +5,14 @@ import { ConfirmDialog, Notifications } from '@kemsu/core';
 import confirmDeleteProps from '@components/confirmDeleteProps';
 import { SECTIONS } from './Sections';
 
-const DELETE_COURSE = ({ id = 'Int!' }) => `
+const DELETE_SECTION = ({ id = 'Int!' }) => `
   deleteSection(id: ${id})
 `;
 function onComplete() {
   refetch(SECTIONS);
-    Notifications.push('Раздел был успешно удален.', 'success');
+  Notifications.push('Раздел был успешно удален.', 'success');
 }
-const deleteSection = new Mutation(DELETE_COURSE, { onComplete }).commit;
+const deleteSection = new Mutation(DELETE_SECTION, { onComplete }).commit;
 
 export default function ConfirmDeleteSectionDialog(close, { id, name }) {
   

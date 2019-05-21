@@ -5,7 +5,7 @@ import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
 function routeToEditCourseView(id) { History.push(`/admin/courses/edit/${id}`); }
-function routeToSectionsView(id) { History.push(`/admin/courses/${id}/sections`); }
+function routeToSectionsView(id) { History.push(`/admin/courses/${id}/content`); }
 
 export default function CourseContextMenu(close, { id, name, confirmDeleteDialog }) {
 
