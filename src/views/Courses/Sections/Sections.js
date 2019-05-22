@@ -17,6 +17,11 @@ import CreateSubsectionDialog from '../Subsections/CreateSubsectionDialog';
 import EditSubsectionDialog from '../Subsections/EditSubsectionDialog';
 import ConfirmDeleteSubsectionDialog from '../Subsections/ConfirmDeleteSubsectionDialog';
 
+import BlockContextMenu from '../Blocks/BlockContextMenu';
+import CreateBlockDialog from '../Blocks/CreateBlockDialog';
+import EditBlockDialog from '../Blocks/EditBlockDialog';
+import ConfirmDeleteBlockDialog from '../Blocks/ConfirmDeleteBlockDialog';
+
 export const SECTIONS = ({ courseId = 'Int!' }) => `
   course(id: ${courseId}) {
     id
@@ -29,13 +34,19 @@ export const SECTIONS = ({ courseId = 'Int!' }) => `
         id
         name
         summary
+        blocks {
+          id
+          name
+          summary
+          type
+        }
       }
     }
   }
 `;
 
-function Sections({ course: { sections }, menu, subsectionsMenu, createSubsectionDialog }) {
-  const sectionItems = useElementArray(SectionItem, sections, { key: section => section.id, menu, subsectionsMenu, createSubsectionDialog });
+function Sections({ course: { id, sections }, menu, subsectionsMenu, createSubsectionDialog, createBlockDialog, blocksMenu }) {
+  const sectionItems = useElementArray(SectionItem, sections, { key: section => section.id, menu, subsectionsMenu, createSubsectionDialog, createBlockDialog, blocksMenu, courseId: id });
 
   return <List>
     {sectionItems}
@@ -54,6 +65,11 @@ export default (
     const editSubsectionDialog = useDialog();
     const confirmDeleteSubsectionDialog = useDialog();
     const subsectionsMenu = useMenu({ editDialog: editSubsectionDialog, confirmDeleteDialog: confirmDeleteSubsectionDialog });
+
+    const createBlockDialog = useDialog();
+    const editBlockDialog = useDialog();
+    const confirmDeleteBlockDialog = useDialog();
+    const blocksMenu = useMenu({ editDialog: editBlockDialog, confirmDeleteDialog: confirmDeleteBlockDialog });
     
     const [{ course }, loading, errors] = useQuery(SECTIONS, { courseId });
     
@@ -73,7 +89,7 @@ export default (
       </AdminView.Breadcrumbs>
       <AdminView.Div>
         <Loader loading={loading} errors={errors}>
-          {course && <Sections {...{ course, menu, subsectionsMenu, createSubsectionDialog }} />}
+          {course && <Sections {...{ course, menu, subsectionsMenu, createSubsectionDialog, createBlockDialog, blocksMenu }} />}
         </Loader>
       </AdminView.Div>
       <Fab icon={AddIcon} onClick={createDialog.open}>
@@ -110,6 +126,22 @@ export default (
 
       <DialogModal mgr={confirmDeleteSubsectionDialog}>
         {ConfirmDeleteSubsectionDialog}
+      </DialogModal>
+
+      <MenuModal mgr={blocksMenu}>
+        {BlockContextMenu}
+      </MenuModal>
+
+      <DialogModal mgr={createBlockDialog}>
+        {CreateBlockDialog}
+      </DialogModal>
+
+      <DialogModal mgr={editBlockDialog}>
+        {EditBlockDialog}
+      </DialogModal>
+
+      <DialogModal mgr={confirmDeleteBlockDialog}>
+        {ConfirmDeleteBlockDialog}
       </DialogModal>
     </>;
   }

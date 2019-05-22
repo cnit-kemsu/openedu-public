@@ -11,7 +11,7 @@ import { SectionItem as useStyles } from './styles';
 
 import SubsectionsView from '../Subsections';
 
-export default function SectionItem({ id, name, summary, subsections }, { menu, subsectionsMenu, createSubsectionDialog }) {
+export default function SectionItem({ id, name, summary, subsections }, { menu, subsectionsMenu, createSubsectionDialog, createBlockDialog, blocksMenu, courseId }) {
 
   const classes = useStyles();
   return <Paper className={classes.root}>
@@ -23,9 +23,9 @@ export default function SectionItem({ id, name, summary, subsections }, { menu, 
     </ListItem>
     <Divider />
     <div className={classes.subsectionsContainer}>
-      <SubsectionsView subsections={subsections} menu={subsectionsMenu} />
+      <SubsectionsView subsections={subsections} menu={subsectionsMenu} {...{ createBlockDialog, blocksMenu }} sectionId={id} courseId={courseId} />
     </div>
-    <div className={classes.addSubsectionButtonContainer}>
+    <div className={subsections.length > 0 ? classes.addSubsectionButtonContainer : classes.addSubsectionButtonContainerAlone}>
       <Button size="small" variant="contained" color="primary" className={classes.addSubsectionButton} onClick={() => createSubsectionDialog.open({ sectionId: id, sectionName: name })}>
         <AddIcon />
         Создать подраздел

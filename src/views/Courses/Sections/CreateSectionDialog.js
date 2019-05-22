@@ -36,4 +36,4 @@ export default function CreateSectionDialog (close, { courseId }) {
     <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
   </div>
   </FormDialog>;
-};
+}

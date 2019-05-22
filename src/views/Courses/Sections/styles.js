@@ -21,6 +21,9 @@ export const SectionItem = makeStyles(theme => ({
   listItem: {
   },
   addSubsectionButtonContainer: {
+    padding: '0px 16px 0px 16px'
+  },
+  addSubsectionButtonContainerAlone: {
     padding: '32px 16px 0px 16px'
   },
   addSubsectionButton: {

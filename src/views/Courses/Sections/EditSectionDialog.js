@@ -25,7 +25,7 @@ function onComplete(closeDialog) {
   Notifications.push('Раздел был успешно изменен.', 'success');
 }
 
-export default function CreateSectionDialog (close, { id, name, summary }) {
+export default function EditSectionDialog (close, { id, name, summary }) {
   const updateSection = useMutation(UPDATE_SECTION, { onComplete: () => onComplete(close) }, { id });
   const form = useForm(updateSection, null, () => ({ name, summary }));
 
@@ -36,4 +36,4 @@ export default function CreateSectionDialog (close, { id, name, summary }) {
     <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
   </div>
   </FormDialog>;
-};
+}

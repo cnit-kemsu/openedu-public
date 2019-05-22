@@ -5,15 +5,15 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { SubsectionForm as useStyles } from './styles';
+import { BlockForm as useStyles } from './styles';
 import { SECTIONS } from '../Sections';
 
-const UPDATE_SUBSECTION = ({
+const UPDATE_BLOCK = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateSubsection(
+  updateBlock(
     id: ${id}
     name: ${name}
     summary: ${summary}
@@ -22,15 +22,15 @@ const UPDATE_SUBSECTION = ({
 function onComplete(closeDialog) {
   closeDialog();
   refetch(SECTIONS);
-  Notifications.push('Раздел был успешно изменен.', 'success');
+  Notifications.push('Блок был успешно изменен.', 'success');
 }
 
-export default function CreateSubsectionDialog (close, { id, name, summary }) {
-  const updateSubsection = useMutation(UPDATE_SUBSECTION, { onComplete: () => onComplete(close) }, { id });
-  const form = useForm(updateSubsection, null, () => ({ name, summary }));
+export default function EditBlockDialog (close, { id, name, summary }) {
+  const updateBlock = useMutation(UPDATE_BLOCK, { onComplete: () => onComplete(close) }, { id });
+  const form = useForm(updateBlock, null, () => ({ name, summary }));
 
   const classes = useStyles();
-  return <FormDialog form={form} onClose={close} title="Редактирование подраздела" {...updateSubmitProps}>
+  return <FormDialog form={form} onClose={close} title="Редактирование блока" {...updateSubmitProps}>
     <div className={classes.root}>
     <TextField className={classes.name} comp={form} name="name" validate={validateSectionName} label="Название"/>
     <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />

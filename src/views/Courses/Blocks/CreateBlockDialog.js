@@ -5,35 +5,39 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { SubsectionForm as useStyles } from './styles';
+import { BlockForm as useStyles } from './styles';
+import BlockTypeSelect from './BlockTypeSelect';
 import { SECTIONS } from '../Sections';
 
-const CREATE_SUBSECTION = ({
-  sectionId = 'Int!',
+const CREATE_BLOCK = ({
+  subsectionId = 'Int!',
   name = 'String!',
-  summary = 'String'
+  summary = 'String',
+  type = 'BlockTypeEnum!'
 }) => `
-  createSubsection(
-    sectionId: ${sectionId}
+  createBlock(
+    subsectionId: ${subsectionId}
     name: ${name}
     summary: ${summary}
+    type: ${type}
   )
 `;
 function onComplete(closeDialog) {
   closeDialog();
   refetch(SECTIONS);
-  Notifications.push('Подраздел был успешно создан.', 'success');
+  Notifications.push('Блок был успешно создан.', 'success');
 }
 
-export default function EditSubsectionDialog (close, { sectionId, sectionName }) {
-  const createSubsection = useMutation(CREATE_SUBSECTION, { onComplete: () => onComplete(close) }, { sectionId });
-  const form = useForm(createSubsection);
+export default function CreateBlockDialog (close, { subsectionId, subsectionName }) {
+  const createBlock = useMutation(CREATE_BLOCK, { onComplete: () => onComplete(close) }, { subsectionId });
+  const form = useForm(createBlock);
 
   const classes = useStyles();
-  return <FormDialog form={form} onClose={close} title={`Новый подраздел раздела: ${sectionName}`} {...createSubmitProps}>
+  return <FormDialog form={form} onClose={close} title={`Новый блок подраздела: ${subsectionName}`} {...createSubmitProps}>
     <div className={classes.root}>
     <TextField className={classes.name} comp={form} name="name" validate={validateSectionName} label="Название"/>
     <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
+    <BlockTypeSelect className={classes.type} comp={form} />
   </div>
   </FormDialog>;
 }

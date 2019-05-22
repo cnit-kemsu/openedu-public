@@ -18,13 +18,13 @@ export const SubsectionItem = makeStyles(theme => ({
   listItem: {
     backgroundColor: theme.palette.grey[200]
   },
-  addSubsectionButtonContainer: {
-    padding: '32px 16px 0px 16px'
+  addBlockButtonContainer: {
+    padding: '32px 16px 32px 16px'
   },
-  addSubsectionButton: {
+  addBlockButton: {
     width: '100%'
   },
-  subsectionsContainer: {
+  blocksContainer: {
     padding: '0px 16px'
   }
 }));
