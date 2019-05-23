@@ -1,9 +1,12 @@
-import React from 'react';
+// import React from 'react';
+// import { useRoutes } from '@kemsu/router';
+// import CoursesView from './courses';
+// import CourseView from './course';
 
-function Main() {
-  return <div>
-    Главная страница
-  </div>;
-}
+// const routes = [
+//   [/\/$/, props => <CoursesView {...props} />],
+//   [/^\/course\/(?<courseId>)/, () => <CourseView />],
+// ];
 
-export default React.memo(Main);
+// export default (() => useRoutes(routes))
+// |> React.memo(#);

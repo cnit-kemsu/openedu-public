@@ -32,7 +32,16 @@ export default {
           { loader: 'style-loader' },
           { loader: 'css-loader' }
         ]
-      }
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: "url-loader",
+          options: {
+            limit: 25000,
+          },
+        },
+      },
     ]
   },
 

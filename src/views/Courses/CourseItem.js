@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import SchoolIcon from '@material-ui/icons/School';
 import MoreIconButton from '@components/MoreIconButton';
 
-export default function UserItem({ id, name, summary }, { menu }) {
+export default function CourseItem({ id, name, summary }, { menu }) {
 
   return <ListItem>
     <ListItemAvatar>

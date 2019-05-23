@@ -9,45 +9,45 @@ import { FormDialog, ConfirmDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
 import updateSubmitProps from '@components/updateSubmitProps';
 import confirmDeleteProps from '@components/confirmDeleteProps';
-import { QuestionForm as useStyles } from './styles';
+import { AnswerForm as useStyles } from './styles';
 
 function validateText(value) {
-  if (!value) return 'Текст вопроса не должен быть пустым';
+  if (!value) return 'Текст ответа не должен быть пустым';
   return undefined;
 }
 
-export function CreateQuestionDialog (close, { push }) {
+export function CreateAnswerDialog (close, { push }) {
   const form = useForm(push, null, null, close);
 
   const classes = useStyles();
-  return <FormDialog onClose={close} form={form} title="Новый вопрос" {...createSubmitProps}>
+  return <FormDialog onClose={close} form={form} title="Новый ответ" {...createSubmitProps}>
     <div className={classes.root}>
-      <TextField className={classes.text} comp={form} name="text" validate={validateText} label="Текст вопроса"/>
+      <TextField className={classes.text} comp={form} name="text" validate={validateText} label="Текст ответа"/>
     </div>
   </FormDialog>;
 }
 
-export function EditQuestionDialog (close, { value, onChange }) {
+export function EditAnswerDialog (close, { value, onChange }) {
   const form = useForm(({ text }) => onChange(text), null, () => ({ text: value }), close);
 
   const classes = useStyles();
-  return <FormDialog onClose={close} form={form} title="Редактирование вопроса" {...updateSubmitProps}>
+  return <FormDialog onClose={close} form={form} title="Редактирование ответа" {...updateSubmitProps}>
     <div className={classes.root}>
-      <TextField className={classes.text} comp={form} name="text" validate={validateText} label="Текст вопроса"/>
+      <TextField className={classes.text} comp={form} name="text" validate={validateText} label="Текст ответа"/>
     </div>
   </FormDialog>;
 }
 
-export function ConfirmDeleteQuestionDialog(close, { element }) {
+export function ConfirmDeleteAnswerDialog(close, { element }) {
   
-  return <ConfirmDialog onClose={close} onConfirm={element.delete} title="Удаление вопроса" {...confirmDeleteProps}>
+  return <ConfirmDialog onClose={close} onConfirm={element.delete} title="Удаление ответа" {...confirmDeleteProps}>
     <DialogContentText>
-      Вы действительно хотите удалить вопрос?
+      Вы действительно хотите удалить ответ?
     </DialogContentText>
   </ConfirmDialog>;
 }
 
-export function QuestionContextMenu(close, { element, editDialog, confirmDeleteDialog, value, onChange, forceUpdate }) {
+export function AnswerContextMenu(close, { element, editDialog, confirmDeleteDialog, value, onChange, forceUpdate }) {
 
   return <>
     <MenuItem onClick={() => { close(); editDialog.open({ value, onChange, forceUpdate }); }}>
