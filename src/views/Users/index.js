@@ -7,7 +7,7 @@ import EditUserView from './EditUser';
 const routes = [
   [/.+\/users$/, props => <UsersView {...props} />],
   [/.+\/users\/create/, () => <CreateUserView />],
-  [/.+\/users\/edit\/(?<id>\d+)/, ({ id }) => <EditUserView id={Number(id)} />]
+  [/.+\/users\/(?<id>\d+)\/edit/, ({ id }) => <EditUserView id={Number(id)} />]
 ];
 
 export default (() => useRoutes(routes))

@@ -33,20 +33,20 @@ function SignUpAccount() {
   const form = useForm(signUpAccount, validateConfirmPassword);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Создать аккаунт" submitIcon={null}>
-    <TextField comp={form} name="email" validate={validateEmail}
+  return <Form comp={form} submitText="Создать аккаунт" submitIcon={null} resetText={null}>
+    <TextField name="email" validate={validateEmail}
       label="Адрес электронной почты" className={classes.email}
     />
-    <TextField comp={form} name="password" validate={validatePassword}
+    <TextField name="password" validate={validatePassword}
       type="password" label="Пароль" className={classes.password}
     />
-    <TextField comp={form} name="confirmPassword"
+    <TextField name="confirmPassword"
       type="password" label="Повторите пароль" className={classes.confirmPassword}
     />
-    <TextField comp={form} name="firstname" validate={validateFirstname}
+    <TextField name="firstname" validate={validateFirstname}
       label="Имя" className={classes.firstname}
     />
-    <TextField comp={form} name="lastname" validate={validateLastname}
+    <TextField name="lastname" validate={validateLastname}
       label="Фамилия" className={classes.lastname}
     />
   </Form>;

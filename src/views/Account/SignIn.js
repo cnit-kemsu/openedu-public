@@ -35,11 +35,11 @@ function SignIntoAccount() {
   const form = useForm(signIntoAccount);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Войти в аккаунт" submitIcon={null}>
-    <TextField comp={form} name="email" validate={validateEmail}
+  return <Form comp={form} submitText="Войти в аккаунт" submitIcon={null} resetText={null}>
+    <TextField name="email" validate={validateEmail}
       label="Адрес электронной почты" className={classes.email}
     />
-    <TextField comp={form} name="password" validate={validatePassword}
+    <TextField name="password" validate={validatePassword}
       type="password" label="Пароль" className={classes.password}
     />
   </Form>;

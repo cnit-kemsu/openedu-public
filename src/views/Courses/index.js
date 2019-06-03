@@ -9,8 +9,8 @@ import BlockContentView from './Blocks/BlockContent';
 const routes = [
   [/.+\/courses$/, props => <CoursesView {...props} />],
   [/.+\/courses\/create/, () => <CreateCourseView />],
-  [/.+\/courses\/edit\/(?<id>\d+)/, ({ id }) => <EditCourseView id={Number(id)} />],
-  [/.+\/courses\/(\d+)\/content/, () => <SectionsView />],
+  [/.+\/courses\/(?<id>\d+)\/edit/, ({ id }) => <EditCourseView id={Number(id)} />],
+  [/.+\/courses\/(?<courseId>\d+)\/structure/, ({ courseId }) => <SectionsView courseId={Number(courseId)} />],
   [/.+\/courses\/(?<courseId>\d+)\/sections\/(?<sectionId>\d+)\/subsections\/(?<subsectionId>\d+)\/blocks\/(?<blockId>\d+)/, ({ blockId, ...props }) => <BlockContentView blockId={Number(blockId)} {...props} />]
 ];
 

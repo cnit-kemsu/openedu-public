@@ -4,12 +4,12 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToEditUserView(id) { History.push(`/admin/users/edit/${id}`); }
+function routeToEditUserView(id) { History.push(`/admin/users/${id}/edit`); }
 
 export default function UserContextMenu(close, { id, email, confirmDeleteDialog }) {
 
   return <>
-    <MenuItem onClick={() => { close(); routeToEditUserView(id); }}>
+    <MenuItem onClick={() => { routeToEditUserView(id); }}>
       <EditMenuItem />
     </MenuItem>
     <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, email }); }}>

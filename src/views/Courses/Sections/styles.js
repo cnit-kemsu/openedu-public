@@ -12,24 +12,17 @@ export const SectionForm = makeStyles({
   }
 });
 
-export const SectionItem = makeStyles(theme => ({
+export const SectionItem = makeStyles({
   root: {
     minWidth: '800px',
     marginBottom: '48px',
     padding: '32px 24px',
   },
-  listItem: {
-  },
-  addSubsectionButtonContainer: {
-    padding: '0px 16px 0px 16px'
-  },
-  addSubsectionButtonContainerAlone: {
-    padding: '32px 16px 0px 16px'
-  },
-  addSubsectionButton: {
-    width: '100%'
-  },
-  subsectionsContainer: {
+  subsections: {
     padding: '0px 16px'
-  }
-}));
+  },
+  addSubsectionButton: ({ count }) => ({
+    width: '100%',
+    padding: count > 0 ? '0px 16px 0px 16px' : '32px 16px 0px 16px'
+  }),
+});

@@ -10,7 +10,7 @@ const DELETE_USER = ({ id = 'Int!' }) => `
 `;
 function onComplete() {
   refetch(TOTAL_USERS, USERS);
-    Notifications.push('Пользователь был успешно удален.', 'success');
+  Notifications.push('Пользователь был успешно удален.', 'success');
 }
 const deleteUser = new Mutation(DELETE_USER, { onComplete }).commit;
 

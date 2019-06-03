@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { Mutation } from '@kemsu/graphql-client';
-import { useForm } from '@kemsu/form';
+import { useForm, Fields } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications } from '@kemsu/core';
 import AdminView from '@components/AdminView';
@@ -12,12 +12,12 @@ import ResetButton from '@components/ResetButton';
 import { validateCourseName } from '@lib/validate';
 import { CourseForm as useStyles } from './styles';
 
-function CreateCourse({ form }) {
+function CreateCourse() {
   
   const classes = useStyles();
   return <div className={classes.root}>
-    <TextField className={classes.name} comp={form} name="name" validate={validateCourseName} label="Название"/>
-    <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
+    <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
+    <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
   </div>;
 }
 CreateCourse = React.memo(CreateCourse);
@@ -40,13 +40,13 @@ const createCourse = new Mutation(CREATE_COURSE, { onComplete }).commit;
 export default (() => {
   const form = useForm(createCourse);
 
-  return <>
+  return <Fields comp={form}>
     <AdminView.AppBar>
       <AdminView.LeftBar>
         <RouteBackBtn path="/admin/users" />
         <Typography variant="h6">Новый курс</Typography>
       </AdminView.LeftBar>
-      <ResetButton form={form} />
+      <ResetButton />
     </AdminView.AppBar>
     <AdminView.Breadcrumbs>
       <Typography>Администрирование</Typography>
@@ -54,12 +54,12 @@ export default (() => {
       <Typography color="textPrimary">Создать</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <CreateCourse form={form} />
+      <CreateCourse />
     </AdminView.Paper>
     <AdminView.Div>
-      <FormErrors form={form} />
+      <FormErrors />
     </AdminView.Div>
-    <CreateFab form={form} />
-  </>;
+    <CreateFab />
+  </Fields>;
 }
 ) |> React.memo(#);

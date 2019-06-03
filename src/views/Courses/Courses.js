@@ -35,7 +35,7 @@ function Courses({ offset, menu }) {
     {courses && <List>
       {courseItems}
     </List>}
-    {totalCourses > 0 && <ListNavigator limit={limit} total={totalCourses} offset={offset} onChange={changeOffset} />}
+    {totalCourses > 0 && <ListNavigator {...{ limit, offset }} total={totalCourses} onChange={changeOffset} />}
   </Loader>;
 }
 Courses = React.memo(Courses);
@@ -58,7 +58,7 @@ export default (props => {
       <Typography color="textPrimary">Курсы</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <Courses {...props} {...{ menu }}  />
+      <Courses {...{ menu, ...props}} />
     </AdminView.Paper>
     <Fab icon={AddIcon} onClick={routeToCreateCourseView}>
       Создать

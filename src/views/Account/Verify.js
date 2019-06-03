@@ -23,8 +23,8 @@ function VerifyAccount() {
   const form = useForm(verifyAccount);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Подтвердить" submitIcon={null}>
-    <TextField comp={form} name="passkey" validate={validatePasskey}
+  return <Form comp={form} submitText="Подтвердить" submitIcon={null} resetText={null}>
+    <TextField name="passkey" validate={validatePasskey}
       label="Ключ подтверждения" className={classes.passkey}
     />
   </Form>;

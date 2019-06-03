@@ -4,7 +4,7 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToEditCourseView(id) { History.push(`/admin/courses/edit/${id}`); }
+function routeToEditCourseView(id) { History.push(`/admin/courses/${id}/edit`); }
 function routeToSectionsView(id) { History.push(`/admin/courses/${id}/content`); }
 
 export default function CourseContextMenu(close, { id, name, confirmDeleteDialog }) {

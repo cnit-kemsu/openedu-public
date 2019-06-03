@@ -31,14 +31,14 @@ function ConfirmAccount() {
   const form = useForm(confirmAccount, validateConfirmPassword);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Продолжить" submitIcon={null}>
-    <TextField comp={form} name="passkey" validate={validatePasskey}
+  return <Form comp={form} submitText="Продолжить" submitIcon={null} resetText={null}>
+    <TextField name="passkey" validate={validatePasskey}
       label="Ключ подтверждения" className={classes.passkey}
     />
-    <TextField comp={form} name="password" validate={validatePassword}
+    <TextField name="password" validate={validatePassword}
       type="password" label="Пароль" className={classes.password}
     />
-    <TextField comp={form} name="confirmPassword"
+    <TextField name="confirmPassword"
       type="password" label="Повторите пароль" className={classes.confirmPassword}
     />
   </Form>;

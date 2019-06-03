@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { useMutation, useQuery } from '@kemsu/graphql-client';
-import { useForm, useInitialize } from '@kemsu/form';
+import { useForm, Fields } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications, Loader } from '@kemsu/core';
 import AdminView from '@components/AdminView';
@@ -12,12 +12,12 @@ import ResetButton from '@components/ResetButton';
 import { validateCourseName } from '@lib/validate';
 import { CourseForm as useStyles } from './styles';
 
-function EditCourse({ form }) {
+function EditCourse() {
   
   const classes = useStyles();
   return <div className={classes.root}>
-    <TextField className={classes.name} comp={form} name="name" validate={validateCourseName} label="Название"/>
-    <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
+    <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
+    <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
   </div>;
 }
 EditCourse = React.memo(EditCourse);
@@ -49,16 +49,15 @@ export default (
   ({ id }) => {
     const [{ course }, loading, errors] = useQuery(COURSE, { id });
     const updateCourse = useMutation(UPDATE_COURSE, { onComplete }, { id });
-    const form = useForm(updateCourse);
-    useInitialize(form, () => ({ ...course }), [course]);
+    const form = useForm(updateCourse, course);
 
-    return <>
+    return <Fields comp={form}>
       <AdminView.AppBar>
         <AdminView.LeftBar>
           <RouteBackBtn path="/admin/courses" />
           <Typography variant="h6">Редактирование курса: {course?.name}</Typography>
         </AdminView.LeftBar>
-        <ResetButton {...{ form, loading, errors }}>Сбросить</ResetButton>
+        <ResetButton {...{ loading, errors }}>Сбросить</ResetButton>
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
@@ -67,13 +66,13 @@ export default (
       </AdminView.Breadcrumbs>
       <AdminView.Paper>
         <Loader loading={loading} errors={errors}>
-          {course && <EditCourse form={form} />}
+          {course && <EditCourse />}
         </Loader>
       </AdminView.Paper>
       <AdminView.Div>
-        <FormErrors form={form} />
+        <FormErrors />
       </AdminView.Div>
-      <UpdateFab {...{ form, loading, errors }} />
-    </>;
+      <UpdateFab {...{ loading, errors }} />
+    </Fields>;
   }
 ) |> React.memo(#);

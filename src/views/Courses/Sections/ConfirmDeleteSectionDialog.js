@@ -3,13 +3,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { Mutation, refetch } from '@kemsu/graphql-client';
 import { ConfirmDialog, Notifications } from '@kemsu/core';
 import confirmDeleteProps from '@components/confirmDeleteProps';
-import { SECTIONS } from './Sections';
+import { COURSE } from './Sections';
 
 const DELETE_SECTION = ({ id = 'Int!' }) => `
   deleteSection(id: ${id})
 `;
 function onComplete() {
-  refetch(SECTIONS);
+  refetch(COURSE);
   Notifications.push('Раздел был успешно удален.', 'success');
 }
 const deleteSection = new Mutation(DELETE_SECTION, { onComplete }).commit;

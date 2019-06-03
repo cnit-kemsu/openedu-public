@@ -38,7 +38,7 @@ function Users({ offset, menu }) {
     {users && <List>
       {userItems}
     </List>}
-    {totalUsers > 0 && <ListNavigator limit={limit} total={totalUsers} offset={offset} onChange={changeOffset} />}
+    {totalUsers > 0 && <ListNavigator {...{ limit, offset }} total={totalUsers} onChange={changeOffset} />}
   </Loader>;
 }
 Users = React.memo(Users);
@@ -61,7 +61,7 @@ export default (props => {
       <Typography color="textPrimary">Пользователи</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <Users {...props} {...{ menu }}  />
+      <Users {...{ menu, ...props}} />
     </AdminView.Paper>
     <Fab icon={AddIcon} onClick={routeToCreateUserView}>
       Создать

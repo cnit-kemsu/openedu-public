@@ -26,11 +26,11 @@ function ConfirmAccount() {
   const form = useForm(completeAccount);
 
   const classes = useStyles();
-  return <Form form={form} actions='submit' submitText="Закончить" submitIcon={null}>
-    <TextField comp={form} name="firstname" validate={validateFirstname}
+  return <Form comp={form} submitText="Закончить" submitIcon={null} resetText={null}>
+    <TextField name="firstname" validate={validateFirstname}
       label="Имя" className={classes.firstname}
     />
-    <TextField comp={form} name="lastname" validate={validateLastname}
+    <TextField name="lastname" validate={validateLastname}
       label="Фамилия" className={classes.lastname}
     />
   </Form>;
