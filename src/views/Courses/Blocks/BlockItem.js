@@ -11,14 +11,18 @@ const types = {
   QUIZ: 'Тест'
 };
 
-export default function BlockItem({ id, name, summary, type }, { menu, sectionId, courseId, subsectionId }) {
+export default function BlockItem({ index, id, name, summary, type }, { blockMenu, subsectionIndex, ...props }) {
 
   const classes = useStyles();
-  return <div className={classes.root}>
-    <ListItem className={classes.listItem}>
-      <ListItemText primary={`${name} (${types[type]})`} secondary={summary} />
+  const blockIndex = index + 1 |> subsectionIndex + '.' + #;
+  const primary = <>
+    <span className={classes.index}>{blockIndex}</span>. {name} ({types[type]})
+  </>;
+  return <div>
+    <ListItem>
+      <ListItemText primary={primary} secondary={summary} />
       <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => menu.open(event, { id, name, summary, sectionId, courseId, subsectionId })} />
+        <MoreIconButton onClick={event => blockMenu.open(event, { id, name, summary, subsectionIndex, ...props })} />
       </ListItemSecondaryAction>
     </ListItem>
   </div>;

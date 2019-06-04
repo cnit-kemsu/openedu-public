@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMenu, useDialog, MenuModal, DialogModal } from '@kemsu/core';
 
 import ContextMenu from './BlockContextMenu';
@@ -5,8 +6,8 @@ import CreateDialog from './CreateBlockDialog';
 import EditDialog from './EditBlockDialog';
 import ConfirmDeleteDialog from './ConfirmDeleteBlockDialog';
 
-export function useBlockItem(courseId) {
-  const createDialog = useDialog({ courseId });
+export function useBlockItem() {
+  const createDialog = useDialog();
   const editDialog = useDialog();
   const confirmDeleteDialog = useDialog();
   const menu = useMenu({ editDialog, confirmDeleteDialog });

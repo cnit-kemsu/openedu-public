@@ -5,7 +5,7 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { COURSE } from './Sections';
+import { COURSE } from './';
 import { SectionForm as useStyles } from './styles';
 
 const UPDATE_SECTION = ({
@@ -25,12 +25,12 @@ function onComplete(closeDialog) {
   Notifications.push('Раздел был успешно изменен.', 'success');
 }
 
-export default function EditSectionDialog (close, { id, name, summary }) {
+export default function EditSectionDialog(close, { id, name, summary }) {
   const updateSection = useMutation(UPDATE_SECTION, { onComplete: () => onComplete(close) }, { id });
   const form = useForm(updateSection, { name, summary });
 
   const classes = useStyles();
-  return <FormDialog form={form} onClose={close} title="Редактирование раздела" {...updateSubmitProps}>
+  return <FormDialog comp={form} onClose={close} title="Редактирование раздела" {...updateSubmitProps}>
     <div className={classes.root}>
       <TextField className={classes.name} name="name" validate={validateSectionName} label="Название"/>
       <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />

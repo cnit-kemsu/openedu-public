@@ -5,7 +5,7 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { COURSE } from './Sections';
+import { COURSE } from './';
 import { SectionForm as useStyles } from './styles';
 
 const CREATE_SECTION = ({
@@ -30,7 +30,7 @@ export default function CreateSectionDialog(close, { courseId }) {
   const form = useForm(createSection);
 
   const classes = useStyles();
-  return <FormDialog form={form} onClose={close} title="Новый раздел" {...createSubmitProps}>
+  return <FormDialog comp={form} onClose={close} title="Новый раздел" {...createSubmitProps}>
     <div className={classes.root}>
       <TextField className={classes.name} name="name" validate={validateSectionName} label="Название"/>
       <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />

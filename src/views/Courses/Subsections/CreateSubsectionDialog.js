@@ -4,9 +4,9 @@ import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
-import { validateSectionName } from '@lib/validate';
+import { validateSubsectionName } from '@lib/validate';
+import { COURSE } from '../Sections';
 import { SubsectionForm as useStyles } from './styles';
-import { SECTIONS } from '../Sections';
 
 const CREATE_SUBSECTION = ({
   sectionId = 'Int!',
@@ -21,19 +21,19 @@ const CREATE_SUBSECTION = ({
 `;
 function onComplete(closeDialog) {
   closeDialog();
-  refetch(SECTIONS);
+  refetch(COURSE);
   Notifications.push('Подраздел был успешно создан.', 'success');
 }
 
-export default function EditSubsectionDialog (close, { sectionId, sectionName }) {
+export default function CreateSubsectionDialog(close, { sectionId, sectionIndex }) {
   const createSubsection = useMutation(CREATE_SUBSECTION, { onComplete: () => onComplete(close) }, { sectionId });
   const form = useForm(createSubsection);
 
   const classes = useStyles();
-  return <FormDialog form={form} onClose={close} title={`Новый подраздел раздела: ${sectionName}`} {...createSubmitProps}>
+  return <FormDialog comp={form} onClose={close} title={`Новый подраздел в разделе ${sectionIndex}`} {...createSubmitProps}>
     <div className={classes.root}>
-    <TextField className={classes.name} comp={form} name="name" validate={validateSectionName} label="Название"/>
-    <TextField className={classes.summary} comp={form} name="summary" label="Краткое описание" multiline />
+    <TextField className={classes.name} name="name" validate={validateSubsectionName} label="Название"/>
+    <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
   </div>
   </FormDialog>;
 }

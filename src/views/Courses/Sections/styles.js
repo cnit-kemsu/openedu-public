@@ -18,11 +18,17 @@ export const SectionItem = makeStyles({
     marginBottom: '48px',
     padding: '32px 24px',
   },
+  index: {
+    fontWeight: 'bold'
+  },
   subsections: {
     padding: '0px 16px'
   },
   addSubsectionButton: ({ count }) => ({
-    width: '100%',
-    padding: count > 0 ? '0px 16px 0px 16px' : '32px 16px 0px 16px'
+    width: 'calc(100% - 32px)',
+    margin: count > 0 ? '0px 16px 0px 16px' : '32px 16px 0px 16px'
   }),
+  addIcon: {
+    marginRight: '6px'
+  }
 });

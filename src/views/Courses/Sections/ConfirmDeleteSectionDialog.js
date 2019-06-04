@@ -3,7 +3,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { Mutation, refetch } from '@kemsu/graphql-client';
 import { ConfirmDialog, Notifications } from '@kemsu/core';
 import confirmDeleteProps from '@components/confirmDeleteProps';
-import { COURSE } from './Sections';
+import { COURSE } from './';
 
 const DELETE_SECTION = ({ id = 'Int!' }) => `
   deleteSection(id: ${id})
@@ -18,7 +18,7 @@ export default function ConfirmDeleteSectionDialog(close, { id, name }) {
   
   return <ConfirmDialog onClose={close} onConfirm={() => deleteSection({ id })} title="Удаление раздела" {...confirmDeleteProps}>
     <DialogContentText>
-      Вы действительно хотите удалить раздел {name}?
+      Вы действительно хотите удалить раздел '{name}'?
     </DialogContentText>
   </ConfirmDialog>;
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMenu, useDialog, MenuModal, DialogModal } from '@kemsu/core';
 
 import ContextMenu from './SectionContextMenu';

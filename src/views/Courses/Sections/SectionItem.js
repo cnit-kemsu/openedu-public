@@ -10,22 +10,26 @@ import AddIcon from '@material-ui/icons/Add';
 import SubsectionsView from '../Subsections';
 import { SectionItem as useStyles } from './styles';
 
-export default function SectionItem({ id, name, summary, subsections }, { sectionMenu, createSubsectionDialog, ...props }) {
+export default function SectionItem({ index, id, name, summary, subsections }, { sectionMenu, createSubsectionDialog, ...props }) {
 
   const classes = useStyles({ count: subsections.length });
+  const sectionIndex = index + 1;
+  const primary = <>
+    <span className={classes.index}>{sectionIndex}</span>. {name}
+  </>;
   return <Paper className={classes.root}>
     <ListItem>
-      <ListItemText primary={name} secondary={summary} />
+      <ListItemText primary={primary} secondary={summary} />
       <ListItemSecondaryAction>
         <MoreIconButton onClick={event => sectionMenu.open(event, { id, name, summary })} />
       </ListItemSecondaryAction>
     </ListItem>
     <Divider />
     <div className={classes.subsections}>
-      <SubsectionsView subsections={subsections} sectionId={id} {...props} />
+      <SubsectionsView subsections={subsections} sectionIndex={sectionIndex} {...props} />
     </div>
-    <Button size="small" variant="contained" color="primary" className={classes.addSubsectionButton} onClick={() => createSubsectionDialog.open({ sectionId: id, sectionName: name })}>
-      <AddIcon />
+    <Button size="small" variant="contained" color="primary" className={classes.addSubsectionButton} onClick={() => createSubsectionDialog.open({ sectionId: id, sectionIndex })}>
+      <AddIcon className={classes.addIcon} />
       Создать подраздел
     </Button>
   </Paper>;

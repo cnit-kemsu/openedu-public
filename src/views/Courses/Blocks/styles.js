@@ -15,14 +15,11 @@ export const BlockForm = makeStyles({
   }
 });
 
-export const BlockItem = makeStyles(theme => ({
-  root: {
-
-  },
-  listItem: {
-    
+export const BlockItem = makeStyles({
+  index: {
+    fontWeight: 'bold'
   }
-}));
+});
 
 export const TextBlockForm = makeStyles({
   root: {

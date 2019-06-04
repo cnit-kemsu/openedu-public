@@ -5,28 +5,29 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
 import MoreIconButton from '@components/MoreIconButton';
 import AddIcon from '@material-ui/icons/Add';
+import BlocksView from '../Blocks';
 import { SubsectionItem as useStyles } from './styles';
 
-import BlocksView from '../Blocks';
-
-export default function SubsectionItem({ id, name, summary, blocks }, { menu, blocksMenu, createBlockDialog, sectionId, courseId }) {
+export default function SubsectionItem({ index, id, name, summary, blocks }, { subsectionMenu, createBlockDialog, sectionIndex, ...props }) {
 
   const classes = useStyles();
+  const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
+  const primary = <>
+    <span className={classes.index}>{subsectionIndex}</span>. {name}
+  </>;
   return <div className={classes.root}>
     <ListItem className={classes.listItem}>
-      <ListItemText primary={name} secondary={summary} />
+      <ListItemText primary={primary} secondary={summary} />
       <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => menu.open(event, { id, name, summary })} />
+        <MoreIconButton onClick={event => subsectionMenu.open(event, { id, name, summary, sectionIndex })} />
       </ListItemSecondaryAction>
     </ListItem>
-    <div className={classes.blocksContainer}>
-      <BlocksView blocks={blocks} menu={blocksMenu} subsectionId={id} sectionId={sectionId} courseId={courseId} />
+    <div className={classes.blocks}>
+      <BlocksView blocks={blocks} subsectionIndex={subsectionIndex} {...props} />
     </div>
-    <div className={classes.addBlockButtonContainer}>
-      <Button size="small" variant="outlined" color="primary" className={classes.addBlockButton} onClick={() => createBlockDialog.open({ subsectionId: id, subsectionName: name })}>
-        <AddIcon />
-        Создать блок
-      </Button>
-    </div>
+    <Button size="small" variant="outlined" color="primary" className={classes.addBlockButton} onClick={() => createBlockDialog.open({ subsectionId: id, subsectionIndex })}>
+      <AddIcon className={classes.addIcon} />
+      Создать блок
+    </Button>
   </div>;
 }

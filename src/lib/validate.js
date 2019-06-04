@@ -37,3 +37,11 @@ export function validateCourseName(value) {
 export function validateSectionName(value) {
   if (!value) return 'Необходимо указать название';
 }
+
+export function validateSubsectionName(value) {
+  if (!value) return 'Необходимо указать название';
+}
+
+export function validateBlockName(value) {
+  if (!value) return 'Необходимо указать название';
+}

@@ -34,10 +34,10 @@ export const COURSE = ({ courseId = 'Int!' }) => `
   }
 `;
 
-function Sections({ course: { id, sections }, ...props }) {
-  const sectionItems = useElementArray(SectionItem, sections, { key: section => section.id, courseId: id, ...props });
+function Sections({ course: { sections }, ...props }) {
+  const sectionItems = useElementArray(SectionItem, sections, props);
 
-  return <List>
+  return sections.length > 0 && <List>
     {sectionItems}
   </List>;
 }
