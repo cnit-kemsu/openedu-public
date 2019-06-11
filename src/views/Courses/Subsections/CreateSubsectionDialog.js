@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMutation, refetch } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
-import { TextField } from '@kemsu/inputs';
+import { TextField, DaysTimeField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
 import { validateSubsectionName } from '@lib/validate';

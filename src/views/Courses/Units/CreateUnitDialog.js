@@ -4,18 +4,18 @@ import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
-import { validateBlockName } from '@lib/validate';
-import { BlockForm as useStyles } from './styles';
-import BlockTypeSelect from './BlockTypeSelect';
+import { validateUnitName } from '@lib/validate';
+import { UnitForm as useStyles } from './styles';
+import UnitTypeSelect from './UnitTypeSelect';
 import { COURSE } from '../Sections';
 
-const CREATE_BLOCK = ({
+const CREATE_UNIT = ({
   subsectionId = 'Int!',
   name = 'String!',
   summary = 'String',
-  type = 'BlockTypeEnum!'
+  type = 'UnitTypeEnum!'
 }) => `
-  createBlock(
+  createUnit(
     subsectionId: ${subsectionId}
     name: ${name}
     summary: ${summary}
@@ -28,16 +28,16 @@ function onComplete(closeDialog) {
   Notifications.push('Блок был успешно создан.', 'success');
 }
 
-export default function CreateBlockDialog(close, { subsectionId, subsectionIndex }) {
-  const createBlock = useMutation(CREATE_BLOCK, { onComplete: () => onComplete(close) }, { subsectionId });
-  const form = useForm(createBlock);
+export default function CreateUnitDialog(close, { subsectionId, subsectionIndex }) {
+  const createUnit = useMutation(CREATE_UNIT, { onComplete: () => onComplete(close) }, { subsectionId });
+  const form = useForm(createUnit);
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title={`Новый блок в подразделе ${subsectionIndex}`} {...createSubmitProps}>
     <div className={classes.root}>
-      <TextField className={classes.name} name="name" validate={validateBlockName} label="Название"/>
+      <TextField className={classes.name} name="name" validate={validateUnitName} label="Название"/>
       <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
-      <BlockTypeSelect className={classes.type} />
+      <UnitTypeSelect className={classes.type} />
     </div>
   </FormDialog>;
 }

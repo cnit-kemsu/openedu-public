@@ -42,6 +42,6 @@ export function validateSubsectionName(value) {
   if (!value) return 'Необходимо указать название';
 }
 
-export function validateBlockName(value) {
+export function validateUnitName(value) {
   if (!value) return 'Необходимо указать название';
 }

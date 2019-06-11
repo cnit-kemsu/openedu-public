@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const BlockForm = makeStyles({
+export const UnitForm = makeStyles({
   root: {
     width: '550px'
   },
@@ -15,7 +15,7 @@ export const BlockForm = makeStyles({
   }
 });
 
-export const BlockItem = makeStyles({
+export const UnitItem = makeStyles({
   index: {
     fontWeight: 'bold'
   }

@@ -5,10 +5,10 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
 import MoreIconButton from '@components/MoreIconButton';
 import AddIcon from '@material-ui/icons/Add';
-import BlocksView from '../Blocks';
+import UnitsView from '../Units';
 import { SubsectionItem as useStyles } from './styles';
 
-export default function SubsectionItem({ index, id, name, summary, blocks }, { subsectionMenu, createBlockDialog, sectionIndex, ...props }) {
+export default function SubsectionItem({ index, id, name, summary, units }, { subsectionMenu, createUnitDialog, sectionIndex, ...props }) {
 
   const classes = useStyles();
   const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
@@ -22,10 +22,10 @@ export default function SubsectionItem({ index, id, name, summary, blocks }, { s
         <MoreIconButton onClick={event => subsectionMenu.open(event, { id, name, summary, sectionIndex })} />
       </ListItemSecondaryAction>
     </ListItem>
-    <div className={classes.blocks}>
-      <BlocksView blocks={blocks} subsectionIndex={subsectionIndex} {...props} />
+    <div className={classes.units}>
+      <UnitsView units={units} subsectionIndex={subsectionIndex} {...props} />
     </div>
-    <Button size="small" variant="outlined" color="primary" className={classes.addBlockButton} onClick={() => createBlockDialog.open({ subsectionId: id, subsectionIndex })}>
+    <Button size="small" variant="outlined" color="primary" className={classes.addUnitButton} onClick={() => createUnitDialog.open({ subsectionId: id, subsectionIndex })}>
       <AddIcon className={classes.addIcon} />
       Создать блок
     </Button>

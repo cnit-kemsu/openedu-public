@@ -4,16 +4,16 @@ import { useForm } from '@kemsu/form';
 import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
-import { validateBlockName } from '@lib/validate';
+import { validateUnitName } from '@lib/validate';
 import { COURSE } from '../Sections';
-import { BlockForm as useStyles } from './styles';
+import { UnitForm as useStyles } from './styles';
 
-const UPDATE_BLOCK = ({
+const UPDATE_UNIT = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateBlock(
+  updateUnit(
     id: ${id}
     name: ${name}
     summary: ${summary}
@@ -25,14 +25,14 @@ function onComplete(closeDialog) {
   Notifications.push('Блок был успешно изменен.', 'success');
 }
 
-export default function EditBlockDialog(close, { id, name, summary, subsectionIndex }) {
-  const updateBlock = useMutation(UPDATE_BLOCK, { onComplete: () => onComplete(close) }, { id });
-  const form = useForm(updateBlock, null, () => ({ name, summary }));
+export default function EditUnitDialog(close, { id, name, summary, subsectionIndex }) {
+  const updateUnit = useMutation(UPDATE_UNIT, { onComplete: () => onComplete(close) }, { id });
+  const form = useForm(updateUnit, { name, summary });
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title={`Редактирование блока в подразделе ${subsectionIndex}`} {...updateSubmitProps}>
     <div className={classes.root}>
-    <TextField className={classes.name} name="name" validate={validateBlockName} label="Название"/>
+    <TextField className={classes.name} name="name" validate={validateUnitName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
   </div>
   </FormDialog>;

@@ -21,10 +21,10 @@ export const SubsectionItem = makeStyles(theme => ({
   index: {
     fontWeight: 'bold'
   },
-  blocks: {
+  units: {
     padding: '0px 16px'
   },
-  addBlockButton: {
+  addUnitButton: {
     width: 'calc(100% - 32px)',
     margin: '32px 16px 32px 16px'
   },

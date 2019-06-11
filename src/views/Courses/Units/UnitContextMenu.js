@@ -4,9 +4,9 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToBlockDataView(blockId) { History.push(`/admin/blocks/${blockId}`); }
+function routeToUnitDataView(unitId) { History.push(`/admin/units/${unitId}`); }
 
-export default function BlockContextMenu(close, { id, name, summary, subsectionIndex, editDialog, confirmDeleteDialog }) {
+export default function UnitContextMenu(close, { id, name, summary, subsectionIndex, editDialog, confirmDeleteDialog }) {
 
   return <>
     <MenuItem onClick={() => { close(); editDialog.open({ id, name, summary, subsectionIndex }); }}>
@@ -15,7 +15,7 @@ export default function BlockContextMenu(close, { id, name, summary, subsectionI
     <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, name, subsectionIndex }); }}>
       <DeleteMenuItem />
     </MenuItem>
-    <MenuItem onClick={() => routeToBlockDataView(id)}>
+    <MenuItem onClick={() => routeToUnitDataView(id)}>
       Содержимое
     </MenuItem>
   </>;

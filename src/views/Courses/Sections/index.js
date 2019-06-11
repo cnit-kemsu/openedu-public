@@ -8,7 +8,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import RefreshBtn from '@components/RefreshBtn';
 import { useSectionItem } from './useSectionItem';
 import { useSubsectionItem } from '../Subsections/useSubsectionItem';
-import { useBlockItem } from '../Blocks/useBlockItem';
+import { useUnitItem } from '../Units/useUnitItem';
 import SectionItem from './SectionItem';
 
 export const COURSE = ({ courseId = 'Int!' }) => `
@@ -23,7 +23,7 @@ export const COURSE = ({ courseId = 'Int!' }) => `
         id
         name
         summary
-        blocks {
+        units {
           id
           name
           summary
@@ -58,10 +58,10 @@ export default (
     ] = useSubsectionItem();
 
     const [
-      createBlockDialog,
-      blockMenu,
-      blockElements
-    ] = useBlockItem();
+      createUnitDialog,
+      unitMenu,
+      unitElements
+    ] = useUnitItem();
    
     const [{ course }, loading, errors] = useQuery(COURSE, { courseId });
     
@@ -81,7 +81,7 @@ export default (
       </AdminView.Breadcrumbs>
       <AdminView.Div>
         <Loader {...{ loading, errors }}>
-          {course && <Sections {...{ course, sectionMenu, createSubsectionDialog, subsectionMenu, createBlockDialog, blockMenu }} />}
+          {course && <Sections {...{ course, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
         </Loader>
       </AdminView.Div>
       <Fab icon={AddIcon} onClick={createSectionDialog.open}>
@@ -92,7 +92,7 @@ export default (
 
       {subsectionElements}
 
-      {blockElements}
+      {unitElements}
     </>;
   }
 ) |> React.memo(#);
