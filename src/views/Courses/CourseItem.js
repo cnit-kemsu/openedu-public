@@ -7,7 +7,7 @@ import Avatar from '@material-ui/core/Avatar';
 import SchoolIcon from '@material-ui/icons/School';
 import MoreIconButton from '@components/MoreIconButton';
 
-export default function CourseItem({ id, name, summary }, { menu }) {
+export default function CourseItem({ id, ...item }, { menu }) {
 
   return <ListItem>
     <ListItemAvatar>
@@ -15,9 +15,9 @@ export default function CourseItem({ id, name, summary }, { menu }) {
         <SchoolIcon />
       </Avatar>
     </ListItemAvatar>
-    <ListItemText primary={name} secondary={summary} />
+    <ListItemText primary={item.name} secondary={item.summary} />
     <ListItemSecondaryAction>
-      <MoreIconButton onClick={event => menu.open(event, { id, name })} />
+      <MoreIconButton onClick={event => menu.open(event, { id, item })} />
     </ListItemSecondaryAction>
   </ListItem>;
 }

@@ -45,3 +45,11 @@ export function validateSubsectionName(value) {
 export function validateUnitName(value) {
   if (!value) return 'Необходимо указать название';
 }
+
+export function validateDelayAccessTime({ days, hours, minutes }) {
+  if (days === 0 && hours === 0 && minutes === 0) return 'Необходимо указать не нулевой временной интервал';
+}
+
+export function validateAccessTimeLimit({ days, hours, minutes }) {
+  if (days === 0 && hours === 0 && minutes === 0) return 'Необходимо указать не нулевой временной интервал';
+}

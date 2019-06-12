@@ -8,7 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import UnitsView from '../Units';
 import { SubsectionItem as useStyles } from './styles';
 
-export default function SubsectionItem({ index, id, name, summary, units }, { subsectionMenu, createUnitDialog, sectionIndex, ...props }) {
+export default function SubsectionItem({ index, id, units, ...item }, { subsectionMenu, createUnitDialog, sectionIndex, ...props }) {
 
   const classes = useStyles();
   const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
@@ -17,9 +17,9 @@ export default function SubsectionItem({ index, id, name, summary, units }, { su
   </>;
   return <div className={classes.root}>
     <ListItem className={classes.listItem}>
-      <ListItemText primary={primary} secondary={summary} />
+      <ListItemText primary={primary} secondary={item.summary} />
       <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => subsectionMenu.open(event, { id, name, summary, sectionIndex })} />
+        <MoreIconButton onClick={event => subsectionMenu.open(event, { id, item, sectionIndex })} />
       </ListItemSecondaryAction>
     </ListItem>
     <div className={classes.units}>

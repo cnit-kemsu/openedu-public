@@ -9,6 +9,13 @@ export const SubsectionForm = makeStyles({
   },
   summary: {
     width: '100%'
+  },
+  delayAccessTime: {
+    width: '40%',
+    marginRight: '24px'
+  },
+  accessTimeLimit: {
+    width: '40%'
   }
 });
 

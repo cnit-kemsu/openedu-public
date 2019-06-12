@@ -4,6 +4,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from "@material-ui/core/styles";
 import { History, useRoute } from '@kemsu/router';
 import { Notifier } from '@kemsu/core';
+import { PickersUtilsProvider } from '@kemsu/inputs';
 import { setAuthHeader } from '@lib/client';
 import { UserInfo } from '@lib/UserInfo';
 import { allowedToAdmin } from '@lib/auth';
@@ -49,8 +50,10 @@ function App() {
 
 function Root() {
   return <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <App />
+    <PickersUtilsProvider>
+      <CssBaseline />
+      <App />
+    </PickersUtilsProvider>
   </ThemeProvider>;
 }
 

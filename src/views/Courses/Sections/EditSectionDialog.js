@@ -25,9 +25,9 @@ function onComplete(closeDialog) {
   Notifications.push('Раздел был успешно изменен.', 'success');
 }
 
-export default function EditSectionDialog(close, { id, name, summary }) {
+export default function EditSectionDialog(close, { id, item }) {
   const updateSection = useMutation(UPDATE_SECTION, { onComplete: () => onComplete(close) }, { id });
-  const form = useForm(updateSection, { name, summary });
+  const form = useForm(updateSection, item);
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title="Редактирование раздела" {...updateSubmitProps}>

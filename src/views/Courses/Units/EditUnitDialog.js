@@ -25,9 +25,9 @@ function onComplete(closeDialog) {
   Notifications.push('Блок был успешно изменен.', 'success');
 }
 
-export default function EditUnitDialog(close, { id, name, summary, subsectionIndex }) {
+export default function EditUnitDialog(close, { id, item, subsectionIndex }) {
   const updateUnit = useMutation(UPDATE_UNIT, { onComplete: () => onComplete(close) }, { id });
-  const form = useForm(updateUnit, { name, summary });
+  const form = useForm(updateUnit, item);
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title={`Редактирование блока в подразделе ${subsectionIndex}`} {...updateSubmitProps}>

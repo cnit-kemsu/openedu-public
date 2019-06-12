@@ -11,7 +11,7 @@ const types = {
   QUIZ: 'Тест'
 };
 
-export default function UnitItem({ index, id, name, summary, type }, { unitMenu, subsectionIndex, ...props }) {
+export default function UnitItem({ index, id, type, ...item }, { unitMenu, subsectionIndex, ...props }) {
 
   const classes = useStyles();
   const unitIndex = index + 1 |> subsectionIndex + '.' + #;
@@ -20,9 +20,9 @@ export default function UnitItem({ index, id, name, summary, type }, { unitMenu,
   </>;
   return <div>
     <ListItem>
-      <ListItemText primary={primary} secondary={summary} />
+      <ListItemText primary={primary} secondary={item.summary} />
       <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => unitMenu.open(event, { id, name, summary, subsectionIndex, ...props })} />
+        <MoreIconButton onClick={event => unitMenu.open(event, { id, item, subsectionIndex, ...props })} />
       </ListItemSecondaryAction>
     </ListItem>
   </div>;

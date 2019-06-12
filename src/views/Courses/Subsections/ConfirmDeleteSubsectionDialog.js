@@ -14,7 +14,7 @@ function onComplete() {
 }
 const deleteSubsection = new Mutation(DELETE_SUBSECTION, { onComplete }).commit;
 
-export default function ConfirmDeleteSubsectionDialog(close, { id, name, sectionIndex }) {
+export default function ConfirmDeleteSubsectionDialog(close, { id, item: { name }, sectionIndex }) {
   
   return <ConfirmDialog onClose={close} onConfirm={() => deleteSubsection({ id })} title={`Удаление подраздела в разделе ${sectionIndex}`} {...confirmDeleteProps}>
     <DialogContentText>

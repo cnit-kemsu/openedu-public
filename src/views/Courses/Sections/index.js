@@ -23,6 +23,8 @@ export const COURSE = ({ courseId = 'Int!' }) => `
         id
         name
         summary
+        delayAccessTime
+        accessTimeLimit
         units {
           id
           name

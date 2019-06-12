@@ -10,7 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import SubsectionsView from '../Subsections';
 import { SectionItem as useStyles } from './styles';
 
-export default function SectionItem({ index, id, name, summary, subsections }, { sectionMenu, createSubsectionDialog, ...props }) {
+export default function SectionItem({ index, id, subsections, ...item }, { sectionMenu, createSubsectionDialog, ...props }) {
 
   const classes = useStyles({ count: subsections.length });
   const sectionIndex = index + 1;
@@ -19,9 +19,9 @@ export default function SectionItem({ index, id, name, summary, subsections }, {
   </>;
   return <Paper className={classes.root}>
     <ListItem>
-      <ListItemText primary={primary} secondary={summary} />
+      <ListItemText primary={primary} secondary={item.summary} />
       <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => sectionMenu.open(event, { id, name, summary })} />
+        <MoreIconButton onClick={event => sectionMenu.open(event, { id, item })} />
       </ListItemSecondaryAction>
     </ListItem>
     <Divider />

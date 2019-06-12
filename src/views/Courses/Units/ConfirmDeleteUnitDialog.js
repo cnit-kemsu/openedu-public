@@ -14,7 +14,7 @@ function onComplete() {
 }
 const deleteUnit = new Mutation(DELETE_UNIT, { onComplete }).commit;
 
-export default function ConfirmDeleteUnitDialog(close, { id, name, subsectionIndex }) {
+export default function ConfirmDeleteUnitDialog(close, { id, item: { name }, subsectionIndex }) {
   
   return <ConfirmDialog onClose={close} onConfirm={() => deleteUnit({ id })} title={`Удаление блока в подразделе ${subsectionIndex}`} {...confirmDeleteProps}>
     <DialogContentText>

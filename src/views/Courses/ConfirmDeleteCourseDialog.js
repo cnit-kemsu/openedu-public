@@ -14,7 +14,7 @@ function onComplete() {
 }
 const deleteCourse = new Mutation(DELETE_COURSE, { onComplete }).commit;
 
-export default function ConfirmDeleteCourseDialog(close, { id, name }) {
+export default function ConfirmDeleteCourseDialog(close, { id, item: { name } }) {
   
   return <ConfirmDialog onClose={close} onConfirm={() => deleteCourse({ id })} title="Удаление курса" {...confirmDeleteProps}>
     <DialogContentText>

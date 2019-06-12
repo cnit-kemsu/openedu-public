@@ -4,19 +4,23 @@ import { useForm } from '@kemsu/form';
 import { TextField, DaysTimeField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
-import { validateSubsectionName } from '@lib/validate';
+import { validateSubsectionName, validateDelayAccessTime, validateAccessTimeLimit } from '@lib/validate';
 import { COURSE } from '../Sections';
 import { SubsectionForm as useStyles } from './styles';
 
 const CREATE_SUBSECTION = ({
   sectionId = 'Int!',
   name = 'String!',
-  summary = 'String'
+  summary = 'String',
+  delayAccessTime = 'String!',
+  accessTimeLimit = 'String!'
 }) => `
   createSubsection(
     sectionId: ${sectionId}
     name: ${name}
     summary: ${summary}
+    delayAccessTime: ${delayAccessTime}
+    accessTimeLimit: ${accessTimeLimit}
   )
 `;
 function onComplete(closeDialog) {
@@ -34,6 +38,8 @@ export default function CreateSubsectionDialog(close, { sectionId, sectionIndex 
     <div className={classes.root}>
     <TextField className={classes.name} name="name" validate={validateSubsectionName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
+    <DaysTimeField className={classes.delayAccessTime} name="delayAccessTime" label="Задержка доступа" validate={validateDelayAccessTime} />
+    <DaysTimeField className={classes.accessTimeLimit} name="accessTimeLimit" label="Время доступа" validate={validateAccessTimeLimit} />
   </div>
   </FormDialog>;
 }

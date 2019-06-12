@@ -4,14 +4,12 @@ import CoursesView from './Courses';
 import CreateCourseView from './CreateCourse';
 import EditCourseView from './EditCourse';
 import CourseStructureView from './Sections';
-//import BlockDataView from './Blocks/BlockData';
 
 const routes = [
   [/.+\/courses$/, props => <CoursesView {...props} />],
   [/.+\/courses\/create/, () => <CreateCourseView />],
   [/.+\/courses\/(?<id>\d+)\/edit/, ({ id }) => <EditCourseView id={Number(id)} />],
-  [/.+\/courses\/(?<courseId>\d+)\/structure/, ({ courseId }) => <CourseStructureView courseId={Number(courseId)} />],
-  //[/.+\/blocks\/(?<id>\d+)/, ({ id }) => <BlockDataView id={Number(id)} />]
+  [/.+\/courses\/(?<courseId>\d+)\/structure/, ({ courseId }) => <CourseStructureView courseId={Number(courseId)} />]
 ];
 
 export default React.memo(() => useRoutes(routes));

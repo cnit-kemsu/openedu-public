@@ -7,13 +7,13 @@ import DeleteMenuItem from '@components/DeleteMenuItem';
 function routeToEditCourseView(id) { History.push(`/admin/courses/${id}/edit`); }
 function routeToCourseStructureView(id) { History.push(`/admin/courses/${id}/structure`); }
 
-export default function CourseContextMenu(close, { id, name, confirmDeleteDialog }) {
+export default function CourseContextMenu(close, { id, item, confirmDeleteDialog }) {
 
   return <>
     <MenuItem onClick={() => { routeToEditCourseView(id); }}>
       <EditMenuItem />
     </MenuItem>
-    <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, name }); }}>
+    <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, item }); }}>
       <DeleteMenuItem />
     </MenuItem>
     <MenuItem onClick={() => { routeToCourseStructureView(id); }}>
