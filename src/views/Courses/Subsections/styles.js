@@ -31,10 +31,10 @@ export const SubsectionItem = makeStyles(theme => ({
   units: {
     padding: '0px 16px'
   },
-  addUnitButton: {
+  addUnitButton: ({ count }) => ({
     width: 'calc(100% - 32px)',
-    margin: '32px 16px 32px 16px'
-  },
+    margin: count > 0 ? '16px 16px 32px 16px' : '32px 16px 32px 16px'
+  }),
   addIcon: {
     marginRight: '6px'
   }

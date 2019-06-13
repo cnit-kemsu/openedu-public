@@ -10,7 +10,7 @@ import { SubsectionItem as useStyles } from './styles';
 
 export default function SubsectionItem({ index, id, units, ...item }, { subsectionMenu, createUnitDialog, sectionIndex, ...props }) {
 
-  const classes = useStyles();
+  const classes = useStyles({ count: units.length });
   const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
   const primary = <>
     <span className={classes.index}>{subsectionIndex}</span>. {name}

@@ -10,7 +10,7 @@ import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
 import TextUnitView from './TextUnit';
 import VideoUnitView from './VideoUnit';
-//import QuizUnitView from './QuizUnit';
+import QuizUnitView from './QuizUnit';
 
 const UPDATE_UNIT = ({
   id = 'Int!',
@@ -75,7 +75,7 @@ export default React.memo(
         <Loader loading={loading} errors={errors}>
           {type === 'TEXT' && <TextUnitView />}
           {type === 'VIDEO' && <VideoUnitView />}
-          {/* {type === 'QUIZ' && <QuizUnitView />} */}
+          {type === 'QUIZ' && <QuizUnitView />}
         </Loader>
       </AdminView.Div>
       <AdminView.Div>

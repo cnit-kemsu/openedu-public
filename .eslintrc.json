@@ -60,7 +60,7 @@
     "no-alert": "warn",
     "no-else-return": "warn",
     "no-empty-function": "warn",
-    "no-eq-null": "warn",
+    "no-eq-null": "off",
     "no-eval": "off",
     "no-extend-native": "off",
     "no-extra-bind": "warn",
