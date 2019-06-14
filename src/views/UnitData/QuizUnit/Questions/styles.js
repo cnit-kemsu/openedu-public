@@ -14,6 +14,19 @@ export const QuestionItem = makeStyles({
     minWidth: '800px',
     marginBottom: '32px',
     padding: '32px 24px',
+  },
+  item: {
+    alignItems: 'end'
+  },
+  index: {
+    fontWeight: 'bold'
+  },
+  text: {
+    whiteSpace: 'pre-line'
+  },
+  pre: {
+    marginTop: '4px',
+    marginRight: '4px'
   }
 });
 

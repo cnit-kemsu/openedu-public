@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { green } from '@material-ui/core/colors';
 
 export const AnswerForm = makeStyles({
   root: {
@@ -6,6 +7,33 @@ export const AnswerForm = makeStyles({
   },
   text: {
     width: '100%'
+  }
+});
+
+export const AnswerItem = makeStyles({
+  root: {
+    alignItems: 'end'
+  },
+  index: {
+    fontWeight: 'bold'
+  },
+  text: {
+    whiteSpace: 'pre-line'
+  },
+  pre: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '-4px',
+    marginBottom: '4px'
+  }
+});
+
+export const RightAnswerCheckbox = makeStyles({
+  root: {
+    color: green[400]
+  },
+  checked: {
+    color: green[600] + ' !important'
   }
 });
 

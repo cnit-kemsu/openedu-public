@@ -13,7 +13,7 @@ export default function SubsectionItem({ index, id, units, ...item }, { subsecti
   const classes = useStyles({ count: units.length });
   const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
   const primary = <>
-    <span className={classes.index}>{subsectionIndex}</span>. {name}
+    <span className={classes.index}>{subsectionIndex}</span>. {item.name}
   </>;
   return <div className={classes.root}>
     <ListItem className={classes.listItem}>

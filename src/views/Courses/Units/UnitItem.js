@@ -16,7 +16,7 @@ export default function UnitItem({ index, id, type, ...item }, { unitMenu, subse
   const classes = useStyles();
   const unitIndex = index + 1 |> subsectionIndex + '.' + #;
   const primary = <>
-    <span className={classes.index}>{unitIndex}</span>. {name} ({types[type]})
+    <span className={classes.index}>{unitIndex}</span>. {item.name} ({types[type]})
   </>;
   return <div>
     <ListItem>

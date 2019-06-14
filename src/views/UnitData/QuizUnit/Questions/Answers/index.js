@@ -9,13 +9,20 @@ import useStyles from './styles';
 
 const keyProp = ({ key }) => key;
 
-function validateAnswers(value) {
-  if (value == null || value?.length < 2) return [null, 'Необходимо добавить хотя бы два ответа'];
+function correctAnswer(count, value) {
+  if (value.correct) return count + 1;
+  return count;
+}
+function validateAnswers(values) {
+  if (values == null || values?.length < 2) return [null, 'Необходимо добавить хотя бы два ответа'];
+  const correctAnswersCount = values.reduce(correctAnswer, 0);
+  if (correctAnswersCount === 0) return [null, "Необходимо указать хотя бы один ответ 'правильным'"];
+  if (correctAnswersCount === values.length) return [null, "Необходимо указать хотя бы один ответ 'неправильным'"];
 }
 
-function Answers({ createAnswerDialog, questionElement, ...props }) {
+function Answers({ createAnswerDialog, questionElement, questionIndex, ...props }) {
   const [answers, { push, error, dirty, touched, onBlur }] = useFieldArray(questionElement, 'answers', validateAnswers);
-  const answerItems = useElementArray(AnswerItem, [...answers], { key: keyProp, ...props });
+  const answerItems = useElementArray(AnswerItem, [...answers], { key: keyProp, questionIndex, ...props });
   const showError = error && touched && dirty;
 
   const classes = useStyles({ count: answers.length, showError });
@@ -27,7 +34,7 @@ function Answers({ createAnswerDialog, questionElement, ...props }) {
     </div>
     {showError && <Typography className={classes.error} color="error">{error}</Typography>}
 
-    <Button data-control size="small" variant="outlined" color="primary" className={classes.addAnswerButton} onClick={() => createAnswerDialog.open({ push })}>
+    <Button data-control size="small" variant="outlined" color="primary" className={classes.addAnswerButton} onClick={() => createAnswerDialog.open({ push, questionIndex })}>
       <AddIcon className={classes.addIcon} />
       Добавить ответ
     </Button>

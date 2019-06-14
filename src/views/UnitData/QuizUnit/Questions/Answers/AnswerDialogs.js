@@ -12,31 +12,31 @@ function validateText(value) {
   if (!value) return 'Текст ответа не должен быть пустым';
 }
 
-export function CreateAnswerDialog(close, { push }) {
+export function CreateAnswerDialog(close, { push, questionIndex }) {
   const form = useForm(push, null, null, close);
 
   const classes = useStyles();
-  return <FormDialog comp={form} onClose={close} title="Новый ответ" {...createSubmitProps}>
+  return <FormDialog comp={form} onClose={close} title={`Новый ответ к вопросу №${questionIndex}`} {...createSubmitProps}>
     <div className={classes.root}>
-      <TextField className={classes.text} name="text" validate={validateText} label="Текст ответа"/>
+      <TextField className={classes.text} name="text" multiline rows={4} validate={validateText} label="Текст ответа"/>
     </div>
   </FormDialog>;
 }
 
-export function EditAnswerDialog(close, { values, onChange }) {
+export function EditAnswerDialog(close, { values, onChange, questionIndex, answerIndex }) {
   const form = useForm(onChange, values, null, close);
 
   const classes = useStyles();
-  return <FormDialog comp={form} onClose={close} title="Редактирование ответа" {...updateSubmitProps}>
+  return <FormDialog comp={form} onClose={close} title={`Редактирование ответа №${answerIndex} к вопросу №${questionIndex}`} {...updateSubmitProps}>
     <div className={classes.root}>
-      <TextField className={classes.text} name="text" validate={validateText} label="Текст ответа"/>
+      <TextField className={classes.text} name="text" multiline rows={4} validate={validateText} label="Текст ответа"/>
     </div>
   </FormDialog>;
 }
 
-export function ConfirmDeleteAnswerDialog(close, { element }) {
+export function ConfirmDeleteAnswerDialog(close, { element, questionIndex, answerIndex }) {
   
-  return <ConfirmDialog onClose={close} onConfirm={element.delete} title="Удаление ответа" {...confirmDeleteProps}>
+  return <ConfirmDialog onClose={close} onConfirm={element.delete} title={`Удаление ответа №${answerIndex} к вопросу №${questionIndex}`} {...confirmDeleteProps}>
     <DialogContentText>
       Вы действительно хотите удалить выбранный ответ?
     </DialogContentText>
