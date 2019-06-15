@@ -43,7 +43,7 @@ export default (() => {
   return <Fields comp={form}>
     <AdminView.AppBar>
       <AdminView.LeftBar>
-        <RouteBackBtn path="/admin/users" />
+        <RouteBackBtn path="/admin/courses" />
         <Typography variant="h6">Новый курс</Typography>
       </AdminView.LeftBar>
       <ResetButton />

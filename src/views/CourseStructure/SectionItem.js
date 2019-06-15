@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import MoreIconButton from '@components/MoreIconButton';
 import AddIcon from '@material-ui/icons/Add';
-import SubsectionsView from '../Subsections';
+import SubsectionsView from './Subsections';
 import { SectionItem as useStyles } from './styles';
 
 export default function SectionItem({ index, id, subsections, ...item }, { sectionMenu, createSubsectionDialog, ...props }) {

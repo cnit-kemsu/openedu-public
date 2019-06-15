@@ -42,6 +42,19 @@ export function validateSubsectionName(value) {
   if (!value) return 'Необходимо указать название';
 }
 
+export function validateSubsectionStartDate(value) {
+  if (!value) return 'Необходимо указать дату';
+}
+export function validateSubsectionEndDate(value) {
+  if (!value) return 'Необходимо указать дату';
+}
+export function validateSubsectionReleaseForm({ startDate, endDate } = {}) {
+  if (startDate && endDate && startDate > endDate) return {
+    startDate: 'Дата начала должна быть раньше чем дата окончания',
+    endDate: 'Дата окончания должна быть позже чем дата начала'
+  };
+}
+
 export function validateUnitName(value) {
   if (!value) return 'Необходимо указать название';
 }

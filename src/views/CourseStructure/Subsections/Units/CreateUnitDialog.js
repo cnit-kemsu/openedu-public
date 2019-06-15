@@ -7,7 +7,7 @@ import createSubmitProps from '@components/createSubmitProps';
 import { validateUnitName } from '@lib/validate';
 import { UnitForm as useStyles } from './styles';
 import UnitTypeSelect from './UnitTypeSelect';
-import { COURSE } from '../Sections';
+import { COURSE } from '../..';
 
 const CREATE_UNIT = ({
   subsectionId = 'Int!',

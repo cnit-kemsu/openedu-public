@@ -35,7 +35,7 @@ const UPDATE_COURSE = ({
 `;
 function onComplete() {
   History.push('/admin/courses');
-  Notifications.push('Пользователь был успешно обновлен.', 'success');
+  Notifications.push('Курс был успешно обновлен.', 'success');
 }
 
 export const COURSE = ({ id = 'Int!' }) => `

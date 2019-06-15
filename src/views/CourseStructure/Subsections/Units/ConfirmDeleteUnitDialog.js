@@ -3,7 +3,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { Mutation, refetch } from '@kemsu/graphql-client';
 import { ConfirmDialog, Notifications } from '@kemsu/core';
 import confirmDeleteProps from '@components/confirmDeleteProps';
-import { COURSE } from '../Sections';
+import { COURSE } from '../..';
 
 const DELETE_UNIT = ({ id = 'Int!' }) => `
   deleteUnit(id: ${id})

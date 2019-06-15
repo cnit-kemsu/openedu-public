@@ -7,12 +7,12 @@ import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import RefreshBtn from '@components/RefreshBtn';
 import { useSectionItem } from './useSectionItem';
-import { useSubsectionItem } from '../Subsections/useSubsectionItem';
-import { useUnitItem } from '../Units/useUnitItem';
+import { useSubsectionItem } from './Subsections/useSubsectionItem';
+import { useUnitItem } from './Subsections/Units/useUnitItem';
 import SectionItem from './SectionItem';
 
-export const COURSE = ({ courseId = 'Int!' }) => `
-  course(id: ${courseId}) {
+export const COURSE = ({ _courseId = 'Int!' }) => `
+  course(id: ${_courseId}) {
     id
     name
     sections {
@@ -36,7 +36,32 @@ export const COURSE = ({ courseId = 'Int!' }) => `
   }
 `;
 
-function Sections({ course: { sections }, ...props }) {
+export const COURSE_RELEASE = ({ _courseId = 'Int!' }) => `
+  courseRelease(id: ${_courseId}) {
+    id
+    name
+    sections {
+      id
+      name
+      summary
+      subsections {
+        id
+        name
+        summary
+        startDate
+        endDate
+        units {
+          id
+          name
+          summary
+          type
+        }
+      }
+    }
+  }
+`;
+
+function Sections({ _course: { sections }, ...props }) {
   const sectionItems = useElementArray(SectionItem, sections, props);
 
   return sections.length > 0 && <List>
@@ -46,44 +71,50 @@ function Sections({ course: { sections }, ...props }) {
 Sections = React.memo(Sections);
 
 export default (
-  ({ courseId }) => {
+  ({ courseId, releaseId }) => {
+    
+    const release = courseId === undefined;
+    const _courseId = release ? releaseId : courseId;
+    const COURSE_QUERY = release ? COURSE_RELEASE : COURSE;
+    const routeBackPath = release ? '/admin/releases' : '/admin/courses';
+
     const [
       createSectionDialog,
       sectionMenu,
       sectionElements
-    ] = useSectionItem(courseId);
+    ] = useSectionItem(_courseId, release);
 
     const [
       createSubsectionDialog,
       subsectionMenu,
       subsectionElements
-    ] = useSubsectionItem();
+    ] = useSubsectionItem(release);
 
     const [
       createUnitDialog,
       unitMenu,
       unitElements
-    ] = useUnitItem();
+    ] = useUnitItem(release);
    
-    const [{ course }, loading, errors] = useQuery(COURSE, { courseId });
+    const [{ [release ? 'courseRelease' : 'course']: _course }, loading, errors] = useQuery(COURSE_QUERY, { _courseId });
     
     return <>
       <AdminView.AppBar>
         <Typography variant="h6">
-          <RouteBackBtn path="/admin/courses" />
-          Редактирование содержания курса: {course?.name}
-          <RefreshBtn queries={[COURSE]} />
+          <RouteBackBtn path={routeBackPath} />
+          Редактирование содержания {release ? 'выпуска' : 'курса'}: {_course?.name}
+          <RefreshBtn queries={[COURSE_QUERY]} />
         </Typography>
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path="/admin/courses">Курсы</Link>
-        <Typography color="textPrimary">{course?.name}</Typography>
+        <Link styled path={routeBackPath}>{release ? 'Выпуски' : 'Курсы'}</Link>
+        <Typography color="textPrimary">{_course?.name}</Typography>
         <Typography>Структура</Typography>
       </AdminView.Breadcrumbs>
       <AdminView.Div>
         <Loader {...{ loading, errors }}>
-          {course && <Sections {...{ course, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
+          {_course && <Sections {...{ _course, release, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
         </Loader>
       </AdminView.Div>
       <Fab icon={AddIcon} onClick={createSectionDialog.open}>

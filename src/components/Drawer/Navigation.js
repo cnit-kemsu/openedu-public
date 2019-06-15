@@ -11,6 +11,9 @@ function Navigation() {
     <NavItem name="courses">
       <ListItemText primary="Курсы" />
     </NavItem>
+    <NavItem name="releases">
+      <ListItemText primary="Выпуски" />
+    </NavItem>
   </List>;
 }
 

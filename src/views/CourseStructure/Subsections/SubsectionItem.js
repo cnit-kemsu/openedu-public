@@ -5,7 +5,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
 import MoreIconButton from '@components/MoreIconButton';
 import AddIcon from '@material-ui/icons/Add';
-import UnitsView from '../Units';
+import UnitsView from './Units';
 import { SubsectionItem as useStyles } from './styles';
 
 export default function SubsectionItem({ index, id, units, ...item }, { subsectionMenu, createUnitDialog, sectionIndex, ...props }) {

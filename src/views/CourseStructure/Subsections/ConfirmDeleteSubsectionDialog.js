@@ -1,20 +1,26 @@
 import React from 'react';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { Mutation, refetch } from '@kemsu/graphql-client';
+import { useMutation, refetch } from '@kemsu/graphql-client';
 import { ConfirmDialog, Notifications } from '@kemsu/core';
 import confirmDeleteProps from '@components/confirmDeleteProps';
-import { COURSE } from '../Sections';
+import { COURSE, COURSE_RELEASE } from '..';
 
 const DELETE_SUBSECTION = ({ id = 'Int!' }) => `
   deleteSubsection(id: ${id})
 `;
-function onComplete() {
-  refetch(COURSE);
+
+const DELETE_SUBSECTION_RELEASE = ({ id = 'Int!' }) => `
+  deleteSubsectionRelease(id: ${id})
+`;
+
+function onComplete(release) {
+  refetch(release ? COURSE_RELEASE : COURSE);
   Notifications.push('Подраздел был успешно удален.', 'success');
 }
-const deleteSubsection = new Mutation(DELETE_SUBSECTION, { onComplete }).commit;
 
-export default function ConfirmDeleteSubsectionDialog(close, { id, item: { name }, sectionIndex }) {
+export default function ConfirmDeleteSubsectionDialog(close, { id, item: { name }, sectionIndex, release }) {
+  const DELETE_MUTATION = release ? DELETE_SUBSECTION_RELEASE : DELETE_SUBSECTION;
+  const deleteSubsection = useMutation(DELETE_MUTATION, { onComplete: () => onComplete(release) }, { id });
   
   return <ConfirmDialog onClose={close} onConfirm={() => deleteSubsection({ id })} title={`Удаление подраздела в разделе ${sectionIndex}`} {...confirmDeleteProps}>
     <DialogContentText>

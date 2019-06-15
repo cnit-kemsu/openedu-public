@@ -5,7 +5,7 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateUnitName } from '@lib/validate';
-import { COURSE } from '../Sections';
+import { COURSE } from '../..';
 import { UnitForm as useStyles } from './styles';
 
 const UPDATE_UNIT = ({

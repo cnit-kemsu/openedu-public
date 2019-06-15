@@ -6,6 +6,7 @@ import DeleteMenuItem from '@components/DeleteMenuItem';
 
 function routeToEditCourseView(id) { History.push(`/admin/courses/${id}/edit`); }
 function routeToCourseStructureView(id) { History.push(`/admin/courses/${id}/structure`); }
+function routeToCreateCourseReleaseView(id) { History.push(`/admin/releases/${id}/create`); }
 
 export default function CourseContextMenu(close, { id, item, confirmDeleteDialog }) {
 
@@ -18,6 +19,9 @@ export default function CourseContextMenu(close, { id, item, confirmDeleteDialog
     </MenuItem>
     <MenuItem onClick={() => { routeToCourseStructureView(id); }}>
       Структура
+    </MenuItem>
+    <MenuItem onClick={() => { routeToCreateCourseReleaseView(id); }}>
+      Создать выпуск
     </MenuItem>
   </>;
 }

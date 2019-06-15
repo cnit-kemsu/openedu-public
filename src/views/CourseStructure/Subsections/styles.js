@@ -16,6 +16,13 @@ export const SubsectionForm = makeStyles({
   },
   accessTimeLimit: {
     width: '40%'
+  },
+  startDate: {
+    width: '40%',
+    marginRight: '24px'
+  },
+  endDate: {
+    width: '40%'
   }
 });
 

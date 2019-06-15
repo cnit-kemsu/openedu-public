@@ -3,7 +3,7 @@ import { useRoutes } from '@kemsu/router';
 import CoursesView from './Courses';
 import CreateCourseView from './CreateCourse';
 import EditCourseView from './EditCourse';
-import CourseStructureView from './Sections';
+import CourseStructureView from '../CourseStructure';
 
 const routes = [
   [/.+\/courses$/, props => <CoursesView {...props} />],

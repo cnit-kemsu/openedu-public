@@ -4,12 +4,14 @@ import pageNotFound from '@components/PageNotFound';
 import Drawer from '@components/Drawer';
 import UsersView from '@views/Users';
 import CoursesView from '@views/Courses';
+import CourseReleasesView from '@views/CourseReleases';
 import UnitDataView from '@views/UnitData';
 import { AdminLayout as useStyles } from './styles';
 
 const routes = [
   [/.+\/users/, () => <UsersView />],
   [/.+\/courses/, () => <CoursesView />],
+  [/.+\/releases/, () => <CourseReleasesView />],
   [/.+\/units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} />]
 ];
 

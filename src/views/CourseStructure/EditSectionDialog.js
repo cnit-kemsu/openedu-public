@@ -5,7 +5,7 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { COURSE } from './';
+import { COURSE, COURSE_RELEASE } from './';
 import { SectionForm as useStyles } from './styles';
 
 const UPDATE_SECTION = ({
@@ -19,14 +19,28 @@ const UPDATE_SECTION = ({
     summary: ${summary}
   )
 `;
-function onComplete(closeDialog) {
+
+const UPDATE_SECTION_RELEASE = ({
+  id = 'Int!',
+  name = 'String!',
+  summary = 'String'
+}) => `
+  updateSectionRelease(
+    id: ${id}
+    name: ${name}
+    summary: ${summary}
+  )
+`;
+
+function onComplete(closeDialog, release) {
   closeDialog();
-  refetch(COURSE);
+  refetch(release ? COURSE_RELEASE : COURSE);
   Notifications.push('Раздел был успешно изменен.', 'success');
 }
 
-export default function EditSectionDialog(close, { id, item }) {
-  const updateSection = useMutation(UPDATE_SECTION, { onComplete: () => onComplete(close) }, { id });
+export default function EditSectionDialog(close, { id, item, release }) {
+  const UPDATE_MUTATION = release ? UPDATE_SECTION_RELEASE : UPDATE_SECTION;
+  const updateSection = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(close, release) }, { id });
   const form = useForm(updateSection, item);
 
   const classes = useStyles();
