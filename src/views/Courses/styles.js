@@ -11,3 +11,9 @@ export const CourseForm = makeStyles({
     width: '100%'
   }
 });
+
+export const CourseItem = makeStyles({
+  text: {
+    //whiteSpace: 'pre-line'
+  }
+});

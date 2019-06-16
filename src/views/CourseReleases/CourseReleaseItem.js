@@ -6,8 +6,11 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Avatar from '@material-ui/core/Avatar';
 import SchoolIcon from '@material-ui/icons/School';
 import MoreIconButton from '@components/MoreIconButton';
+import { dispdate } from '@lib/dispdate';
 
 export default function CourseItem({ id, ...item }, { menu }) {
+  const { releaseDate, startDate, enrollmentEndDate } = item;
+  const secondary = `Создан: ${dispdate(releaseDate)}, начало: ${dispdate(startDate)}, окончание регистрации: ${dispdate(enrollmentEndDate)}`;
 
   return <ListItem>
     <ListItemAvatar>
@@ -15,7 +18,7 @@ export default function CourseItem({ id, ...item }, { menu }) {
         <SchoolIcon />
       </Avatar>
     </ListItemAvatar>
-    <ListItemText primary={item.name} secondary={item.summary} />
+    <ListItemText primary={item.name} secondary={secondary} />
     <ListItemSecondaryAction>
       <MoreIconButton onClick={event => menu.open(event, { id, item })} />
     </ListItemSecondaryAction>

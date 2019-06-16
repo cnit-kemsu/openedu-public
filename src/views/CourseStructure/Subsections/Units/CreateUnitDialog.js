@@ -7,7 +7,7 @@ import createSubmitProps from '@components/createSubmitProps';
 import { validateUnitName } from '@lib/validate';
 import { UnitForm as useStyles } from './styles';
 import UnitTypeSelect from './UnitTypeSelect';
-import { COURSE } from '../..';
+import { COURSE, COURSE_RELEASE } from '../..';
 
 const CREATE_UNIT = ({
   subsectionId = 'Int!',
@@ -22,14 +22,30 @@ const CREATE_UNIT = ({
     type: ${type}
   )
 `;
-function onComplete(closeDialog) {
+
+const CREATE_UNIT_RELEASE = ({
+  subsectionId = 'Int!',
+  name = 'String!',
+  summary = 'String',
+  type = 'UnitTypeEnum!'
+}) => `
+  createUnitRelease(
+    subsectionId: ${subsectionId}
+    name: ${name}
+    summary: ${summary}
+    type: ${type}
+  )
+`;
+
+function onComplete(closeDialog, release) {
   closeDialog();
-  refetch(COURSE);
+  refetch(release ? COURSE_RELEASE : COURSE);
   Notifications.push('Блок был успешно создан.', 'success');
 }
 
-export default function CreateUnitDialog(close, { subsectionId, subsectionIndex }) {
-  const createUnit = useMutation(CREATE_UNIT, { onComplete: () => onComplete(close) }, { subsectionId });
+export default function CreateUnitDialog(close, { subsectionId, subsectionIndex, release }) {
+  const CREATE_MUTATION = release ? CREATE_UNIT_RELEASE : CREATE_UNIT;
+  const createUnit = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, release) }, { subsectionId });
   const form = useForm(createUnit);
 
   const classes = useStyles();

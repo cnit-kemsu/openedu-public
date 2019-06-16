@@ -6,7 +6,7 @@ import { History } from '@kemsu/router';
 import { RouteBackBtn as useStyles } from './styles';
 
 function RouteBackBtn({ path }) {
-  const route = useCallback(() => History.push(path), []);
+  const route = useCallback(() => History.push(path), [path]);
 
   const classes = useStyles();
   // return <Button size="small" variant="outlined" className={classes.root} onClick={route}>

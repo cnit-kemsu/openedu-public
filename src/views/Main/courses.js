@@ -12,10 +12,12 @@ import { CourseItem as useCourseItemStyles, Courses as useStyles } from './style
 import defaultImage from './default_img.jpg';
 
 export const COURSES = () => `
-  courses(limit: 100) {
+  courseReleases(limit: 100) {
     id
     name
     summary
+    startDate
+    enrollmentEndDate
   }
 `;
 
@@ -28,7 +30,7 @@ function CourseItem({ id, name, summary }) {
       <CardMedia component="img" src={defaultImage} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">{name}</Typography>
-        <Typography color="textSecondary">
+        <Typography className={classes.summary} color="textSecondary">
           {summary}
         </Typography>
       </CardContent>
@@ -42,13 +44,15 @@ function CourseItem({ id, name, summary }) {
 
 function Courses() {
   
-  const [{ courses }, loading, errors] = useQuery(COURSES);
-  const courseItems = useElementArray(CourseItem, courses, { key: course => course.id });
+  const [{ courseReleases: courses }, loading, errors] = useQuery(COURSES);
+  const courseItems = useElementArray(CourseItem, courses, {});
 
   const classes = useStyles();
   return <div className={classes.root}>
     <Loader loading={loading} errors={errors}>
-      {courses && courseItems}
+      <div className={classes.courses}>
+        {courses && courseItems}
+      </div>
     </Loader>
   </div>;
 }

@@ -3,7 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 export const CourseItem = makeStyles({
   root: {
     width: '320px',
-    heigth: '400px !important'
+    height: '400px !important'
+  },
+  summary: {
+    height: '100px',
+    overflow: 'hidden'
   }
 });
 
@@ -12,6 +16,12 @@ export const Courses = makeStyles({
     maxWidth: '1100px',
     margin: 'auto',
     paddingTop: '48px'
+  },
+  courses: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 400px)',
+    gridAutoRows: '450px',
+    padding: '50px'
   }
 });
 

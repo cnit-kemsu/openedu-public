@@ -9,10 +9,10 @@ import { Loader, Link } from '@kemsu/core';
 import { SubsectionView as useStyles } from './styles';
 
 export const SUBSECTION = ({ id = 'Int!' }) => `
-  subsection(id: ${id}) {
+  subsectionRelease(id: ${id}) {
     id
     name
-    blocks {
+    units {
       id
       name
       summary
@@ -25,28 +25,28 @@ export const SUBSECTION = ({ id = 'Int!' }) => `
 function Subsection({ id }) {
   
   const [tabValue, setTabValue] = useState(0);
-  const [{ subsection }, loading, errors] = useQuery(SUBSECTION, { id });
-  const block = subsection?.blocks[tabValue];
+  const [{ subsectionRelease: subsection }, loading, errors] = useQuery(SUBSECTION, { id });
+  const unit = subsection?.units[tabValue];
 
   const classes = useStyles();
   return <Paper className={classes.root}>
     <Loader loading={loading} errors={errors}>
-      {subsection && subsection.blocks.length > 0 && <div>
+      {subsection && subsection.units.length > 0 && <div>
         
         <Tabs className={classes.tabs} value={tabValue} onChange={(event, value) => setTabValue(value)} indicatorColor="primary" textColor="primary">
-          {subsection.blocks.map(({ name }, index) => (
+          {subsection.units.map(({ name }, index) => (
             <Tab className={classes.tab} key={index} label={name} className={classes.tab} />
           ))}
         </Tabs>
 
         <div className={classes.content}>
-          {block.type === 'TEXT' && <div>
-            {block.data.text}
+          {unit.type === 'TEXT' && <div>
+            {unit.data.text}
           </div>}
-          {block.type === 'VIDEO' && <div>
+          {unit.type === 'VIDEO' && <div>
             Сдесь будет видео
           </div>}
-          {block.type === 'QUIZ' && <div>
+          {unit.type === 'QUIZ' && <div>
             Сдесь будет тест
           </div>}
         </div>

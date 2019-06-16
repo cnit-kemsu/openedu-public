@@ -6,10 +6,12 @@ import { Loader, Link } from '@kemsu/core';
 import { Course as useStyles, Section as useSectionStyles, Subsection as useSubsectionStyles } from './styles';
 
 export const COURSE = ({ id = 'Int!' }) => `
-  course(id: ${id}) {
+  courseRelease(id: ${id}) {
     id
     name
     summary
+    startDate
+    enrollmentEndDate
     sections {
       id
       name
@@ -58,7 +60,7 @@ function renderSection(props) {
 
 function Course({ courseId }) {
   
-  const [{ course }, loading, errors] = useQuery(COURSE, { id: courseId });
+  const [{ courseRelease: course }, loading, errors] = useQuery(COURSE, { id: courseId });
 
   const classes = useStyles();
   return <Paper className={classes.root}>

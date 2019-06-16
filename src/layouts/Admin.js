@@ -12,7 +12,8 @@ const routes = [
   [/.+\/users/, () => <UsersView />],
   [/.+\/courses/, () => <CoursesView />],
   [/.+\/releases/, () => <CourseReleasesView />],
-  [/.+\/units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} />]
+  [/.+\/units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} />],
+  [/.+\/unit_releases\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} release />]
 ];
 
 function AdminLayout() {

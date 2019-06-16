@@ -21,8 +21,19 @@ const UPDATE_UNIT = ({
     data: ${data}
   )
 `;
-function onComplete(courseId) {
-  History.push(`/admin/courses/${courseId}/structure`);
+
+const UPDATE_UNIT_RELEASE = ({
+  id = 'Int!',
+  data = 'JSON'
+}) => `
+  updateUnitRelease(
+    id: ${id}
+    data: ${data}
+  )
+`;
+
+function onComplete(courseId, release) {
+  History.push(release ? `/admin/releases/${courseId}/structure` : `/admin/courses/${courseId}/structure`);
   Notifications.push('Блок был успешно обновлен.', 'success');
 }
 
@@ -46,26 +57,58 @@ export const UNIT = ({
   }
 `;
 
+export const UNIT_RELEASE = ({
+  id = 'Int!'
+}) => `
+  unitRelease(id: ${id}) {
+    name
+    type
+    data
+    subsection {
+      name
+      section {
+        name
+        course {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 export default React.memo(
-  ({ id }) => {
-    const [{ unit: { name, type, data, subsection } = {} }, loading, errors] = useQuery(UNIT, { id });
+  ({ id, release }) => {
+
+    const UNIT_QUERY = release ? UNIT_RELEASE : UNIT;
+    const [{ [release ? 'unitRelease' : 'unit']: { name, type, data, subsection } = {} }, loading, errors] = useQuery(UNIT_QUERY, { id });
     const section = subsection?.section;
     const course = subsection?.section?.course;
-    const updatUnit = useMutation(UPDATE_UNIT, { onComplete: () => onComplete(course?.id) }, { id });
-    const form = useForm(updatUnit, { data });
+    const routeBackPath = release ? `/admin/releases/${course?.id}/structure` : `/admin/courses/${course?.id}/structure`;
+
+    const UPDATE_MUTATION = release ? UPDATE_UNIT_RELEASE : UPDATE_UNIT;
+    const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(course?.id, release) }, { id });
+
+    const _data = type === 'QUIZ' ? {
+      totalAttempts: 2,
+      timeLimit: '60',
+      maxScore: 100,
+      ...data
+    } : data;
+    const form = useForm(updateUnit, { data: _data });
 
     return <Fields comp={form}>
       <AdminView.AppBar>
         <AdminView.LeftBar>
-          <RouteBackBtn path={`/admin/courses/${course?.id}/content`} />
+          <RouteBackBtn path={routeBackPath} />
           <Typography variant="h6">Редактирование блока: {name}</Typography>
         </AdminView.LeftBar>
         <ResetButton {...{ loading, errors }}>Сбросить</ResetButton>
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path="/admin/courses">Курсы</Link>
-        <Link styled path={`/admin/courses/${course?.id}/structure`}>Структура: {course?.name}</Link>
+        <Link styled path={release ? '/admin/releases' : '/admin/courses'}>{release ? 'Выпуски' : 'Курсы'}</Link>
+        <Link styled path={routeBackPath}>Структура: {course?.name}</Link>
         <Typography color="textPrimary">Раздел: {section?.name}</Typography>
         <Typography color="textPrimary">Подраздел: {subsection?.name}</Typography>
         <Typography color="textPrimary">Блок: {name}</Typography>

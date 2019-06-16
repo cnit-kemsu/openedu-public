@@ -22,7 +22,7 @@ export default function ConfirmDeleteSubsectionDialog(close, { id, item: { name 
   const DELETE_MUTATION = release ? DELETE_SUBSECTION_RELEASE : DELETE_SUBSECTION;
   const deleteSubsection = useMutation(DELETE_MUTATION, { onComplete: () => onComplete(release) }, { id });
   
-  return <ConfirmDialog onClose={close} onConfirm={() => deleteSubsection({ id })} title={`Удаление подраздела в разделе ${sectionIndex}`} {...confirmDeleteProps}>
+  return <ConfirmDialog onClose={close} onConfirm={deleteSubsection} title={`Удаление подраздела в разделе ${sectionIndex}`} {...confirmDeleteProps}>
     <DialogContentText>
       Вы действительно хотите удалить подраздел '{name}'?
     </DialogContentText>

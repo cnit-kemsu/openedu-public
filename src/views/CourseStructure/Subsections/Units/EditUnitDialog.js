@@ -5,7 +5,7 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateUnitName } from '@lib/validate';
-import { COURSE } from '../..';
+import { COURSE, COURSE_RELEASE } from '../..';
 import { UnitForm as useStyles } from './styles';
 
 const UPDATE_UNIT = ({
@@ -19,14 +19,28 @@ const UPDATE_UNIT = ({
     summary: ${summary}
   )
 `;
-function onComplete(closeDialog) {
+
+const UPDATE_UNIT_RELEASE = ({
+  id = 'Int!',
+  name = 'String!',
+  summary = 'String'
+}) => `
+  updateUnitRelease(
+    id: ${id}
+    name: ${name}
+    summary: ${summary}
+  )
+`;
+
+function onComplete(closeDialog, release) {
   closeDialog();
-  refetch(COURSE);
+  refetch(release ? COURSE_RELEASE : COURSE);
   Notifications.push('Блок был успешно изменен.', 'success');
 }
 
-export default function EditUnitDialog(close, { id, item, subsectionIndex }) {
-  const updateUnit = useMutation(UPDATE_UNIT, { onComplete: () => onComplete(close) }, { id });
+export default function EditUnitDialog(close, { id, item, subsectionIndex, release }) {
+  const UPDATE_MUTATION = release ? UPDATE_UNIT_RELEASE : UPDATE_UNIT;
+  const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(close, release) }, { id });
   const form = useForm(updateUnit, item);
 
   const classes = useStyles();
