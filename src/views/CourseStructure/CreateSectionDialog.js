@@ -5,42 +5,42 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { COURSE, COURSE_RELEASE } from './';
+import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from './';
 import { SectionForm as useStyles } from './styles';
 
-const CREATE_SECTION = ({
+const CREATE_SECTION_DESIGN = ({
   _courseId = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  createSection(
+  createSectionDesign(
     courseId: ${_courseId}
     name: ${name}
     summary: ${summary}
   )
 `;
 
-const CREATE_SECTION_RELEASE = ({
+const CREATE_SECTION_DELIVERY = ({
   _courseId = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  createSectionRelease(
+  createSectionDelivery(
     courseId: ${_courseId}
     name: ${name}
     summary: ${summary}
   )
 `;
 
-function onComplete(closeDialog, release) {
+function onComplete(closeDialog, isDelivery) {
   closeDialog();
-  refetch(release ? COURSE_RELEASE : COURSE);
+  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
   Notifications.push('Раздел был успешно создан.', 'success');
 }
 
-export default function CreateSectionDialog(close, { _courseId, release }) {
-  const CREATE_MUTATION = release ? CREATE_SECTION_RELEASE : CREATE_SECTION;
-  const createSection = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, release) }, { _courseId });
+export default function CreateSectionDialog(close, { _courseId, isDelivery }) {
+  const CREATE_MUTATION = isDelivery ? CREATE_SECTION_DELIVERY : CREATE_SECTION_DESIGN;
+  const createSection = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, isDelivery) }, { _courseId });
   const form = useForm(createSection);
 
   const classes = useStyles();

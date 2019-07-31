@@ -5,42 +5,42 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateSectionName } from '@lib/validate';
-import { COURSE, COURSE_RELEASE } from './';
+import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from './';
 import { SectionForm as useStyles } from './styles';
 
-const UPDATE_SECTION = ({
+const UPDATE_SECTION_DESIGN = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateSection(
+  updateSectionDesign(
     id: ${id}
     name: ${name}
     summary: ${summary}
   )
 `;
 
-const UPDATE_SECTION_RELEASE = ({
+const UPDATE_SECTION_DELIVERY = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateSectionRelease(
+  updateSectionDelivery(
     id: ${id}
     name: ${name}
     summary: ${summary}
   )
 `;
 
-function onComplete(closeDialog, release) {
+function onComplete(closeDialog, isDelivery) {
   closeDialog();
-  refetch(release ? COURSE_RELEASE : COURSE);
+  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
   Notifications.push('Раздел был успешно изменен.', 'success');
 }
 
-export default function EditSectionDialog(close, { id, item, release }) {
-  const UPDATE_MUTATION = release ? UPDATE_SECTION_RELEASE : UPDATE_SECTION;
-  const updateSection = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(close, release) }, { id });
+export default function EditSectionDialog(close, { id, item, isDelivery }) {
+  const UPDATE_MUTATION = isDelivery ? UPDATE_SECTION_DELIVERY : UPDATE_SECTION_DESIGN;
+  const updateSection = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(close, isDelivery) }, { id });
   const form = useForm(updateSection, item);
 
   const classes = useStyles();

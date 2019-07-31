@@ -21,26 +21,26 @@ function validateEnrollmentEndDate(value) {
   if (!value) return 'Необходимо выбрать дату';
 }
 
-function EditCourseRelease() {
+function EditCourseDeliveryInstance() {
   
   const classes = useStyles();
   return <div className={classes.root}>
     <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
-    <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала прохождения" />
+    <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
   </div>;
 }
-EditCourseRelease = React.memo(EditCourseRelease);
+EditCourseDeliveryInstance = React.memo(EditCourseDeliveryInstance);
 
-const UPDATE_COURSE_RELEASE = ({
+const UPDATE_COURSE_DELIVERY_INSTANCE = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String',
   startDate = 'String!',
   enrollmentEndDate = 'String!'
 }) => `
-  updateCourseRelease(
+  updateCourseDeliveryInstance(
     id: ${id}
     name: ${name}
     summary: ${summary}
@@ -49,12 +49,12 @@ const UPDATE_COURSE_RELEASE = ({
   )
 `;
 function onComplete() {
-  History.push('/admin/releases');
+  History.push('/admin/course-delivery-instances');
   Notifications.push('Выпуск был успешно обновлен.', 'success');
 }
 
-export const COURSE_RELEASE = ({ id = 'Int!' }) => `
-  courseRelease(id: ${id}) {
+export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
+  courseDeliveryInstance(id: ${id}) {
     name
     summary
     startDate
@@ -64,26 +64,26 @@ export const COURSE_RELEASE = ({ id = 'Int!' }) => `
 
 export default (
   ({ id }) => {
-    const [{ courseRelease }, loading, errors] = useQuery(COURSE_RELEASE, { id });
-    const updateCourseRelease = useMutation(UPDATE_COURSE_RELEASE, { onComplete }, { id });
-    const form = useForm(updateCourseRelease, courseRelease);
+    const [{  courseDeliveryInstance }, loading, errors] = useQuery(COURSE_DELIVERY_INSTANCE, { id });
+    const updateCourseDeliveryInstance = useMutation(UPDATE_COURSE_DELIVERY_INSTANCE, { onComplete }, { id });
+    const form = useForm(updateCourseDeliveryInstance, courseDeliveryInstance);
 
     return <Fields comp={form}>
       <AdminView.AppBar>
         <AdminView.LeftBar>
-          <RouteBackBtn path="/admin/releases" />
-          <Typography variant="h6">Редактирование выпуска: {courseRelease?.name}</Typography>
+          <RouteBackBtn path="/admin/course-delivery-instances" />
+          <Typography variant="h6">Редактирование экземпляра курса: {courseDeliveryInstance?.name}</Typography>
         </AdminView.LeftBar>
         <ResetButton {...{ loading, errors }}>Сбросить</ResetButton>
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path="/admin/releases">Выпуски</Link>
-        <Typography color="textPrimary">Изменить</Typography>
+        <Link styled path="/admin/course-delivery-instances">Реализация курсов</Link>
+        <Typography color="textPrimary">Изменить экземпляр</Typography>
       </AdminView.Breadcrumbs>
       <AdminView.Paper>
         <Loader loading={loading} errors={errors}>
-          {courseRelease && <EditCourseRelease />}
+          {courseDeliveryInstance && <EditCourseDeliveryInstance />}
         </Loader>
       </AdminView.Paper>
       <AdminView.Div>

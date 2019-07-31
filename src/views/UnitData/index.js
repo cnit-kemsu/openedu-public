@@ -8,39 +8,39 @@ import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
-import TextUnitView from './TextUnit';
+import DocumentUnitView from './DocumentUnit';
 import VideoUnitView from './VideoUnit';
 import QuizUnitView from './QuizUnit';
 
-const UPDATE_UNIT = ({
+const UPDATE_UNIT_DESIGN = ({
   id = 'Int!',
   data = 'JSON'
 }) => `
-  updateUnit(
+  updateUnitDesign(
     id: ${id}
     data: ${data}
   )
 `;
 
-const UPDATE_UNIT_RELEASE = ({
+const UPDATE_UNIT_DELIVERY = ({
   id = 'Int!',
   data = 'JSON'
 }) => `
-  updateUnitRelease(
+  updateUnitDelivery(
     id: ${id}
     data: ${data}
   )
 `;
 
-function onComplete(courseId, release) {
-  History.push(release ? `/admin/releases/${courseId}/structure` : `/admin/courses/${courseId}/structure`);
+function onComplete(courseId, isDelivery) {
+  History.push(isDelivery ? `/admin/course-delivery-instances/${courseId}/structure` : `/admin/course-design-templates/${courseId}/structure`);
   Notifications.push('Блок был успешно обновлен.', 'success');
 }
 
-export const UNIT = ({
+export const UNIT_DESIGN = ({
   id = 'Int!'
 }) => `
-  unit(id: ${id}) {
+  unitDesign(id: ${id}) {
     name
     type
     data
@@ -57,10 +57,10 @@ export const UNIT = ({
   }
 `;
 
-export const UNIT_RELEASE = ({
+export const UNIT_DELIVERY = ({
   id = 'Int!'
 }) => `
-  unitRelease(id: ${id}) {
+  unitDelivery(id: ${id}) {
     name
     type
     data
@@ -78,16 +78,16 @@ export const UNIT_RELEASE = ({
 `;
 
 export default React.memo(
-  ({ id, release }) => {
+  ({ id, isDelivery }) => {
 
-    const UNIT_QUERY = release ? UNIT_RELEASE : UNIT;
-    const [{ [release ? 'unitRelease' : 'unit']: { name, type, data, subsection } = {} }, loading, errors] = useQuery(UNIT_QUERY, { id });
+    const UNIT_QUERY = isDelivery ? UNIT_DELIVERY : UNIT_DESIGN;
+    const [{ [isDelivery ? 'unitDelivery' : 'unitDesign']: { name, type, data, subsection } = {} }, loading, errors] = useQuery(UNIT_QUERY, { id });
     const section = subsection?.section;
     const course = subsection?.section?.course;
-    const routeBackPath = release ? `/admin/releases/${course?.id}/structure` : `/admin/courses/${course?.id}/structure`;
+    const routeBackPath = isDelivery ? `/admin/course-delivery-instances/${course?.id}/structure` : `/admin/course-design-templates/${course?.id}/structure`;
 
-    const UPDATE_MUTATION = release ? UPDATE_UNIT_RELEASE : UPDATE_UNIT;
-    const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(course?.id, release) }, { id });
+    const UPDATE_MUTATION = isDelivery ? UPDATE_UNIT_DELIVERY : UPDATE_UNIT_DESIGN;
+    const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(course?.id, isDelivery) }, { id });
 
     const _data = type === 'QUIZ' ? {
       totalAttempts: 2,
@@ -107,7 +107,7 @@ export default React.memo(
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path={release ? '/admin/releases' : '/admin/courses'}>{release ? 'Выпуски' : 'Курсы'}</Link>
+        <Link styled path={isDelivery ? '/admin/course-delivery-instances' : '/admin/course-design-templates'}>{isDelivery ? 'Реализация курсов' : 'Дизайн курсов'}</Link>
         <Link styled path={routeBackPath}>Структура: {course?.name}</Link>
         <Typography color="textPrimary">Раздел: {section?.name}</Typography>
         <Typography color="textPrimary">Подраздел: {subsection?.name}</Typography>
@@ -116,7 +116,7 @@ export default React.memo(
       </AdminView.Breadcrumbs>
       <AdminView.Div>
         <Loader loading={loading} errors={errors}>
-          {type === 'TEXT' && <TextUnitView />}
+          {type === 'DOCUMENT' && <DocumentUnitView />}
           {type === 'VIDEO' && <VideoUnitView />}
           {type === 'QUIZ' && <QuizUnitView />}
         </Loader>

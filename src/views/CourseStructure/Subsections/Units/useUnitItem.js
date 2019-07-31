@@ -5,11 +5,11 @@ import CreateDialog from './CreateUnitDialog';
 import EditDialog from './EditUnitDialog';
 import ConfirmDeleteDialog from './ConfirmDeleteUnitDialog';
 
-export function useUnitItem(release) {
-  const createDialog = useDialog({ release });
-  const editDialog = useDialog({ release });
-  const confirmDeleteDialog = useDialog({ release });
-  const menu = useMenu({ editDialog, confirmDeleteDialog, release });
+export function useUnitItem(isDelivery) {
+  const createDialog = useDialog({ isDelivery });
+  const editDialog = useDialog({ isDelivery });
+  const confirmDeleteDialog = useDialog({ isDelivery });
+  const menu = useMenu({ editDialog, confirmDeleteDialog, isDelivery });
 
   const elements = <>
     <MenuModal mgr={menu}>

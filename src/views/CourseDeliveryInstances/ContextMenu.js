@@ -4,19 +4,19 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToEditCourseReleaseView(id) { History.push(`/admin/releases/${id}/edit`); }
-function routeToCourseReleaseStructureView(id) { History.push(`/admin/releases/${id}/structure`); }
+function routeToEditView(id) { History.push(`/admin/course-delivery-instances/${id}/edit`); }
+function routeToStructureView(id) { History.push(`/admin/course-delivery-instances/${id}/structure`); }
 
 export default function CourseReleaseContextMenu(close, { id, item, confirmDeleteDialog }) {
 
   return <>
-    <MenuItem onClick={() => { routeToEditCourseReleaseView(id); }}>
+    <MenuItem onClick={() => { routeToEditView(id); }}>
       <EditMenuItem />
     </MenuItem>
     <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, item }); }}>
       <DeleteMenuItem />
     </MenuItem>
-    <MenuItem onClick={() => { routeToCourseReleaseStructureView(id); }}>
+    <MenuItem onClick={() => { routeToStructureView(id); }}>
       Структура
     </MenuItem>
   </>;

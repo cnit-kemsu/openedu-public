@@ -1,78 +1,76 @@
 import React from 'react';
 import { useMutation, refetch } from '@kemsu/graphql-client';
 import { useForm } from '@kemsu/form';
-import { TextField, DaysTimeField, DateTimePicker } from '@kemsu/inputs';
+import { TextField, DateTimePicker } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import createSubmitProps from '@components/createSubmitProps';
 import {
   validateSubsectionName,
-  validateDelayAccessTime,
-  validateAccessTimeLimit,
-  validateSubsectionStartDate,
-  validateSubsectionEndDate,
-  validateSubsectionReleaseForm
+  validateAccessPeriod,
+  validateExpirationPeriod,
+  validateSubsectionAccessDate,
+  validateSubsectionExpirationDate,
+  validateSubsectionDeliveryForm
 } from '@lib/validate';
-import { COURSE, COURSE_RELEASE } from '..';
+import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '..';
 import { SubsectionForm as useStyles } from './styles';
 
-const CREATE_SUBSECTION = ({
+const CREATE_SUBSECTION_DESIGN = ({
   sectionId = 'Int!',
   name = 'String!',
   summary = 'String',
-  delayAccessTime = 'String!',
-  accessTimeLimit = 'String!'
+  accessPeriod = 'Int',
+  expirationPeriod = 'Int'
 }) => `
-  createSubsection(
+  createSubsectionDesign(
     sectionId: ${sectionId}
     name: ${name}
     summary: ${summary}
-    delayAccessTime: ${delayAccessTime}
-    accessTimeLimit: ${accessTimeLimit}
+    accessPeriod: ${accessPeriod}
+    expirationPeriod: ${expirationPeriod}
   )
 `;
 
-const CREATE_SUBSECTION_RELEASE = ({
+const CREATE_SUBSECTION_DELIVERY = ({
   sectionId = 'Int!',
   name = 'String!',
   summary = 'String',
-  startDate = 'String!',
-  endDate = 'String!'
+  accessDate = 'String',
+  expirationDate = 'String'
 }) => `
-  createSubsectionRelease(
+  createSubsectionDelivery(
     sectionId: ${sectionId}
     name: ${name}
     summary: ${summary}
-    startDate: ${startDate}
-    endDate: ${endDate}
+    accessDate: ${accessDate}
+    expirationDate: ${expirationDate}
   )
 `;
 
-function onComplete(closeDialog, release) {
+function onComplete(closeDialog, isDelivery) {
   closeDialog();
-  refetch(release ? COURSE_RELEASE : COURSE);
+  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
   Notifications.push('Подраздел был успешно создан.', 'success');
 }
 
-
-
-export default function CreateSubsectionDialog(close, { sectionId, sectionIndex, release }) {
-  const CREATE_MUTATION = release ? CREATE_SUBSECTION_RELEASE : CREATE_SUBSECTION;
-  const createSubsection = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, release) }, { sectionId });
-  const form = useForm(createSubsection, null, release ? validateSubsectionReleaseForm : null);
+export default function CreateSubsectionDialog(close, { sectionId, sectionIndex, isDelivery }) {
+  const CREATE_MUTATION = isDelivery ? CREATE_SUBSECTION_DELIVERY : CREATE_SUBSECTION_DESIGN;
+  const createSubsection = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, isDelivery) }, { sectionId });
+  const form = useForm(createSubsection, null, isDelivery ? validateSubsectionDeliveryForm : null);
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title={`Новый подраздел в разделе ${sectionIndex}`} {...createSubmitProps}>
     <div className={classes.root}>
       <TextField className={classes.name} name="name" validate={validateSubsectionName} label="Название"/>
       <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
-      {release
+      {isDelivery
         ? <>
-          <DateTimePicker className={classes.startDate} name="startDate" label="Дата начала" validate={validateSubsectionStartDate} />
-          <DateTimePicker className={classes.endDate} name="endDate" label="Дата окончания" validate={validateSubsectionEndDate} />
+          <DateTimePicker className={classes.accessDate} name="accessDate" label="Дата открытия доступа" validate={validateSubsectionAccessDate} />
+          <DateTimePicker className={classes.expirationDate} name="expirationDate" label="Дата закрытия доступа" validate={validateSubsectionExpirationDate} />
         </>
         : <>
-          <DaysTimeField className={classes.delayAccessTime} name="delayAccessTime" label="Задержка доступа" validate={validateDelayAccessTime} />
-          <DaysTimeField className={classes.accessTimeLimit} name="accessTimeLimit" label="Время доступа" validate={validateAccessTimeLimit} />
+          <TextField type="number" className={classes.accessPeriod} name="accessPeriod" label="Период открытия доступа (Дни)" validate={validateAccessPeriod} />
+          <TextField type="number" className={classes.expirationPeriod} name="expirationPeriod" label="Период закрытия доступа (Дни)" validate={validateExpirationPeriod} />
         </>
       }
     </div>

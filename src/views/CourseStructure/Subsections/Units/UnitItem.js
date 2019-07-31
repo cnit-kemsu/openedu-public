@@ -6,7 +6,7 @@ import MoreIconButton from '@components/MoreIconButton';
 import { UnitItem as useStyles } from './styles';
 
 const types = {
-  TEXT: 'Текст',
+  DOCUMENT: 'Документ',
   VIDEO: 'Видео',
   QUIZ: 'Тест'
 };

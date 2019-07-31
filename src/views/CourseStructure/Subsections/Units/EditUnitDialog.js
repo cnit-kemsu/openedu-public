@@ -5,42 +5,42 @@ import { TextField } from '@kemsu/inputs';
 import { Notifications, FormDialog } from '@kemsu/core';
 import updateSubmitProps from '@components/updateSubmitProps';
 import { validateUnitName } from '@lib/validate';
-import { COURSE, COURSE_RELEASE } from '../..';
+import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '../..';
 import { UnitForm as useStyles } from './styles';
 
-const UPDATE_UNIT = ({
+const UPDATE_UNIT_DESIGN = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateUnit(
+  updateUnitDesign(
     id: ${id}
     name: ${name}
     summary: ${summary}
   )
 `;
 
-const UPDATE_UNIT_RELEASE = ({
+const UPDATE_UNIT_DELIVERY = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateUnitRelease(
+  updateUnitDelivery(
     id: ${id}
     name: ${name}
     summary: ${summary}
   )
 `;
 
-function onComplete(closeDialog, release) {
+function onComplete(closeDialog, isDelivery) {
   closeDialog();
-  refetch(release ? COURSE_RELEASE : COURSE);
+  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
   Notifications.push('Блок был успешно изменен.', 'success');
 }
 
-export default function EditUnitDialog(close, { id, item, subsectionIndex, release }) {
-  const UPDATE_MUTATION = release ? UPDATE_UNIT_RELEASE : UPDATE_UNIT;
-  const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(close, release) }, { id });
+export default function EditUnitDialog(close, { id, item, subsectionIndex, isDelivery }) {
+  const UPDATE_MUTATION = isDelivery ? UPDATE_UNIT_DELIVERY : UPDATE_UNIT_DESIGN;
+  const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(close, isDelivery) }, { id });
   const form = useForm(updateUnit, item);
 
   const classes = useStyles();

@@ -4,8 +4,8 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToUnitDataView(id) { History.push(`/admin/units/${id}`); }
-function routeToUnitReleaseDataView(id) { History.push(`/admin/unit_releases/${id}`); }
+function routeToUnitDataView(id) { History.push(`/admin/design-units/${id}`); }
+function routeToUnitReleaseDataView(id) { History.push(`/admin/delivery-units/${id}`); }
 
 export default function UnitContextMenu(close, { id, item, subsectionIndex, editDialog, confirmDeleteDialog, release }) {
 

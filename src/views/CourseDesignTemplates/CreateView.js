@@ -12,7 +12,7 @@ import ResetButton from '@components/ResetButton';
 import { validateCourseName } from '@lib/validate';
 import { CourseForm as useStyles } from './styles';
 
-function CreateCourse() {
+function CreateCourseDesignTemplate() {
   
   const classes = useStyles();
   return <div className={classes.root}>
@@ -20,41 +20,41 @@ function CreateCourse() {
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
   </div>;
 }
-CreateCourse = React.memo(CreateCourse);
+CreateCourseDesignTemplate = React.memo(CreateCourseDesignTemplate);
 
-const CREATE_COURSE = ({
+const CREATE_COURSE_DESIGN_TEMPLATE = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  createCourse(
+  createCourseDesignTemplate(
     name: ${name}
     summary: ${summary}
   )
 `;
 function onComplete() {
-  History.push('/admin/courses');
-  Notifications.push('Курс был успешно создан.', 'success');
+  History.push('/admin/course-design-templates');
+  Notifications.push('Шаблон курса был успешно создан.', 'success');
 }
-const createCourse = new Mutation(CREATE_COURSE, { onComplete }).commit;
+const createCourseDesignTemplate = new Mutation(CREATE_COURSE_DESIGN_TEMPLATE, { onComplete }).commit;
 
 export default (() => {
-  const form = useForm(createCourse);
+  const form = useForm(createCourseDesignTemplate);
 
   return <Fields comp={form}>
     <AdminView.AppBar>
       <AdminView.LeftBar>
-        <RouteBackBtn path="/admin/courses" />
-        <Typography variant="h6">Новый курс</Typography>
+        <RouteBackBtn path="/admin/course-design-templates" />
+        <Typography variant="h6">Новый шаблон курса</Typography>
       </AdminView.LeftBar>
       <ResetButton />
     </AdminView.AppBar>
     <AdminView.Breadcrumbs>
       <Typography>Администрирование</Typography>
-      <Link styled path="/admin/courses">Курсы</Link>
-      <Typography color="textPrimary">Создать</Typography>
+      <Link styled path="/admin/course-design-templates">Дизайн курсов</Link>
+      <Typography color="textPrimary">Создать шаблон</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <CreateCourse />
+      <CreateCourseDesignTemplate />
     </AdminView.Paper>
     <AdminView.Div>
       <FormErrors />

@@ -11,8 +11,8 @@ import { useSubsectionItem } from './Subsections/useSubsectionItem';
 import { useUnitItem } from './Subsections/Units/useUnitItem';
 import SectionItem from './SectionItem';
 
-export const COURSE = ({ _courseId = 'Int!' }) => `
-  course(id: ${_courseId}) {
+export const COURSE_DESIGN_TEMPLATE = ({ _courseId = 'Int!' }) => `
+  courseDesignTemplate(id: ${_courseId}) {
     id
     name
     sections {
@@ -23,8 +23,8 @@ export const COURSE = ({ _courseId = 'Int!' }) => `
         id
         name
         summary
-        delayAccessTime
-        accessTimeLimit
+        accessPeriod
+        expirationPeriod
         units {
           id
           name
@@ -36,8 +36,8 @@ export const COURSE = ({ _courseId = 'Int!' }) => `
   }
 `;
 
-export const COURSE_RELEASE = ({ _courseId = 'Int!' }) => `
-  courseRelease(id: ${_courseId}) {
+export const COURSE_DELIVERY_INSTANCE = ({ _courseId = 'Int!' }) => `
+  courseDeliveryInstance(id: ${_courseId}) {
     id
     name
     sections {
@@ -48,8 +48,8 @@ export const COURSE_RELEASE = ({ _courseId = 'Int!' }) => `
         id
         name
         summary
-        startDate
-        endDate
+        accessDate
+        expirationDate
         units {
           id
           name
@@ -71,50 +71,50 @@ function Sections({ _course: { sections }, ...props }) {
 Sections = React.memo(Sections);
 
 export default (
-  ({ courseId, releaseId }) => {
+  ({ courseDesignTemplateId, courseDeliveryInstanceId }) => {
     
-    const release = courseId === undefined;
-    const _courseId = release ? releaseId : courseId;
-    const COURSE_QUERY = release ? COURSE_RELEASE : COURSE;
-    const routeBackPath = release ? '/admin/releases' : '/admin/courses';
+    const isDelivery = courseDesignTemplateId === undefined;
+    const _courseId = isDelivery ? courseDeliveryInstanceId : courseDesignTemplateId;
+    const COURSE_QUERY = isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE;
+    const routeBackPath = isDelivery ? '/admin/course-delivery-instances' : '/admin/course-design-templates';
 
     const [
       createSectionDialog,
       sectionMenu,
       sectionElements
-    ] = useSectionItem(_courseId, release);
+    ] = useSectionItem(_courseId, isDelivery);
 
     const [
       createSubsectionDialog,
       subsectionMenu,
       subsectionElements
-    ] = useSubsectionItem(release);
+    ] = useSubsectionItem(isDelivery);
 
     const [
       createUnitDialog,
       unitMenu,
       unitElements
-    ] = useUnitItem(release);
+    ] = useUnitItem(isDelivery);
    
-    const [{ [release ? 'courseRelease' : 'course']: _course }, loading, errors] = useQuery(COURSE_QUERY, { _courseId });
+    const [{ [isDelivery ? 'courseDeliveryInstance' : 'courseDesignTemplate']: _course }, loading, errors] = useQuery(COURSE_QUERY, { _courseId });
     
     return <>
       <AdminView.AppBar>
         <Typography variant="h6">
           <RouteBackBtn path={routeBackPath} />
-          Редактирование содержания {release ? 'выпуска' : 'курса'}: {_course?.name}
+          Редактирование содержания {isDelivery ? 'экземпляра курса' : 'шаблона курса'}: {_course?.name}
           <RefreshBtn queries={[COURSE_QUERY]} />
         </Typography>
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path={routeBackPath}>{release ? 'Выпуски' : 'Курсы'}</Link>
+        <Link styled path={routeBackPath}>{isDelivery ? 'Реализация курсов ' : 'Дизайн курсов'}</Link>
         <Typography color="textPrimary">{_course?.name}</Typography>
         <Typography>Структура</Typography>
       </AdminView.Breadcrumbs>
       <AdminView.Div>
         <Loader {...{ loading, errors }}>
-          {_course && <Sections {...{ _course, release, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
+          {_course && <Sections {...{ _course, isDelivery, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
         </Loader>
       </AdminView.Div>
       <Fab icon={AddIcon} onClick={createSectionDialog.open}>

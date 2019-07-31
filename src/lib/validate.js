@@ -42,16 +42,16 @@ export function validateSubsectionName(value) {
   if (!value) return 'Необходимо указать название';
 }
 
-export function validateSubsectionStartDate(value) {
-  if (!value) return 'Необходимо указать дату';
+export function validateSubsectionAccessDate(value) {
+  //if (!value) return 'Необходимо указать дату';
 }
-export function validateSubsectionEndDate(value) {
-  if (!value) return 'Необходимо указать дату';
+export function validateSubsectionExpirationDate(value) {
+  //if (!value) return 'Необходимо указать дату';
 }
-export function validateSubsectionReleaseForm({ startDate, endDate } = {}) {
-  if (startDate && endDate && startDate > endDate) return {
-    startDate: 'Дата начала должна быть раньше чем дата окончания',
-    endDate: 'Дата окончания должна быть позже чем дата начала'
+export function validateSubsectionDeliveryForm({ accessDate, expirationDate } = {}) {
+  if (accessDate && expirationDate && accessDate > expirationDate) return {
+    accessDate: 'Дата открытия доступа должна быть раньше чем дата закрытия доступа',
+    expirationDate: 'Дата закрытия доступа должна быть позже чем дата открытия доступа'
   };
 }
 
@@ -59,10 +59,25 @@ export function validateUnitName(value) {
   if (!value) return 'Необходимо указать название';
 }
 
-export function validateDelayAccessTime({ days, hours, minutes }) {
-  if (days === 0 && hours === 0 && minutes === 0) return 'Необходимо указать не нулевой временной интервал';
+export function validateAccessPeriod(value) {
+  if (value) {
+    if (value instanceof String && value.includes('.')) return 'Значение должно быть целочисленным';
+    if (value < 0) return 'Значение должно быть больше нуля';
+  }
 }
 
-export function validateAccessTimeLimit({ days, hours, minutes }) {
-  if (days === 0 && hours === 0 && minutes === 0) return 'Необходимо указать не нулевой временной интервал';
+export function validateExpirationPeriod(value) {
+  if (value) {
+    if (value instanceof String && value.includes('.')) return 'Значение должно быть целочисленным';
+    if (value < 0) return 'Значение должно быть больше нуля';
+  }
 }
+
+
+// export function validateDelayAccessTime({ days, hours, minutes }) {
+//   if (days === 0 && hours === 0 && minutes === 0) return 'Необходимо указать не нулевой временной интервал';
+// }
+
+// export function validateAccessTimeLimit({ days, hours, minutes }) {
+//   if (days === 0 && hours === 0 && minutes === 0) return 'Необходимо указать не нулевой временной интервал';
+// }

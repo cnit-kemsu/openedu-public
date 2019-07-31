@@ -3,24 +3,24 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { useMutation, refetch } from '@kemsu/graphql-client';
 import { ConfirmDialog, Notifications } from '@kemsu/core';
 import confirmDeleteProps from '@components/confirmDeleteProps';
-import { COURSE, COURSE_RELEASE } from '.';
+import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '.';
 
-const DELETE_SECTION = ({ id = 'Int!' }) => `
-  deleteSection(id: ${id})
+const DELETE_SECTION_DESIGN = ({ id = 'Int!' }) => `
+  deleteSectionDesign(id: ${id})
 `;
 
-const DELETE_SECTION_RELEASE = ({ id = 'Int!' }) => `
-  deleteSectionRelease(id: ${id})
+const DELETE_SECTION_DELIVERY = ({ id = 'Int!' }) => `
+  deleteSectionDelivery(id: ${id})
 `;
 
-function onComplete(release) {
-  refetch(release ? COURSE_RELEASE : COURSE);
+function onComplete(isDelivery) {
+  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
   Notifications.push('Раздел был успешно удален.', 'success');
 }
 
-export default function ConfirmDeleteSectionDialog(close, { id, item: { name }, release }) {
-  const DELETE_MUTATION = release ? DELETE_SECTION_RELEASE : DELETE_SECTION;
-  const deleteSection = useMutation(DELETE_MUTATION, { onComplete: () => onComplete(release) }, { id });
+export default function ConfirmDeleteSectionDialog(close, { id, item: { name }, isDelivery }) {
+  const DELETE_MUTATION = isDelivery ? DELETE_SECTION_DELIVERY : DELETE_SECTION_DESIGN;
+  const deleteSection = useMutation(DELETE_MUTATION, { onComplete: () => onComplete(isDelivery) }, { id });
   
   return <ConfirmDialog onClose={close} onConfirm={deleteSection} title="Удаление раздела" {...confirmDeleteProps}>
     <DialogContentText>

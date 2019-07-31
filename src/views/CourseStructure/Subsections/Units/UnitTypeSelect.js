@@ -9,7 +9,7 @@ export function validateUnitType(value) {
 function UnitTypeSelect({ form, ...props }) {
   
   return <Select comp={form} name="type" validate={validateUnitType} label="Тип" {...props}>
-    <MenuItem value="TEXT">Текст</MenuItem>
+    <MenuItem value="DOCUMENT">Документ</MenuItem>
     <MenuItem value="VIDEO">Видео</MenuItem>
     <MenuItem value="QUIZ">Тест</MenuItem>
   </Select>;

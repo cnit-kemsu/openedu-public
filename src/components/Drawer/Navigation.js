@@ -8,11 +8,11 @@ function Navigation() {
     <NavItem name="users">
       <ListItemText primary="Пользователи" />
     </NavItem>
-    <NavItem name="courses">
-      <ListItemText primary="Курсы" />
+    <NavItem name="course-design-templates">
+      <ListItemText primary="Дизайн курсов" />
     </NavItem>
-    <NavItem name="releases">
-      <ListItemText primary="Выпуски" />
+    <NavItem name="course-delivery-instances">
+      <ListItemText primary="Реализация курсов" />
     </NavItem>
   </List>;
 }

@@ -6,10 +6,10 @@ import CreateDialog from './CreateSubsectionDialog';
 import EditDialog from './EditSubsectionDialog';
 import ConfirmDeleteDialog from './ConfirmDeleteSubsectionDialog';
 
-export function useSubsectionItem(release) {
-  const createDialog = useDialog({ release });
-  const editDialog = useDialog({ release });
-  const confirmDeleteDialog = useDialog({ release });
+export function useSubsectionItem(isDelivery) {
+  const createDialog = useDialog({ isDelivery });
+  const editDialog = useDialog({ isDelivery });
+  const confirmDeleteDialog = useDialog({ isDelivery });
   const menu = useMenu({ editDialog, confirmDeleteDialog });
 
   const elements = <>

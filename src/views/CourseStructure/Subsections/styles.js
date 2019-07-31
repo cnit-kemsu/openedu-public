@@ -10,18 +10,18 @@ export const SubsectionForm = makeStyles({
   summary: {
     width: '100%'
   },
-  delayAccessTime: {
+  accessPeriod: {
+    width: '48%',
+    marginRight: '4%'
+  },
+  expirationPeriod: {
+    width: '48%'
+  },
+  accessDate: {
     width: '40%',
     marginRight: '24px'
   },
-  accessTimeLimit: {
-    width: '40%'
-  },
-  startDate: {
-    width: '40%',
-    marginRight: '24px'
-  },
-  endDate: {
+  expirationDate: {
     width: '40%'
   }
 });

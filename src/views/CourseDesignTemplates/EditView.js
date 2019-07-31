@@ -12,7 +12,7 @@ import ResetButton from '@components/ResetButton';
 import { validateCourseName } from '@lib/validate';
 import { CourseForm as useStyles } from './styles';
 
-function EditCourse() {
+function EditCourseDesignTemplate() {
   
   const classes = useStyles();
   return <div className={classes.root}>
@@ -20,26 +20,26 @@ function EditCourse() {
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
   </div>;
 }
-EditCourse = React.memo(EditCourse);
+EditCourseDesignTemplate = React.memo(EditCourseDesignTemplate);
 
-const UPDATE_COURSE = ({
+const UPDATE_COURSE_DESIGN_TEMPLATE = ({
   id = 'Int!',
   name = 'String!',
   summary = 'String'
 }) => `
-  updateCourse(
+  updateCourseDesignTemplate(
     id: ${id}
     name: ${name}
     summary: ${summary}
   )
 `;
 function onComplete() {
-  History.push('/admin/courses');
-  Notifications.push('Курс был успешно обновлен.', 'success');
+  History.push('/admin/course-design-templates');
+  Notifications.push('Шаблон курса был успешно обновлен.', 'success');
 }
 
-export const COURSE = ({ id = 'Int!' }) => `
-  course(id: ${id}) {
+export const COURSE_DESIGN_TEMPLATE = ({ id = 'Int!' }) => `
+  courseDesignTemplate(id: ${id}) {
     name
     summary
   }
@@ -47,26 +47,26 @@ export const COURSE = ({ id = 'Int!' }) => `
 
 export default (
   ({ id }) => {
-    const [{ course }, loading, errors] = useQuery(COURSE, { id });
-    const updateCourse = useMutation(UPDATE_COURSE, { onComplete }, { id });
-    const form = useForm(updateCourse, course);
+    const [{ courseDesignTemplate }, loading, errors] = useQuery(COURSE_DESIGN_TEMPLATE, { id });
+    const updateCourseDesignTemplate = useMutation(UPDATE_COURSE_DESIGN_TEMPLATE, { onComplete }, { id });
+    const form = useForm(updateCourseDesignTemplate, courseDesignTemplate);
 
     return <Fields comp={form}>
       <AdminView.AppBar>
         <AdminView.LeftBar>
-          <RouteBackBtn path="/admin/courses" />
-          <Typography variant="h6">Редактирование курса: {course?.name}</Typography>
+          <RouteBackBtn path="/admin/course-design-templates" />
+          <Typography variant="h6">Редактирование шаблона курса: {courseDesignTemplate?.name}</Typography>
         </AdminView.LeftBar>
         <ResetButton {...{ loading, errors }}>Сбросить</ResetButton>
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path="/admin/courses">Курсы</Link>
-        <Typography color="textPrimary">Изменить</Typography>
+        <Link styled path="/admin/course-design-templates">Дизайн курсов</Link>
+        <Typography color="textPrimary">Изменить шаблон</Typography>
       </AdminView.Breadcrumbs>
       <AdminView.Paper>
         <Loader loading={loading} errors={errors}>
-          {course && <EditCourse />}
+          {courseDesignTemplate && <EditCourseDesignTemplate />}
         </Loader>
       </AdminView.Paper>
       <AdminView.Div>
