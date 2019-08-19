@@ -21,7 +21,7 @@ export default function CourseDesignTemplateContextMenu(close, { id, item, confi
       Структура
     </MenuItem>
     <MenuItem onClick={() => { routeToCreateCourseDeliveryInstanceView(id); }}>
-      Создать выпуск
+      Создать реализацию
     </MenuItem>
   </>;
 }

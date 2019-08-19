@@ -3,7 +3,7 @@ module.exports = function (api) {
 
   return {
     "presets": [
-      ["@babel/preset-env", { "targets": { "browsers": ["last 2 chrome versions"] } }],
+      ["@babel/preset-env", { "targets": { "browsers": ["last 2 firefox versions"] } }],
       "@babel/preset-react"
     ],
     "plugins": [

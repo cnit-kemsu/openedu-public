@@ -12,8 +12,8 @@ const routes = [
   [/.+\/users/, () => <UsersView />],
   [/.+\/course-design-templates/, () => <CourseDesignTemplatesView />],
   [/.+\/course-delivery-instances/, () => <CourseDeliveryInstancesView />],
-  [/.+\/design-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} />],
-  [/.+\/delivery-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} release />]
+  [/.+\/design-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} isDelivery={false} />],
+  [/.+\/delivery-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} isDelivery />]
 ];
 
 function AdminLayout() {

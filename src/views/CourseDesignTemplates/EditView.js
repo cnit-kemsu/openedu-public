@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { useMutation, useQuery } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
-import { TextField } from '@kemsu/inputs';
+import { TextField, Editor, deserializeEditorContent } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications, Loader } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
@@ -18,19 +18,22 @@ function EditCourseDesignTemplate() {
   return <div className={classes.root}>
     <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
+    <Editor name="description" />
   </div>;
 }
 EditCourseDesignTemplate = React.memo(EditCourseDesignTemplate);
 
 const UPDATE_COURSE_DESIGN_TEMPLATE = ({
   id = 'Int!',
-  name = 'String!',
-  summary = 'String'
+  name = 'String',
+  summary = 'String',
+  description = 'JSON'
 }) => `
   updateCourseDesignTemplate(
     id: ${id}
     name: ${name}
     summary: ${summary}
+    description: ${description}
   )
 `;
 function onComplete() {
@@ -42,14 +45,19 @@ export const COURSE_DESIGN_TEMPLATE = ({ id = 'Int!' }) => `
   courseDesignTemplate(id: ${id}) {
     name
     summary
+    description
   }
 `;
+
+function deserialize(values) {
+  if (values.description) values.description = deserializeEditorContent(values.description);
+}
 
 export default (
   ({ id }) => {
     const [{ courseDesignTemplate }, loading, errors] = useQuery(COURSE_DESIGN_TEMPLATE, { id });
     const updateCourseDesignTemplate = useMutation(UPDATE_COURSE_DESIGN_TEMPLATE, { onComplete }, { id });
-    const form = useForm(updateCourseDesignTemplate, courseDesignTemplate);
+    const form = useForm(updateCourseDesignTemplate, courseDesignTemplate, null, { deserialize });
 
     return <Fields comp={form}>
       <AdminView.AppBar>

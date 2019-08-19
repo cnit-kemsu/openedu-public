@@ -4,10 +4,10 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToUnitDataView(id) { History.push(`/admin/design-units/${id}`); }
-function routeToUnitReleaseDataView(id) { History.push(`/admin/delivery-units/${id}`); }
+function routeToUnitDesignDataView(id) { History.push(`/admin/design-units/${id}`); }
+function routeToUnitDeliveryDataView(id) { History.push(`/admin/delivery-units/${id}`); }
 
-export default function UnitContextMenu(close, { id, item, subsectionIndex, editDialog, confirmDeleteDialog, release }) {
+export default function UnitContextMenu(close, { id, item, subsectionIndex, editDialog, confirmDeleteDialog, isDelivery }) {
 
   return <>
     <MenuItem onClick={() => { close(); editDialog.open({ id, item, subsectionIndex }); }}>
@@ -16,7 +16,7 @@ export default function UnitContextMenu(close, { id, item, subsectionIndex, edit
     <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, item, subsectionIndex }); }}>
       <DeleteMenuItem />
     </MenuItem>
-    <MenuItem onClick={() => release ? routeToUnitReleaseDataView(id) : routeToUnitDataView(id)}>
+    <MenuItem onClick={() => isDelivery ? routeToUnitDeliveryDataView(id) : routeToUnitDesignDataView(id)}>
       Содержимое
     </MenuItem>
   </>;

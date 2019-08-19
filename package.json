@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@kemsu/core": "github:cnit-kemsu/core",
+    "@kemsu/editor": "github:cnit-kemsu/editor",
     "@kemsu/force-update": "github:cnit-kemsu/force-update",
     "@kemsu/form": "github:cnit-kemsu/form",
     "@kemsu/graphql-client": "github:cnit-kemsu/graphql-client",
