@@ -21,7 +21,7 @@ function validateAnswers(values) {
 }
 
 function Answers({ createAnswerDialog, questionElement, questionIndex, ...props }) {
-  const [answers, { push, error, dirty, touched, onBlur }] = useFieldArray(questionElement, 'answers', validateAnswers);
+  const [answers, { push, error, dirty, touched, onBlur }] = useFieldArray(questionElement, 'answerOptions', validateAnswers);
   const answerItems = useElementArray(AnswerItem, [...answers], { key: keyProp, questionIndex, ...props });
   const showError = error && touched && dirty;
 
@@ -36,7 +36,7 @@ function Answers({ createAnswerDialog, questionElement, questionIndex, ...props 
 
     <Button data-control size="small" variant="outlined" color="primary" className={classes.addAnswerButton} onClick={() => createAnswerDialog.open({ push, questionIndex })}>
       <AddIcon className={classes.addIcon} />
-      Добавить ответ
+      Добавить вариант ответ
     </Button>
   </>;
 }

@@ -7,6 +7,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import MoreIconButton from '@components/MoreIconButton';
 import { useArrayElement } from '@kemsu/form';
+import { Editor } from '@kemsu/editor';
 import AnswersView from './Answers';
 import { QuestionItem as useStyles } from './styles';
 
@@ -20,7 +21,9 @@ export function QuestionItem (element, { questionMenu, ...props }) {
       <div className={classes.pre}>
         <Typography className={classes.index}>{questionIndex}.</Typography>
       </div>
-      <ListItemText className={classes.text} primary={values.text} />
+      {/* <ListItemText className={classes.text} primary={values.text} /> */}
+      {/* <Editor editorState={values.text} readOnly={true} /> */}
+      <ListItemText className={classes.text} primary={<Editor editorState={values.content} readOnly={true} />} />
       <ListItemSecondaryAction>
         <MoreIconButton data-control onClick={event => questionMenu.open(event, { element, values, onChange, questionIndex })} />
       </ListItemSecondaryAction>

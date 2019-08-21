@@ -18,7 +18,7 @@ function EditCourseDesignTemplate() {
   return <div className={classes.root}>
     <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
-    <Editor name="description" />
+    <Editor className={classes.description} name="description" label="Полное описание" />
   </div>;
 }
 EditCourseDesignTemplate = React.memo(EditCourseDesignTemplate);

@@ -6,6 +6,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Typography from '@material-ui/core/Typography';
 import MoreIconButton from '@components/MoreIconButton';
 import { useArrayElement } from '@kemsu/form';
+import { Editor } from '@kemsu/editor';
 import RightAnserCheckbox from './RightAnswerCheckbox';
 import { AnswerItem as useStyles } from './styles';
 
@@ -21,7 +22,8 @@ export function AnswerItem(element, { answerMenu, questionIndex }) {
         <RightAnserCheckbox comp={element} />
       </ListItemIcon>
     </div>
-    <ListItemText className={classes.text} primary={values.text} />
+    {/* <ListItemText className={classes.text} primary={values.text} /> */}
+    <ListItemText className={classes.text} primary={<Editor editorState={values.content} readOnly={true} />} />
     <ListItemSecondaryAction>
       <MoreIconButton data-control onClick={event => answerMenu.open(event, { element, values, onChange, questionIndex, answerIndex })} />
     </ListItemSecondaryAction>

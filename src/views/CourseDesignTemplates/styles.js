@@ -8,7 +8,11 @@ export const CourseForm = makeStyles({
     width: '100%'
   },
   summary: {
+    marginTop: '12px',
     width: '100%'
+  },
+  description: {
+    paddingTop: '6px'
   }
 });
 
