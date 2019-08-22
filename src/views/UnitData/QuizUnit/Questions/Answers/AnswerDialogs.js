@@ -9,7 +9,7 @@ import confirmDeleteProps from '@components/confirmDeleteProps';
 import { AnswerForm as useStyles } from './styles';
 
 function validateText(value) {
-  if (!value) return 'Содержание ответа не должен быть пустым';
+  if (!value || (value.constructor.name === 'EditorState' && !value.getCurrentContent().hasText())) return 'Содержание ответа не должен быть пустым';
 }
 
 export function CreateAnswerDialog(close, { push, questionIndex }) {
@@ -19,7 +19,7 @@ export function CreateAnswerDialog(close, { push, questionIndex }) {
   return <FormDialog comp={form} onClose={close} title={`Новый ответ к вопросу №${questionIndex}`} {...createSubmitProps}>
     <div className={classes.root}>
       {/* <TextField className={classes.text} name="text" multiline rows={4} validate={validateText} label="Текст ответа"/> */}
-      <Editor name="content" label="Содержание"/>
+      <Editor name="content" label="Содержание" validate={validateText} />
     </div>
   </FormDialog>;
 }
@@ -31,7 +31,7 @@ export function EditAnswerDialog(close, { values, onChange, questionIndex, answe
   return <FormDialog comp={form} onClose={close} title={`Редактирование ответа №${answerIndex} к вопросу №${questionIndex}`} {...updateSubmitProps}>
     <div className={classes.root}>
       {/* <TextField className={classes.text} name="text" multiline rows={4} validate={validateText} label="Текст ответа"/> */}
-      <Editor name="content" label="Содержание"/>
+      <Editor name="content" label="Содержание" validate={validateText} />
     </div>
   </FormDialog>;
 }

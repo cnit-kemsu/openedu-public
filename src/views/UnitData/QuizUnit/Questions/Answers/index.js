@@ -36,7 +36,7 @@ function Answers({ createAnswerDialog, questionElement, questionIndex, ...props 
 
     <Button data-control size="small" variant="outlined" color="primary" className={classes.addAnswerButton} onClick={() => createAnswerDialog.open({ push, questionIndex })}>
       <AddIcon className={classes.addIcon} />
-      Добавить вариант ответ
+      Добавить вариант ответа
     </Button>
   </>;
 }

@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { useMutation, useQuery } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
-import { TextField, Editor, deserializeEditorContent } from '@kemsu/inputs';
+import { TextField, Editor, deserializeEditorContent, DragAndDropImageDialog } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications, Loader } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
@@ -19,6 +19,7 @@ function EditCourseDesignTemplate() {
     <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
     <Editor className={classes.description} name="description" label="Полное описание" />
+    <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
   </div>;
 }
 EditCourseDesignTemplate = React.memo(EditCourseDesignTemplate);
@@ -27,13 +28,15 @@ const UPDATE_COURSE_DESIGN_TEMPLATE = ({
   id = 'Int!',
   name = 'String',
   summary = 'String',
-  description = 'JSON'
+  description = 'JSON',
+  picture = 'JSON'
 }) => `
   updateCourseDesignTemplate(
     id: ${id}
     name: ${name}
     summary: ${summary}
     description: ${description}
+    picture: ${picture}
   )
 `;
 function onComplete() {
@@ -46,6 +49,7 @@ export const COURSE_DESIGN_TEMPLATE = ({ id = 'Int!' }) => `
     name
     summary
     description
+    picture
   }
 `;
 

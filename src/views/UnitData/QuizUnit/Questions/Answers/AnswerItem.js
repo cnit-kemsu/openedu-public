@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import MoreIconButton from '@components/MoreIconButton';
 import { useArrayElement } from '@kemsu/form';
 import { Editor } from '@kemsu/editor';
-import RightAnserCheckbox from './RightAnswerCheckbox';
+import RightAnswerCheckbox from './RightAnswerCheckbox';
 import { AnswerItem as useStyles } from './styles';
 
 export function AnswerItem(element, { answerMenu, questionIndex }) {
@@ -19,7 +19,7 @@ export function AnswerItem(element, { answerMenu, questionIndex }) {
     <div className={classes.pre}>
       <Typography className={classes.index}>{answerIndex}.</Typography>
       <ListItemIcon>
-        <RightAnserCheckbox comp={element} />
+        <RightAnswerCheckbox comp={element} />
       </ListItemIcon>
     </div>
     {/* <ListItemText className={classes.text} primary={values.text} /> */}

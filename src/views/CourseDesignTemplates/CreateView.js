@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { Mutation } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
-import { TextField, Editor } from '@kemsu/inputs';
+import { TextField, Editor, DragAndDropImageDialog } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
@@ -19,6 +19,7 @@ function CreateCourseDesignTemplate() {
     <TextField className={classes.name} name="name" validate={validateCourseName} label="Название"/>
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
     <Editor className={classes.description} name="description" label="Полное описание" />
+    <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
   </div>;
 }
 CreateCourseDesignTemplate = React.memo(CreateCourseDesignTemplate);
@@ -26,12 +27,14 @@ CreateCourseDesignTemplate = React.memo(CreateCourseDesignTemplate);
 const CREATE_COURSE_DESIGN_TEMPLATE = ({
   name = 'String!',
   summary = 'String',
-  description = 'JSON'
+  description = 'JSON',
+  picture = 'JSON'
 }) => `
   createCourseDesignTemplate(
     name: ${name}
     summary: ${summary}
     description: ${description}
+    picture: ${picture}
   )
 `;
 function onComplete() {

@@ -13,6 +13,11 @@ export const CourseForm = makeStyles({
   },
   description: {
     paddingTop: '6px'
+  },
+  picture: {
+    paddingTop: '6px',
+    width: '300px',
+    paddingBottom: '12px'
   }
 });
 

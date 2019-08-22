@@ -5,19 +5,19 @@ import { TextField } from '@kemsu/inputs';
 import { Parameters as useStyles } from './styles';
 
 function validateTotalAttempts(value) {
-  const _value = Number(value);
-  if (!_value) return 'Необходимо указать не нулевое значение';
-  if (_value < 0) return 'Значение должно быть положительным числом';
+  //const _value = Number(value);
+  //if (!_value) return 'Необходимо указать не нулевое значение';
+  if (value < 0) return 'Значение должно быть положительным числом';
 }
 function validateTimeLimit(value) {
-  const _value = Number(value);
-  if (!_value) return 'Необходимо указать не нулевое значение';
-  if (_value < 0) return 'Значение должно быть положительным числом';
+  //const _value = Number(value);
+  //if (!_value) return 'Необходимо указать не нулевое значение';
+  if (value < 0) return 'Значение должно быть положительным числом';
 }
 function validateMasxScore(value) {
-  const _value = Number(value);
-  if (!_value) return 'Необходимо указать не нулевое значение';
-  if (_value < 0) return 'Значение должно быть положительным числом';
+  //const _value = Number(value);
+  if (!value) return 'Необходимо указать не нулевое значение';
+  if (value < 0) return 'Значение должно быть положительным числом';
 }
 
 function Parameters() {

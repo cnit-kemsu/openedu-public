@@ -90,9 +90,6 @@ export default React.memo(
     const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(course?.id, isDelivery) }, { id });
 
     const _data = type === 'QUIZ' ? {
-      totalAttempts: 2,
-      timeLimit: '60',
-      maxScore: 100,
       ...data
     } : data;
     const form = useForm(updateUnit, { data: _data });

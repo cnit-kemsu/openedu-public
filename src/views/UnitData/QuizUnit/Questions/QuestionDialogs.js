@@ -9,29 +9,29 @@ import confirmDeleteProps from '@components/confirmDeleteProps';
 import { QuestionForm as useStyles } from './styles';
 
 function validateText(value) {
-  if (!value) return 'Содержание вопроса не должен быть пустым';
+  if (!value || (value.constructor.name === 'EditorState' && !value.getCurrentContent().hasText())) return 'Содержание вопроса не должен быть пустым';
 }
 
 export function CreateQuestionDialog(close, { push }) {
-  const form = useForm((values) => push({ ...values, type: 'Multiple Choice' }), null, null, { onSubmitted: close });
+  const form = useForm((values) => push({ ...values, type: 'MultipleChoice' }), null, null, { onSubmitted: close });
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title="Новый вопрос" {...createSubmitProps}>
     <div className={classes.root}>
       {/* <TextField className={classes.text} name="text" multiline rows={6} validate={validateText} label="Текст вопроса"/> */}
-      <Editor name="content" label="Содержание"/>
+      <Editor name="content" label="Содержание" validate={validateText} />
     </div>
   </FormDialog>;
 }
 
 export function EditQuestionDialog(close, { values, onChange, questionIndex }) {
-  const form = useForm((newValues) => onChange({ ...values, ...newValues, type: 'Multiple Choice' }), values, null, { onSubmitted: close });
+  const form = useForm((newValues) => onChange({ ...values, ...newValues, type: 'MultipleChoice' }), values, null, { onSubmitted: close });
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title={`Редактирование вопроса №${questionIndex}`} {...updateSubmitProps}>
     <div className={classes.root}>
       {/* <TextField className={classes.text} name="text" multiline rows={6} validate={validateText} label="Текст вопроса"/> */}
-      <Editor name="content" label="Содержание"/>
+      <Editor name="content" label="Содержание" validate={validateText} />
     </div>
   </FormDialog>;
 }
