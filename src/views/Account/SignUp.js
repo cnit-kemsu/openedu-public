@@ -13,13 +13,15 @@ const SIGN_UP_ACCOUNT = ({
   email = 'String!',
   password = 'String!',
   firstname = 'String!',
-  lastname = 'String!'
+  lastname = 'String!',
+  middlename = 'String'
 }) => `
   bearer: signUpAccount(
     email: ${email}
     password: ${password}
     firstname: ${firstname}
     lastname: ${lastname}
+    middlename: ${middlename}
   )
 `;
 function onComplete({ bearer }, { email }) {
@@ -30,7 +32,7 @@ function onComplete({ bearer }, { email }) {
 const signUpAccount = new Mutation(SIGN_UP_ACCOUNT, { onComplete }).commit;
 
 function SignUpAccount() {
-  const form = useForm(signUpAccount, validateConfirmPassword);
+  const form = useForm(signUpAccount, null, validateConfirmPassword);
 
   const classes = useStyles();
   return <Form comp={form} submitText="Создать аккаунт" submitIcon={null} resetText={null}>
@@ -43,11 +45,14 @@ function SignUpAccount() {
     <TextField name="confirmPassword"
       type="password" label="Повторите пароль" className={classes.confirmPassword}
     />
+    <TextField name="lastname" validate={validateLastname}
+      label="Фамилия" className={classes.lastname}
+    />
     <TextField name="firstname" validate={validateFirstname}
       label="Имя" className={classes.firstname}
     />
-    <TextField name="lastname" validate={validateLastname}
-      label="Фамилия" className={classes.lastname}
+    <TextField name="middlename"
+      label="Отчество" className={classes.middlename}
     />
   </Form>;
 }

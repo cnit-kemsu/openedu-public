@@ -28,7 +28,7 @@ function onComplete({ bearer }, { email }) {
 
 function ConfirmAccount() {
   const confirmAccount = useMutation(CONFIRM_ACCOUNT, { onComplete }, { email: Location.search.email });
-  const form = useForm(confirmAccount, validateConfirmPassword);
+  const form = useForm(confirmAccount, null, validateConfirmPassword);
 
   const classes = useStyles();
   return <Form comp={form} submitText="Продолжить" submitIcon={null} resetText={null}>

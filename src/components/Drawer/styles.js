@@ -31,6 +31,11 @@ export const AccountInfo = makeStyles(theme => ({
   menuButton: {
     color: 'inherit',
     marginLeft: '8px'
+  },
+  image: {
+    height: '96px',
+    width: '96px',
+    margin: 'auto'
   }
 }));
 

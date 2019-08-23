@@ -21,6 +21,7 @@ const SIGN_INTO_ACCOUNT = ({
     verified
     complete
     bearer
+    picture
   }
 `;
 function onComplete({ token }, { email }) {

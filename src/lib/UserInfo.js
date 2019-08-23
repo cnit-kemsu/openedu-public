@@ -18,13 +18,20 @@ export class UserInfo {
   static get bearer() {
     return localStorage.getItem('user.bearer');
   }
+  static get pictureFileId() {
+    return localStorage.getItem('user.pictureFileId');
+  }
 
-  static update({ role, email, verified, complete, bearer }) {
+  static update({ role, email, verified, complete, bearer, picture }) {
     if (role !== undefined) localStorage.setItem('user.role', role);
     if (email !== undefined) localStorage.setItem('user.email', email);
     if (verified !== undefined) localStorage.setItem('user.verified', verified);
     if (complete !== undefined) localStorage.setItem('user.complete', complete);
     if (bearer !== undefined) localStorage.setItem('user.bearer', bearer);
+    if (picture !== undefined) {
+      if (picture) localStorage.setItem('user.pictureFileId', picture.fileSourceKey);
+      else localStorage.removeItem('user.pictureFileId');
+    }
     UserInfo.updateEvent.publish();
   }
 
@@ -34,6 +41,7 @@ export class UserInfo {
     localStorage.removeItem('user.verified');
     localStorage.removeItem('user.complete');
     localStorage.removeItem('user.bearer');
+    localStorage.removeItem('user.pictureFileId');
     UserInfo.updateEvent.publish();
   }
 }

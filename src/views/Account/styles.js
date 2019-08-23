@@ -42,11 +42,14 @@ export const SignUp = makeStyles({
   confirmPassword: {
     width: '100%'
   },
-  firstname: {
-    width: '100%',
-    marginTop: '48px'
-  },
   lastname: {
+    marginTop: '48px',
+    width: '100%'
+  },
+  firstname: {
+    width: '100%'
+  },
+  middlename: {
     width: '100%'
   }
 });
@@ -75,5 +78,49 @@ export const Complete = makeStyles({
   },
   lastname: {
     width: '100%'
+  },
+  middlename: {
+    width: '100%'
+  }
+});
+
+export const UserProfileData = makeStyles({
+  editButton: {
+    float: 'right'
+  },
+  editIcon: {
+    marginRight: '6px'
+  },
+  icon: {
+    fontSize: '96px'
+  },
+  picture: {
+    height: '96px',
+    width: '96px',
+    //margin: 'auto'
+  }
+});
+
+export const EditUserProfileForm = makeStyles({
+  firstname: {
+    width: '100%'
+  },
+  lastname: {
+    width: '100%'
+  },
+  middlename: {
+    width: '100%'
+  },
+  picture: {
+    paddingTop: '6px',
+    width: '200px',
+    paddingBottom: '12px'
+  }
+});
+
+export const EditUserProfile = makeStyles({
+  topBar: {
+    display: 'flex',
+    alignItems: 'center'
   }
 });

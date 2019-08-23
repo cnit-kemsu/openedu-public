@@ -9,6 +9,7 @@ import SignUpAccountView from './SignUp';
 import VerifyAccountView from './Verify';
 import ConfirmAccountView from './Confirm';
 import CompleteAccountView from './Complete';
+import UserProfile from './UserProfile';
 import useStyles from './styles';
 
 function handleTabChange(event, value) {
@@ -21,7 +22,8 @@ const routes = [
   [/.+\/signup$/, () => ([<SignUpAccountView />, 1])],
   [/.+\/verify$/, () => ([<VerifyAccountView />])],
   [/.+\/confirm$/, () => ([<ConfirmAccountView />])],
-  [/.+\/complete$/, () => ([<CompleteAccountView />])]
+  [/.+\/complete$/, () => ([<CompleteAccountView />])],
+  [/.+\/profile(?<edit>\/edit)?$/, ({ edit }) => ([<UserProfile edit={Boolean(edit)} />])]
 ];
 
 function AccountView() {
