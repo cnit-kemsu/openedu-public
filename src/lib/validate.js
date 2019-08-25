@@ -61,14 +61,16 @@ export function validateUnitName(value) {
 
 export function validateAccessPeriod(value) {
   if (value) {
-    if (value instanceof String && value.includes('.')) return 'Значение должно быть целочисленным';
+    if (typeof value === 'string' && (value.includes('.') || value.includes(','))) return 'Значение должно быть целочисленным';
+    if (typeof value === 'number' &&  value % 1 !== 0) return 'Значение должно быть целочисленным';
     if (value < 0) return 'Значение должно быть больше нуля';
   }
 }
 
 export function validateExpirationPeriod(value) {
   if (value) {
-    if (value instanceof String && value.includes('.')) return 'Значение должно быть целочисленным';
+    if (typeof value === 'string' && (value.includes('.') || value.includes(','))) return 'Значение должно быть целочисленным';
+    if (typeof value === 'number' &&  value % 1 !== 0) return 'Значение должно быть целочисленным';
     if (value < 0) return 'Значение должно быть больше нуля';
   }
 }

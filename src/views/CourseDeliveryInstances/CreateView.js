@@ -12,13 +12,13 @@ import ResetButton from '@components/ResetButton';
 import { CourseReleaseForm as useStyles } from './styles';
 
 function validateStartDate(value) {
-  if (!value) return 'Необходимо выбрать дату';
+  if (!value) return;// return 'Необходимо выбрать дату';
   const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
   const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
   if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
 }
 function validateEnrollmentEndDate(value) {
-  if (!value) return 'Необходимо выбрать дату';
+  if (!value) return;// return 'Необходимо выбрать дату';
   const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
   const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
   if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
@@ -36,8 +36,8 @@ CreateCourseDeliveryInstance = React.memo(CreateCourseDeliveryInstance);
 
 const CREATE_COURSE_DELIVERY_INSTANCE = ({
   courseDesignTemplateId = 'Int!',
-  startDate = 'String!',
-  enrollmentEndDate = 'String!'
+  startDate = 'String',
+  enrollmentEndDate = 'String'
 }) => `
   createCourseDeliveryInstance(
     courseDesignTemplateId: ${courseDesignTemplateId}

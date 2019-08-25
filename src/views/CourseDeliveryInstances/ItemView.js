@@ -10,7 +10,7 @@ import { dispdate } from '@lib/dispdate';
 
 export default function CourseDeliveryInstanceItem({ id, ...item }, { menu }) {
   const { creationDate, startDate, enrollmentEndDate } = item;
-  const secondary = `Создан: ${dispdate(creationDate)}, начало: ${dispdate(startDate)}, окончание регистрации: ${dispdate(enrollmentEndDate)}`;
+  const secondary = `Создан: ${dispdate(creationDate)}${startDate ? ', начало: ' + dispdate(startDate) : ''}${enrollmentEndDate ? ', окончание регистрации: ' + dispdate(enrollmentEndDate) : ''}`;
 
   return <ListItem>
     <ListItemAvatar>
