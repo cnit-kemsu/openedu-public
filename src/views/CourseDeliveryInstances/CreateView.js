@@ -12,16 +12,16 @@ import ResetButton from '@components/ResetButton';
 import { CourseReleaseForm as useStyles } from './styles';
 
 function validateStartDate(value) {
-  if (!value) return;// return 'Необходимо выбрать дату';
-  const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
-  const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
-  if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
+  // if (!value) return;// return 'Необходимо выбрать дату';
+  // const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  // const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
+  // if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
 }
 function validateEnrollmentEndDate(value) {
-  if (!value) return;// return 'Необходимо выбрать дату';
-  const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
-  const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
-  if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
+  // if (!value) return;// return 'Необходимо выбрать дату';
+  // const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  // const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
+  // if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
 }
 
 function CreateCourseDeliveryInstance() {

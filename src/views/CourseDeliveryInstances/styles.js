@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const CourseReleaseForm = makeStyles({
   root: {
-    width: '400px'
+    width: '800px'
   },
   name: {
     width: '100%'

@@ -3,17 +3,17 @@ import { useRoutes } from '@kemsu/router';
 import pageNotFound from '@components/PageNotFound';
 import AppBar from '@components/AppBar';
 //import MainView from '@views/Main';
-import CourseView from '@views/Main/Course';
-import CoursesView from '@views/Main/Courses';
-import SubsectionView from '@views/Main/subsection';
+import AllCourseDeliveryInstancesView from '@views/Main/AllCourseDeliveryInstances';
+import CourseDeliveryInstanceView from '@views/Main/CourseDeliveryInstance';
+import DeliverySubsectionView from '@views/Main/DeliverySubsection';
 import AccountView from '@views/Account';
 import { DefaultLayout as useStyles } from './styles';
 import notAuthorisedPage from '@components/NotAuthorizedPage';
 
 const routes = [
-  [/^\/$/, () => <CoursesView />],
-  [/\/course\/(?<courseId>\d+)/, ({ courseId }) => <CourseView courseId={courseId} />],
-  [/\/subsection\/(?<id>\d+)/, ({ id }) => <SubsectionView id={id} />],
+  [/^\/$/, () => <AllCourseDeliveryInstancesView />],
+  [/\/course-delivery\/(?<courseId>\d+)(\/(?<content>content))?/, ({ courseId, content }) => <CourseDeliveryInstanceView content={Boolean(content)} id={courseId} />],
+  [/\/delivery-subsection\/(?<subsectionId>\d+)/, ({ subsectionId }) => <DeliverySubsectionView id={subsectionId} />],
   [/\/account/, () => <AccountView />]
 ];
 

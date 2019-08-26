@@ -22,16 +22,16 @@ function validateCourseName(value) {
 // }
 
 function validateStartDate(value) {
-  if (!value) return;// return 'Необходимо выбрать дату';
-  const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
-  const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
-  if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
+  // if (!value || !(value instanceof Date)) return;// return 'Необходимо выбрать дату';
+  // const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  // const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
+  // if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
 }
 function validateEnrollmentEndDate(value) {
-  if (!value) return;// return 'Необходимо выбрать дату';
-  const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
-  const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
-  if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
+  // if (!value || !(value instanceof Date)) return;// return 'Необходимо выбрать дату';
+  // const date = new Date(value.getFullYear(), value.getMonth(), value.getDate());
+  // const nowDate = new Date() |> new Date(#.getFullYear(), #.getMonth(), #.getDate());
+  // if (date < nowDate) return 'Значение должно быть позже сегодняшней даты';
 }
 
 function EditCourseDeliveryInstance() {
