@@ -1,4 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
+import Answers from "@views/UnitData/QuizUnit/Questions/Answers";
+import { QuestionItem } from "@views/UnitData/QuizUnit/Questions/QuestionItem";
 
 export const CourseDeliveryInstanceItem = makeStyles({
   root: {
@@ -157,4 +159,59 @@ export const SubsectionView = makeStyles({
     alignItems: 'center',
     paddingBottom: '16px'
   }
+});
+
+export const Answers1 = makeStyles({
+});
+
+export const QuestionItem1 = makeStyles({
+  root: {
+    minWidth: '800px',
+    marginBottom: '32px',
+    padding: '32px 24px',
+  },
+  item: {
+    alignItems: 'end'
+  },
+  index: {
+    fontWeight: 'bold'
+  },
+  text: {
+    whiteSpace: 'pre-line'
+  },
+  pre: {
+    marginTop: '4px',
+    marginRight: '4px'
+  }
+});
+
+export const AnswerItem1 = makeStyles({
+  root: {
+    alignItems: 'end',
+    margin: '4px',
+    border: '2px solid #fff0',
+  },
+  index: {
+    fontWeight: 'bold'
+  },
+  text: {
+    whiteSpace: 'pre-line'
+  },
+  pre: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '-4px',
+    marginBottom: '4px'
+  }
+});
+
+//import { blue } from '@material-ui/core/colors';
+
+export const RightAnswerCheckbox = makeStyles({
+  // root: {
+  //   color: blue[400]
+  // },
+  // checked: {
+  //   color: blue[600] + ' !important'
+  // }
 });
