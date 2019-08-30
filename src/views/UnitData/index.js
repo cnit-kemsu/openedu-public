@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
-import { useMutation, useQuery } from '@kemsu/graphql-client';
+import { useMutation, useQuery, refetch } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
 import { Link, FormErrors, Notifications, Loader } from '@kemsu/core';
 import AdminView from '@components/AdminView';
@@ -87,7 +87,9 @@ export default React.memo(
     const routeBackPath = isDelivery ? `/admin/course-delivery-instances/${course?.id}/structure` : `/admin/course-design-templates/${course?.id}/structure`;
 
     const UPDATE_MUTATION = isDelivery ? UPDATE_UNIT_DELIVERY : UPDATE_UNIT_DESIGN;
-    const updateUnit = useMutation(UPDATE_MUTATION, { onComplete: () => onComplete(course?.id, isDelivery) }, { id });
+    const updateUnit = useMutation(UPDATE_MUTATION,
+      {},//{ onComplete: () => onComplete(course?.id, isDelivery) },
+      { id });
 
     const _data = type === 'QUIZ' ? {
       ...data
@@ -121,7 +123,8 @@ export default React.memo(
       <AdminView.Div>
         <FormErrors />
       </AdminView.Div>
-      <UpdateFab {...{ loading, errors }} />
+      <UpdateFab onClick={() => { form.submit(); refetch(UNIT_QUERY); }} style={{ marginBottom: '64px' }} {...{ loading, errors }} />
+      <UpdateFab onClick={() => { form.submit(); onComplete(course?.id, isDelivery); }} {...{ loading, errors }}>Сохранить и вернуться</UpdateFab>
     </Fields>;
   }
 );

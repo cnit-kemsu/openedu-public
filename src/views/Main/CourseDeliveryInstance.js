@@ -56,6 +56,10 @@ function onComplete() {
 
 function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDate, expirationDate }) {
 
+  const nowDate = new Date();
+  let access = accessDate ? nowDate > new Date(accessDate) : true;
+  access = expirationDate ? nowDate < new Date(expirationDate) : access;
+
   const classes = useSubsectionStyles();
   return <div className={classes.root}>
     <ExpansionPanel disabled={!summary} classes={{ disabled: classes.disabled }}>
@@ -63,12 +67,20 @@ function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDa
         <div>
           {enrolled
             ? <div>
-              <Link className={classes.nameEnrolled} styled path={`/delivery-subsection/${id}`}>
-                <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography>
-                <Typography variant="inherit" component="span">
-                  {name}
-                </Typography>
-              </Link>
+              {access
+                ? <Link className={classes.nameEnrolled} styled path={`/delivery-subsection/${id}`}>
+                  <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography>
+                  <Typography variant="inherit" component="span">
+                    {name}
+                  </Typography>
+                </Link>
+                : <div>
+                  <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography>
+                  <Typography variant="inherit" component="span">
+                    {name}
+                  </Typography>
+                </div>
+              }
               {accessDate || expirationDate ?
                 <div className={classes.dates}>
                   {accessDate && <Typography component="span" variant="inherit">открытие доступа: {dispdate(accessDate)}</Typography>}

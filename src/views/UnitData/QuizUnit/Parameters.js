@@ -6,17 +6,20 @@ import { Parameters as useStyles } from './styles';
 
 function validateTotalAttempts(value) {
   //const _value = Number(value);
-  //if (!_value) return 'Необходимо указать не нулевое значение';
+  if (!value) return 'Необходимо указать не нулевое значение';
+  if (value % 1 !== 0) return 'Необходимо указать целое число';
   if (value < 0) return 'Значение должно быть положительным числом';
 }
 function validateTimeLimit(value) {
   //const _value = Number(value);
   //if (!_value) return 'Необходимо указать не нулевое значение';
+  if (value && value % 1 !== 0) return 'Необходимо указать целое число';
   if (value < 0) return 'Значение должно быть положительным числом';
 }
-function validateMasxScore(value) {
+function validateMaxScore(value) {
   //const _value = Number(value);
   if (!value) return 'Необходимо указать не нулевое значение';
+  if (value % 1 !== 0) return 'Необходимо указать целое число';
   if (value < 0) return 'Значение должно быть положительным числом';
 }
 
@@ -27,7 +30,7 @@ function Parameters() {
     <Typography variant="h6">Параметры</Typography>
     <TextField className={classes.totalAttempts} name="data.totalAttempts" validate={validateTotalAttempts} label="Количество попыток" type="number" />
     <TextField className={classes.timeLimit} name="data.timeLimit" validate={validateTimeLimit} label="Ограничение по времени (в минутах)" type="number" />
-    <TextField className={classes.maxScore} name="data.maxScore" validate={validateMasxScore} label="Максимальное количество баллов" type="number" />
+    <TextField className={classes.maxScore} name="data.maxScore" validate={validateMaxScore} label="Максимальное количество баллов" type="number" />
   </Paper>;
 }
 export default React.memo(Parameters);
