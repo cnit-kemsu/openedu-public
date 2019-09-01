@@ -15,6 +15,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Progress from './Progress';
 
 export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
   courseDeliveryInstance(id: ${id}) {
@@ -134,13 +135,14 @@ function renderSection(props, index, enrolled) {
 function handleTabChange(id, value) {
   if (value === 0) History.push(`/course-delivery/${id}`);
   if (value === 1) History.push(`/course-delivery/${id}/content`);
+  if (value === 2) History.push(`/course-delivery/${id}/progress`);
 }
 
-function CourseDeliveryInstance({ id, content }) {
+function CourseDeliveryInstance({ id, showType }) {
   
   const [{ courseDeliveryInstance }, loading, errors] = useQuery(COURSE_DELIVERY_INSTANCE, { id });
   const enrollToCourseDeliveryInstance = useMutation(ENROLL_TO_COURSE_DELIVERY_INSTANCE, { onComplete }, { id });
-  const tabValue = content ? 1 : 0;
+  const tabValue = showType === 'content' ? 1 : (showType === 'progress' ? 2 : 0);
 
   const classes = useStyles();
   return <Paper className={classes.root}>
@@ -166,6 +168,7 @@ function CourseDeliveryInstance({ id, content }) {
             <Tabs variant="fullWidth" className={classes.tabs} indicatorColor="primary" textColor="primary" value={tabValue} onChange={(event, value) => handleTabChange(id, value)}>
               <Tab className={classes.tab} label="Описание" />
               <Tab className={classes.tab} label="Содержание" />
+              {courseDeliveryInstance.enrolled && <Tab className={classes.tab} label="Достижения" />}
             </Tabs>
 
             <div className={classes.contentContentContent}>
@@ -175,6 +178,10 @@ function CourseDeliveryInstance({ id, content }) {
               
               {tabValue === 1 && <div>
                 {courseDeliveryInstance.sections.map((props, index) => renderSection(props, index + 1, courseDeliveryInstance.enrolled))}
+              </div>}
+
+              {tabValue === 2 && <div>
+                {<Progress id={id} />}
               </div>}
             </div>
           </div>

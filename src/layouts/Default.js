@@ -12,7 +12,7 @@ import notAuthorisedPage from '@components/NotAuthorizedPage';
 
 const routes = [
   [/^\/$/, () => <AllCourseDeliveryInstancesView />],
-  [/\/course-delivery\/(?<courseId>\d+)(\/(?<content>content))?/, ({ courseId, content }) => <CourseDeliveryInstanceView content={Boolean(content)} id={courseId} />],
+  [/\/course-delivery\/(?<courseId>\d+)(\/(?<showType>\w+))?/, ({ courseId, showType }) => <CourseDeliveryInstanceView showType={showType} id={courseId} />],
   [/\/delivery-subsection\/(?<subsectionId>\d+)/, ({ subsectionId }) => <DeliverySubsectionView id={subsectionId} />],
   [/\/account/, () => <AccountView />]
 ];

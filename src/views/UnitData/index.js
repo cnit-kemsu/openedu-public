@@ -88,7 +88,7 @@ export default React.memo(
 
     const UPDATE_MUTATION = isDelivery ? UPDATE_UNIT_DELIVERY : UPDATE_UNIT_DESIGN;
     const updateUnit = useMutation(UPDATE_MUTATION,
-      {},//{ onComplete: () => onComplete(course?.id, isDelivery) },
+      { onComplete: () => onComplete(course?.id, isDelivery) },
       { id });
 
     const _data = type === 'QUIZ' ? {
@@ -123,8 +123,9 @@ export default React.memo(
       <AdminView.Div>
         <FormErrors />
       </AdminView.Div>
-      <UpdateFab onClick={() => { form.submit(); refetch(UNIT_QUERY); }} style={{ marginBottom: '64px' }} {...{ loading, errors }} />
-      <UpdateFab onClick={() => { form.submit(); onComplete(course?.id, isDelivery); }} {...{ loading, errors }}>Сохранить и вернуться</UpdateFab>
+      <UpdateFab />
+      {/* <UpdateFab onClick={() => { form.submit(); refetch(UNIT_QUERY); }} style={{ marginBottom: '64px' }} {...{ loading, errors }} />
+      <UpdateFab onClick={() => { form.submit(); onComplete(course?.id, isDelivery); }} {...{ loading, errors }}>Сохранить и вернуться</UpdateFab> */}
     </Fields>;
   }
 );
