@@ -22,7 +22,7 @@ EditUser = React.memo(EditUser);
 
 const UPDATE_ROLE = ({
   id = 'Int!',
-  role = 'RoleEnum!'
+  role = 'RoleInputEnum!'
 }) => `
   updateRole(
     id: ${id}

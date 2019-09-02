@@ -10,6 +10,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
 import { CourseReleaseForm as useStyles } from './styles';
+import Instructors from './Instructors';
 
 function validateCourseName(value) {
   if (!value) return 'Необходимо указать название';
@@ -44,6 +45,7 @@ function EditCourseDeliveryInstance() {
     <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
     <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
+    <Instructors />
   </div>;
 }
 EditCourseDeliveryInstance = React.memo(EditCourseDeliveryInstance);
@@ -55,7 +57,8 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
   description = 'JSON',
   picture = 'JSON',
   startDate = 'String',
-  enrollmentEndDate = 'String'
+  enrollmentEndDate = 'String',
+  instructors = 'JSON'
 }) => `
   updateCourseDeliveryInstance(
     id: ${id}
@@ -65,6 +68,7 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
     picture: ${picture}
     startDate: ${startDate}
     enrollmentEndDate: ${enrollmentEndDate}
+    instructors: ${instructors}
   )
 `;
 function onComplete() {
@@ -80,6 +84,7 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     picture
     startDate
     enrollmentEndDate
+    instructors
   }
 `;
 

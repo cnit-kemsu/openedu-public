@@ -42,7 +42,8 @@
     "webpack-dev-server": "^3.2.1"
   },
   "scripts": {
-    "start": "node_modules/.bin/nodemon --watch webpack.config.babel.js --exec webpack-dev-server"
+    "start": "node_modules/.bin/nodemon --watch webpack.config.babel.js --exec webpack-dev-server",
+    "build": "webpack --config webpack.config.build.babel.js"
   },
   "dependencies": {
     "@kemsu/core": "github:cnit-kemsu/core",

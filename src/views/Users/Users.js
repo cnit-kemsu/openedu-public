@@ -24,6 +24,8 @@ export const USERS = ({ offset = 'Int' }) => `
     verified
     firstname
     lastname
+    middlename
+    picture
   }
 `;
 

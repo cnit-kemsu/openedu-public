@@ -9,15 +9,15 @@ import MoreIconButton from '@components/MoreIconButton';
 import { dispstr } from '@lib/dispstr';
 import UserStatus from './UserStatus';
 
-export default function UserItem({ id, role, email, verified, firstname, lastname }, { menu }) {
+export default function UserItem({ id, role, email, verified, firstname, lastname, middlename, picture }, { menu }) {
 
   return <ListItem>
-    <ListItemAvatar>
-      <Avatar>
-        <AccountCircle />
-      </Avatar>
-    </ListItemAvatar>
-    <ListItemText primary={email} secondary={dispstr(firstname, lastname)} />
+    <ListItemAvatar>{
+      picture
+      ? <Avatar src={'/files/' + picture.fileSourceKey} />
+      : <Avatar><AccountCircle /></Avatar>
+    }</ListItemAvatar>
+    <ListItemText primary={email} secondary={dispstr(lastname, firstname, middlename)} />
     <UserStatus role={role} verified={verified} />
     <ListItemSecondaryAction>
       <MoreIconButton onClick={event => menu.open(event, { id, email })} />

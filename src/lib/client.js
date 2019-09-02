@@ -1,6 +1,8 @@
 import { GraphqlClient } from '@kemsu/graphql-client';
 
-GraphqlClient.url = '/api';
+GraphqlClient.url = 
+'/graphql';
+//'/api' ;
 
 function errorToJson(error) {
   return JSON.stringify(error, null, ' ').replace(/(\\{2})/g, '\\');

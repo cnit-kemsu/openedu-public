@@ -26,7 +26,7 @@ function CreateUser() {
 CreateUser = React.memo(CreateUser);
 
 const CREATE_USER = ({
-  role = 'RoleEnum!',
+  role = 'RoleInputEnum!',
   email = 'String!'
 }) => `
   createUser(

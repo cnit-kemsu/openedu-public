@@ -9,6 +9,7 @@ import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import CreateFab from '@components/CreateFab';
 import ResetButton from '@components/ResetButton';
+import Instructors from './Instructors';
 import { CourseReleaseForm as useStyles } from './styles';
 
 function validateStartDate(value) {
@@ -30,6 +31,7 @@ function CreateCourseDeliveryInstance() {
   return <div className={classes.root}>
     <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
+    <Instructors />
   </div>;
 }
 CreateCourseDeliveryInstance = React.memo(CreateCourseDeliveryInstance);
@@ -37,12 +39,14 @@ CreateCourseDeliveryInstance = React.memo(CreateCourseDeliveryInstance);
 const CREATE_COURSE_DELIVERY_INSTANCE = ({
   courseDesignTemplateId = 'Int!',
   startDate = 'String',
-  enrollmentEndDate = 'String'
+  enrollmentEndDate = 'String',
+  instructors = 'JSON'
 }) => `
   createCourseDeliveryInstance(
     courseDesignTemplateId: ${courseDesignTemplateId}
     startDate: ${startDate}
     enrollmentEndDate: ${enrollmentEndDate}
+    instructors: ${instructors}
   )
 `;
 function onComplete() {
