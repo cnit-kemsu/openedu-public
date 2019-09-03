@@ -6,7 +6,6 @@ import { Parameters as useStyles } from './styles';
 
 function validateTotalAttempts(value) {
   //const _value = Number(value);
-  console.log(value);
   if (!value) return 'Необходимо указать не нулевое значение';
   if (value % 1 !== 0) return 'Необходимо указать целое число';
   if (value < 0) return 'Значение должно быть положительным числом';

@@ -216,7 +216,7 @@ function CourseDeliveryInstance({ id, showType, userId }) {
             <Tabs variant="fullWidth" className={classes.tabs} indicatorColor="primary" textColor="primary" value={tabValue} onChange={(event, value) => handleTabChange(id, value)}>
               <Tab className={classes.tab} label="Описание" />
               <Tab className={classes.tab} label="Содержание" />
-              {courseDeliveryInstance.enrolled && <Tab className={classes.tab} label="Достижения" />}
+              {(courseDeliveryInstance.enrolled || (UserInfo.role === 'admin' || UserInfo.role === 'superuser' || UserInfo.role === 'instructor')) && <Tab className={classes.tab} label="Достижения" />}
             </Tabs>
 
             <div className={classes.contentContentContent}>
