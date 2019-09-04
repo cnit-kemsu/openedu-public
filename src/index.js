@@ -39,7 +39,7 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  console.log('render App');
+  //console.log('render App');
 
   return useRoute(/^\/admin/)
   |> <>

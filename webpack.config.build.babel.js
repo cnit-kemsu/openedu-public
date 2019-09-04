@@ -1,9 +1,8 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { DuplicatesPlugin } from 'inspectpack/plugin';
 
 export default {
-  mode: 'development',
+  mode: 'production',
   target: 'web',
 
   entry: './src/index.js',
@@ -52,7 +51,6 @@ export default {
   optimization: {
     namedChunks: true,
     namedModules: false,
-    minimize: false,
     splitChunks: {
       cacheGroups: {
         vendor: {

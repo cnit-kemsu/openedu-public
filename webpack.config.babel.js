@@ -47,7 +47,6 @@ export default {
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'openedu-public',
       template: './src/index.html'
     }),
     new DuplicatesPlugin({})
@@ -78,7 +77,7 @@ export default {
 
   devServer: {
     proxy: {
-      '/api': 'http://localhost:8080/graphql',
+      '/graphql': 'http://localhost:8080/graphql',
       '/files': 'http://localhost:8080/'
     },
     contentBase: './test/server',
