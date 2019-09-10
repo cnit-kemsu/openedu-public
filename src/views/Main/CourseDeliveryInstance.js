@@ -37,7 +37,14 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     startDate
     enrollmentEndDate
     enrolled
-    instructors
+    instructors {
+      id
+      email
+      firstname
+      lastname
+      middlename
+      picture
+    }
     sections {
       id
       name
@@ -148,26 +155,34 @@ function handleTabChange(id, value) {
   if (value === 2) History.push(`/course-delivery/${id}/progress`);
 }
 
-export const USERS = ({ keys = 'JSON' }) => `
-  users(keys: ${keys}) {
-    id
-    email
-    firstname
-    lastname
-    middlename
-    picture
-  }
-`;
+// export const USERS = ({ keys = 'JSON' }) => `
+//   users(keys: ${keys}) {
+//     id
+//     email
+//     firstname
+//     lastname
+//     middlename
+//     picture
+//   }
+// `;
 
-function Instructors({ keys }) {
+// function Instructors({ keys }) {
 
-  const [{ users }, loading, errors] = useQuery(USERS, { keys });
-  const userItems = useElementArray(UserItem, users, { key: user => user.id });
-  return <Loader loading={loading} errors={errors}>
-    {users && <List>
-      {userItems}
-    </List>}
-  </Loader>;
+//   const [{ users }, loading, errors] = useQuery(USERS, { keys });
+//   const userItems = useElementArray(UserItem, users, { key: user => user.id });
+//   return <Loader loading={loading} errors={errors}>
+//     {users && <List>
+//       {userItems}
+//     </List>}
+//   </Loader>;
+// }
+
+function Instructors({ instructors }) {
+
+  const userItems = useElementArray(UserItem, [...instructors], { key: user => user.id });
+  return <List>
+    {userItems}
+  </List>;
 }
 
 function UserItem({ id, email, firstname, lastname, middlename, picture }) {
@@ -224,7 +239,7 @@ function CourseDeliveryInstance({ id, showType, userId }) {
                 {courseDeliveryInstance.description && <Editor editorState={courseDeliveryInstance.description} readOnly={true} />}
                 {courseDeliveryInstance.instructors && <>
                   <Typography variant="h5">Ваши преподаватели</Typography>
-                  <Instructors keys={courseDeliveryInstance.instructors} />
+                  <Instructors instructors={courseDeliveryInstance.instructors} />
                 </>}
               </div>}
               
