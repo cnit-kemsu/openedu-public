@@ -153,7 +153,7 @@ function InstructorList({ search, push, closePicker }) {
 }
 
 function Instructors1({ _push }) {
-  const [instructors, { push }] = useFieldArray(null, 'instructors');
+  const [instructors, { push }] = useFieldArray(null, 'instructorKeys');
   _push.current = push;
   const _keys = instructors.map(el => el.values);
   const removeKeys = {};

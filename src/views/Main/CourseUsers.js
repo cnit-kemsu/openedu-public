@@ -20,7 +20,7 @@ import { dispstr } from '@lib/dispstr';
 import Progress from './Progress';
 
 export const COURSE_DELIVERY_STUDENTS = ({ id = 'Int!' }) => `
-  courseDeliveryStudents(courseDeliveryInstanceId: ${id}) {
+  courseDeliveryStudents(courseId: ${id}) {
     id,
     lastname
     firstname

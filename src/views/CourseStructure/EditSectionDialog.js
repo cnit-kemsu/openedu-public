@@ -13,7 +13,7 @@ const UPDATE_SECTION_DESIGN = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  updateSectionDesign(
+  updateCourseDesignSection(
     id: ${id}
     name: ${name}
     summary: ${summary}
@@ -25,7 +25,7 @@ const UPDATE_SECTION_DELIVERY = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  updateSectionDelivery(
+  updateCourseDeliverySection(
     id: ${id}
     name: ${name}
     summary: ${summary}

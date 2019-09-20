@@ -12,7 +12,7 @@ import { SubsectionView as useStyles } from './styles';
 import RouteBackBtn from '@components/RouteBackBtn';
 
 export const COURSE_DELIVERY_PROGRESS = ({ id = 'Int!', userId = 'Int' }) => `
-  courseDeliveryInstanceUserProgress(courseDeliveryInstanceId: ${id} userId: ${userId}) {
+  courseDeliveryInstanceUserProgress(courseId: ${id} userId: ${userId}) {
     unitName
     score
     quiz

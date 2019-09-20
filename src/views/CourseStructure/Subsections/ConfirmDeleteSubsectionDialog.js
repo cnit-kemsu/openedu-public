@@ -6,11 +6,11 @@ import confirmDeleteProps from '@components/confirmDeleteProps';
 import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '..';
 
 const DELETE_SUBSECTION_DESIGN = ({ id = 'Int!' }) => `
-  deleteSubsectionDesign(id: ${id})
+  deleteCourseDesignSubsection(id: ${id})
 `;
 
 const DELETE_SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
-  deleteSubsectionDelivery(id: ${id})
+  deleteCourseDeliverySubsection(id: ${id})
 `;
 
 function onComplete(isDelivery) {

@@ -6,7 +6,7 @@ import confirmDeleteProps from '@components/confirmDeleteProps';
 import { TOTAL_COURSE_DESIGN_TEMPLATES, ALL_COURSE_DESIGN_TEMPLATES } from './ListView';
 
 const DELETE_COURSE_DESIGN_TEMPLATE = ({ id = 'Int!' }) => `
-  deleteCourseDesignTemplate(id: ${id})
+  defunctCourseDesignTemplate(id: ${id})
 `;
 function onComplete() {
   refetch(TOTAL_COURSE_DESIGN_TEMPLATES, ALL_COURSE_DESIGN_TEMPLATES);

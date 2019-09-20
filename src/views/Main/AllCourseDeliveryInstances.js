@@ -12,7 +12,7 @@ import { CourseDeliveryInstanceItem as useCourseDeliveryInstanceItemStyles, Cour
 import defaultImage from './default_img.jpg';
 
 export const AVAILABLE_COURSE_DELIVERY_INSTANCES = () => `
-  availableCourseDeliveryInstances(limit: 100) {
+  availableCourseDeliveryInstances: allCourseDeliveryInstances(limit: 100 availableToEnroll: true) {
     id
     name
     summary

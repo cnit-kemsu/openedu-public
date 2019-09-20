@@ -9,10 +9,10 @@ import { Loader, Link } from '@kemsu/core';
 import { Editor } from '@kemsu/editor';
 import { SubsectionView as useStyles } from './styles';
 import RouteBackBtn from '@components/RouteBackBtn';
-import UnitDelivery from './UnitDelivery';
+import CourseDeliveryUnit from './CourseDeliveryUnit';
 
 export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
-  subsectionDelivery(id: ${id}) {
+  subsectionDelivery: courseDeliverySubsection(id: ${id}) {
     id
     name
     units {
@@ -51,7 +51,7 @@ function Subsection({ id }) {
         </Tabs>
 
         <div className={classes.content}>
-          <UnitDelivery id={unit.id} type={unit.type} />
+          <CourseDeliveryUnit id={unit.id} type={unit.type} />
         </div>
 
       </div>}

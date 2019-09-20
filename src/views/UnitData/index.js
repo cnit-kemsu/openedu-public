@@ -16,7 +16,7 @@ const UPDATE_UNIT_DESIGN = ({
   id = 'Int!',
   data = 'JSON'
 }) => `
-  updateUnitDesign(
+  updateCourseDesignUnit(
     id: ${id}
     data: ${data}
   )
@@ -26,7 +26,7 @@ const UPDATE_UNIT_DELIVERY = ({
   id = 'Int!',
   data = 'JSON'
 }) => `
-  updateUnitDelivery(
+  updateCourseDeliveryUnit(
     id: ${id}
     data: ${data}
   )
@@ -40,7 +40,7 @@ function onComplete(courseId, isDelivery) {
 export const UNIT_DESIGN = ({
   id = 'Int!'
 }) => `
-  unitDesign(id: ${id}) {
+  courseDesignUnit(id: ${id}) {
     name
     type
     data
@@ -60,7 +60,7 @@ export const UNIT_DESIGN = ({
 export const UNIT_DELIVERY = ({
   id = 'Int!'
 }) => `
-  unitDelivery(id: ${id}) {
+  courseDeliveryUnit(id: ${id}) {
     name
     type
     data
@@ -81,7 +81,7 @@ export default React.memo(
   ({ id, isDelivery }) => {
 
     const UNIT_QUERY = isDelivery ? UNIT_DELIVERY : UNIT_DESIGN;
-    const [{ [isDelivery ? 'unitDelivery' : 'unitDesign']: { name, type, data, subsection } = {} }, loading, errors] = useQuery(UNIT_QUERY, { id });
+    const [{ [isDelivery ? 'courseDeliveryUnit' : 'courseDesignUnit']: { name, type, data, subsection } = {} }, loading, errors] = useQuery(UNIT_QUERY, { id });
     const section = subsection?.section;
     const course = subsection?.section?.course;
     const routeBackPath = isDelivery ? `/admin/course-delivery-instances/${course?.id}/structure` : `/admin/course-design-templates/${course?.id}/structure`;

@@ -48,7 +48,7 @@ export function validateSubsectionAccessDate(value) {
 export function validateSubsectionExpirationDate(value) {
   //if (!value) return 'Необходимо указать дату';
 }
-export function validateSubsectionDeliveryForm({ accessDate, expirationDate } = {}) {
+export function validateCourseDeliverySubsectionForm({ accessDate, expirationDate } = {}) {
   if (accessDate && expirationDate && accessDate > expirationDate) return {
     accessDate: 'Дата открытия доступа должна быть раньше чем дата закрытия доступа',
     expirationDate: 'Дата закрытия доступа должна быть позже чем дата открытия доступа'

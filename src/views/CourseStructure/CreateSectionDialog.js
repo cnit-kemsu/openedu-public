@@ -13,7 +13,7 @@ const CREATE_SECTION_DESIGN = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  createSectionDesign(
+  createCourseDesignSection(
     courseId: ${_courseId}
     name: ${name}
     summary: ${summary}
@@ -25,7 +25,7 @@ const CREATE_SECTION_DELIVERY = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  createSectionDelivery(
+  createCourseDeliverySection(
     courseId: ${_courseId}
     name: ${name}
     summary: ${summary}

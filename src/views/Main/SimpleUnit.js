@@ -11,7 +11,7 @@ import { SubsectionView as useStyles } from './styles';
 import RouteBackBtn from '@components/RouteBackBtn';
 
 export const UNIT_DELIVERY = ({ id = 'Int!' }) => `
-  unitDelivery(id: ${id}) {
+  unitDelivery: courseDeliveryUnit(id: ${id}) {
     id
     name
     type

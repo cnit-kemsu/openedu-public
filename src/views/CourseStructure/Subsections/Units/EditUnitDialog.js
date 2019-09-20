@@ -13,7 +13,7 @@ const UPDATE_UNIT_DESIGN = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  updateUnitDesign(
+  updateCourseDesignUnit(
     id: ${id}
     name: ${name}
     summary: ${summary}
@@ -25,7 +25,7 @@ const UPDATE_UNIT_DELIVERY = ({
   name = 'String!',
   summary = 'String'
 }) => `
-  updateUnitDelivery(
+  updateCourseDeliveryUnit(
     id: ${id}
     name: ${name}
     summary: ${summary}

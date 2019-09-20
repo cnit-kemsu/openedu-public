@@ -12,7 +12,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import SimpleUnit from './SimpleUnit';
 import StudentQuiz from './StudentQuiz';
 
-function UnitDelivery({ id, type }) {
+function CourseDeliveryUnit({ id, type }) {
   
   return <>
 
@@ -24,4 +24,4 @@ function UnitDelivery({ id, type }) {
   </>;
 }
 
-export default React.memo(UnitDelivery);
+export default React.memo(CourseDeliveryUnit);

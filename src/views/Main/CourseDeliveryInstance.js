@@ -74,16 +74,18 @@ function onComplete() {
 
 function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDate, expirationDate }) {
 
+  const isAdmin = UserInfo.role === 'admin' || UserInfo.role === 'superuser';
+  const _enrolled = enrolled || isAdmin;
   const nowDate = new Date();
-  let access = accessDate ? nowDate > new Date(accessDate) : true;
-  access = expirationDate ? nowDate < new Date(expirationDate) : access;
+  const access = accessDate ? nowDate > new Date(accessDate) || isAdmin : true;
+  //access = expirationDate ? nowDate < new Date(expirationDate) : access;
 
   const classes = useSubsectionStyles();
   return <div className={classes.root}>
     <ExpansionPanel disabled={!summary} classes={{ disabled: classes.disabled }}>
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} classes={{ disabled: classes.sumDisabled }}>
         <div>
-          {enrolled
+          {_enrolled
             ? <div>
               {access
                 ? <Link className={classes.nameEnrolled} styled path={`/delivery-subsection/${id}`}>

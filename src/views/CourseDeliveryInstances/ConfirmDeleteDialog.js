@@ -6,7 +6,7 @@ import confirmDeleteProps from '@components/confirmDeleteProps';
 import { TOTAL_COURSE_DELIVERY_INSTANCES, ALL_COURSE_DELIVERY_INSTANCES } from './ListView';
 
 const DELETE_COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
-  deleteCourseDeliveryInstance(id: ${id})
+  defunctCourseDeliveryInstance(id: ${id})
 `;
 function onComplete() {
   refetch(TOTAL_COURSE_DELIVERY_INSTANCES, ALL_COURSE_DELIVERY_INSTANCES);

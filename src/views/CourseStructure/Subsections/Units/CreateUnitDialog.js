@@ -15,7 +15,7 @@ const CREATE_UNIT_DESIGN = ({
   summary = 'String',
   type = 'UnitTypeEnum!'
 }) => `
-  createUnitDesign(
+  createCourseDesignUnit(
     subsectionId: ${subsectionId}
     name: ${name}
     summary: ${summary}
@@ -29,7 +29,7 @@ const CREATE_UNIT_DELIVERY = ({
   summary = 'String',
   type = 'UnitTypeEnum!'
 }) => `
-  createUnitDelivery(
+  createCourseDeliveryUnit(
     subsectionId: ${subsectionId}
     name: ${name}
     summary: ${summary}

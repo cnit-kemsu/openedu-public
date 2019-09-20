@@ -58,7 +58,7 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
   picture = 'JSON',
   startDate = 'String',
   enrollmentEndDate = 'String',
-  instructors = 'JSON'
+  instructorKeys = 'JSON'
 }) => `
   updateCourseDeliveryInstance(
     id: ${id}
@@ -68,7 +68,7 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
     picture: ${picture}
     startDate: ${startDate}
     enrollmentEndDate: ${enrollmentEndDate}
-    instructors: ${instructors}
+    instructorKeys: ${instructorKeys}
   )
 `;
 function onComplete() {
@@ -84,7 +84,14 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     picture
     startDate
     enrollmentEndDate
-    instructors
+    instructors {
+      id
+      email
+      firstname
+      lastname
+      middlename
+      picture
+    }
   }
 `;
 
@@ -92,6 +99,7 @@ export default (
   ({ id }) => {
     const [{  courseDeliveryInstance }, loading, errors] = useQuery(COURSE_DELIVERY_INSTANCE, { id });
     const updateCourseDeliveryInstance = useMutation(UPDATE_COURSE_DELIVERY_INSTANCE, { onComplete }, { id });
+    if (courseDeliveryInstance) courseDeliveryInstance.instructorKeys = courseDeliveryInstance.instructors ? courseDeliveryInstance.instructors.map(({ id }) => id) : null;
     const form = useForm(updateCourseDeliveryInstance, courseDeliveryInstance);
 
     return <Fields comp={form}>

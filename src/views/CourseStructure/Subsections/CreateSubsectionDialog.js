@@ -10,7 +10,7 @@ import {
   validateExpirationPeriod,
   validateSubsectionAccessDate,
   validateSubsectionExpirationDate,
-  validateSubsectionDeliveryForm
+  validateCourseDeliverySubsectionForm
 } from '@lib/validate';
 import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '..';
 import { SubsectionForm as useStyles } from './styles';
@@ -22,7 +22,7 @@ const CREATE_SUBSECTION_DESIGN = ({
   accessPeriod = 'Int',
   expirationPeriod = 'Int'
 }) => `
-  createSubsectionDesign(
+  createCourseDesignSubsection(
     sectionId: ${sectionId}
     name: ${name}
     summary: ${summary}
@@ -38,7 +38,7 @@ const CREATE_SUBSECTION_DELIVERY = ({
   accessDate = 'String',
   expirationDate = 'String'
 }) => `
-  createSubsectionDelivery(
+  createCourseDeliverySubsection(
     sectionId: ${sectionId}
     name: ${name}
     summary: ${summary}
@@ -56,7 +56,7 @@ function onComplete(closeDialog, isDelivery) {
 export default function CreateSubsectionDialog(close, { sectionId, sectionIndex, isDelivery }) {
   const CREATE_MUTATION = isDelivery ? CREATE_SUBSECTION_DELIVERY : CREATE_SUBSECTION_DESIGN;
   const createSubsection = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, isDelivery) }, { sectionId });
-  const form = useForm(createSubsection, null, isDelivery ? validateSubsectionDeliveryForm : null);
+  const form = useForm(createSubsection, null, isDelivery ? validateCourseDeliverySubsectionForm : null);
 
   const classes = useStyles();
   return <FormDialog comp={form} onClose={close} title={`Новый подраздел в разделе ${sectionIndex}`} {...createSubmitProps}>

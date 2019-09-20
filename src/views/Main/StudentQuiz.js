@@ -118,7 +118,7 @@ function Questions({ disabled, ...props }) {
 }
 
 export const UNIT_DELIVERY = ({ id = 'Int!' }) => `
-  unitDelivery(id: ${id}) {
+  unitDelivery: courseDeliveryUnit(id: ${id}) {
     id
     name
     type

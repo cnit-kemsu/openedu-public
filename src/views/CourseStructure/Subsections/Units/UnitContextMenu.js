@@ -4,8 +4,8 @@ import { History } from '@kemsu/router';
 import EditMenuItem from '@components/EditMenuItem';
 import DeleteMenuItem from '@components/DeleteMenuItem';
 
-function routeToUnitDesignDataView(id) { History.push(`/admin/design-units/${id}`); }
-function routeToUnitDeliveryDataView(id) { History.push(`/admin/delivery-units/${id}`); }
+function routeToCourseDesignUnitDataView(id) { History.push(`/admin/design-units/${id}`); }
+function routeToCourseDeliveryUnitDataView(id) { History.push(`/admin/delivery-units/${id}`); }
 
 export default function UnitContextMenu(close, { id, item, subsectionIndex, editDialog, confirmDeleteDialog, isDelivery }) {
 
@@ -16,7 +16,7 @@ export default function UnitContextMenu(close, { id, item, subsectionIndex, edit
     <MenuItem onClick={() => { close(); confirmDeleteDialog.open({ id, item, subsectionIndex }); }}>
       <DeleteMenuItem />
     </MenuItem>
-    <MenuItem onClick={() => isDelivery ? routeToUnitDeliveryDataView(id) : routeToUnitDesignDataView(id)}>
+    <MenuItem onClick={() => isDelivery ? routeToCourseDeliveryUnitDataView(id) : routeToCourseDesignUnitDataView(id)}>
       Содержимое
     </MenuItem>
   </>;
