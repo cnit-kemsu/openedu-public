@@ -56,7 +56,7 @@
     "dot-location": "off",
     "dot-notation": "off",
     "eqeqeq": ["warn", "smart"],
-    "guard-for-in": "warn",
+    "guard-for-in": "off",
     "no-alert": "warn",
     "no-else-return": "warn",
     "no-empty-function": "warn",
