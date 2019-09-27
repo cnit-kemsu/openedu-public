@@ -69,6 +69,7 @@ function AnswerItem(element, { disabled, _questionIndex, feedback }) {
 
 function Answers({ answerOptions, _questionIndex, feedback, disabled, ...props }) {
   const answerItems = useElementArray(AnswerItem, [...answerOptions], { key: keyProp, memoize: false, feedback, _questionIndex, disabled: disabled, ...props });
+  
   //const classes = useAnswersStyles();
   return <>
     <div>
