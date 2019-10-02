@@ -10,6 +10,7 @@ import { useQuery } from '@kemsu/graphql-client';
 import { useElementArray, Loader } from '@kemsu/core';
 import { CourseDeliveryInstanceItem as useCourseDeliveryInstanceItemStyles, CourseDeliveryInstances as useStyles } from './styles';
 import defaultImage from './default_img.jpg';
+import greetingImg from './greeting.png';
 
 export const AVAILABLE_COURSE_DELIVERY_INSTANCES = () => `
   availableCourseDeliveryInstances: allCourseDeliveryInstances(limit: 100 availableToEnroll: true) {
@@ -43,18 +44,34 @@ function CourseDeliveryInstanceItem({ id, name, summary, picture }) {
   </Card>;
 }
 
+const imgContainerStyle = {
+  height: '350px',
+  display: 'flex',
+  justifyContent: 'center',
+  overflow: 'hidden'
+};
+
+const imgStyle = {
+  height: '100%'
+};
+
 function CourseDeliveryInstances() {
   
   const [{ availableCourseDeliveryInstances }, loading, errors] = useQuery(AVAILABLE_COURSE_DELIVERY_INSTANCES);
   const courseDevlieryInstanceItems = useElementArray(CourseDeliveryInstanceItem, availableCourseDeliveryInstances, {});
 
   const classes = useStyles();
-  return <div className={classes.root}>
-    <Loader loading={loading} errors={errors}>
-      <div className={classes.items}>
-        {availableCourseDeliveryInstances && courseDevlieryInstanceItems}
-      </div>
-    </Loader>
+  return <div>
+    <div style={imgContainerStyle}>
+      <img src={greetingImg} style={imgStyle} />
+    </div>
+    <div className={classes.root}>
+      <Loader loading={loading} errors={errors}>
+        <div className={classes.items}>
+          {availableCourseDeliveryInstances && courseDevlieryInstanceItems}
+        </div>
+      </Loader>
+    </div>
   </div>;
 }
 

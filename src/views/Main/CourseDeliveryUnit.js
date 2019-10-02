@@ -16,7 +16,7 @@ function CourseDeliveryUnit({ id, type }) {
   
   return <>
 
-    {(type === 'DOCUMENT' || type === 'VIDEO') && <SimpleUnit id={id} />}
+    {(type === 'DOCUMENT' || type === 'FILE_DOCUMENT' || type === 'VIDEO') && <SimpleUnit id={id} />}
     {type === 'QUIZ' && <div>
       <StudentQuiz id={id} />
     </div>}

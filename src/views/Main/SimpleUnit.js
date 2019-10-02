@@ -29,6 +29,9 @@ function SimpleUnit({ id }) {
       {unitDelivery.type === 'DOCUMENT' && <div>
         <Editor editorState={unitDelivery.data} readOnly={true} />
       </div>}
+      {unitDelivery.type === 'FILE_DOCUMENT' && <div>
+        <iframe style={{ width: '900px', height: '1000px' }}  src={'/files/' + unitDelivery.data.fileSourceKey} frameBorder="0" />
+      </div>}
       {unitDelivery.type === 'VIDEO' && <div>
         <iframe width="704px" height="480px" src={unitDelivery.data.url}
           //sandbox 

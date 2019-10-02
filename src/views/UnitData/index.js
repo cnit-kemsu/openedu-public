@@ -9,6 +9,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
 import DocumentUnitView from './DocumentUnit';
+import FileDocumentUnitView from './FileDocumentUnit';
 import VideoUnitView from './VideoUnit';
 import QuizUnitView from './QuizUnit';
 
@@ -116,6 +117,7 @@ export default React.memo(
       <AdminView.Div>
         <Loader loading={loading} errors={errors}>
           {type === 'DOCUMENT' && <DocumentUnitView />}
+          {type === 'FILE_DOCUMENT' && <FileDocumentUnitView />}
           {type === 'VIDEO' && <VideoUnitView />}
           {type === 'QUIZ' && <QuizUnitView />}
         </Loader>
