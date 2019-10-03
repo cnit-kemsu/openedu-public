@@ -21,7 +21,9 @@ export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
       type
     }
     section {
+      name
       course {
+        name
         id
       }
     }
@@ -35,28 +37,35 @@ function Subsection({ id }) {
   const unit = subsectionDelivery?.units[tabValue];
 
   const classes = useStyles();
-  return <Paper className={classes.root}>
-    <Loader loading={loading} errors={errors}>
-      {subsectionDelivery && subsectionDelivery.units.length > 0 && <div>
+  return <div>
+    <div className={classes.header}>
+      <Typography variant="h3">{subsectionDelivery?.section?.course?.name}</Typography>
+      <Typography variant="h4">{subsectionDelivery?.section?.name}</Typography>
+      <Typography variant="h5">{subsectionDelivery?.name}</Typography>
+    </div>
+    <Paper className={classes.root}>
+      <Loader loading={loading} errors={errors}>
+        {subsectionDelivery && subsectionDelivery.units.length > 0 && <div>
 
-        <div className={classes.topBar}>
-          <RouteBackBtn path={`/course-delivery/${subsectionDelivery.section.course.id}/content`} />
-          <Typography>Назад к содержанию</Typography>
-        </div>
-        
-        <Tabs variant="fullWidth" className={classes.tabs} value={tabValue} onChange={(event, value) => setTabValue(value)} indicatorColor="primary" textColor="primary">
-          {subsectionDelivery.units.map(({ name }, index) => (
-            <Tab className={classes.tab} key={index} label={name} />
-          ))}
-        </Tabs>
+          <div className={classes.topBar}>
+            <RouteBackBtn path={`/course-delivery/${subsectionDelivery.section.course.id}/content`} />
+            <Typography>Назад к содержанию</Typography>
+          </div>
+          
+          <Tabs variant="fullWidth" className={classes.tabs} value={tabValue} onChange={(event, value) => setTabValue(value)} indicatorColor="primary" textColor="primary">
+            {subsectionDelivery.units.map(({ name }, index) => (
+              <Tab className={classes.tab} key={index} label={name} />
+            ))}
+          </Tabs>
 
-        <div className={classes.content}>
-          <CourseDeliveryUnit id={unit.id} type={unit.type} />
-        </div>
+          <div className={classes.content}>
+            <CourseDeliveryUnit id={unit.id} type={unit.type} />
+          </div>
 
-      </div>}
-    </Loader>
-  </Paper>;
+        </div>}
+      </Loader>
+    </Paper>
+  </div>;
 }
 
 export default React.memo(Subsection);

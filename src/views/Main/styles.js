@@ -17,6 +17,23 @@ export const CourseDeliveryInstanceItem = makeStyles({
 });
 
 export const CourseDeliveryInstances = makeStyles({
+  myCourses: {
+    maxWidth: '1100px',
+    margin: 'auto',
+    paddingTop: '36px',
+    paddingBottom: '12px'
+  },
+  searchRoot: {
+    width: 'fit-content',
+    margin: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: '24px'
+  },
+  searchInput: {
+    width: '400px',
+    marginRight: '6px'
+  },
   root: {
     maxWidth: '1100px',
     margin: 'auto',
@@ -139,6 +156,11 @@ export const Subsection = makeStyles({
 });
 
 export const SubsectionView = makeStyles({
+  header: {
+    maxWidth: '1100px',
+    margin: 'auto',
+    paddingTop: '24px'
+  },
   root: {
     maxWidth: '1100px',
     margin: 'auto',

@@ -16,12 +16,14 @@ import { AccountInfo as useStyles } from './styles';
 
 function routeToAdminView() { History.push('/admin'); }
 function routeToUserProfileView() { History.push('/account/profile'); }
+function routeToMyCoursesView() { History.push('/my-courses'); }
 function signout() { UserInfo.clear(); History.push('/'); }
 
 function Menu(close) {
   return <>
     {allowedToAdmin() && <MenuItem onClick={routeToAdminView}>Администрирование</MenuItem>}
     <MenuItem onClick={() => { routeToUserProfileView(); close(); }}>Показать профиль</MenuItem>
+    {(UserInfo.role === 'student' || UserInfo.role === 'instructor') && <MenuItem onClick={() => { routeToMyCoursesView(); close(); }}>Мои курсы</MenuItem>}
     <MenuItem onClick={() => { close(); signout(); }}>Выйти из аккаунта</MenuItem>
   </>;
 }

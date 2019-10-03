@@ -58,7 +58,7 @@ export default function UnitItem({ index, id, type, ...item }, { unitMenu, subse
   const unitIndex = index + 1 |> subsectionIndex + '.' + #;
   const primary = <>
     <span style={draggerStyle} draggable={true} onDragStart={event => { event.dataTransfer.setData('text/plain', id); }} />
-    <span className={classes.index}>{unitIndex}</span>. {item.name} ({types[type]})
+    {/*<span className={classes.index}>{unitIndex}</span>.*/} {item.name} ({types[type]})
   </>;
   return <div>
     <FrontItemDropArea frontKey={id} onDrop={(movableKey, frontKey) => moveCourseDesignUnit({ movableKey, frontKey })} />

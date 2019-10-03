@@ -15,7 +15,7 @@ export default function SectionItem({ index, id, subsections, ...item }, { secti
   const classes = useStyles({ count: subsections.length });
   const sectionIndex = index + 1;
   const primary = <>
-    <span className={classes.index}>{sectionIndex}</span>. {item.name}
+    {/*<span className={classes.index}>{sectionIndex}</span>.*/} {item.name}
   </>;
   return <Paper className={classes.root}>
     <ListItem>

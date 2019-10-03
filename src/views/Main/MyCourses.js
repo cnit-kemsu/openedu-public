@@ -16,7 +16,7 @@ import greetingImg from './greeting.png';
 import SearchIcon from '@material-ui/icons/Search';
 
 export const AVAILABLE_COURSE_DELIVERY_INSTANCES = ({ nameSearch = 'String' }) => `
-  availableCourseDeliveryInstances: allCourseDeliveryInstances(limit: 100 availableToEnroll: true name: ${nameSearch}) {
+  availableCourseDeliveryInstances: allCourseDeliveryInstances(limit: 100 onlyEnrolled: true name: ${nameSearch}) {
     id
     name
     summary
@@ -48,15 +48,14 @@ function CourseDeliveryInstanceItem({ id, name, summary, picture }) {
 }
 
 const imgContainerStyle = {
-  // height: '350px',
-  // display: 'flex',
-  // justifyContent: 'center',
-  // overflow: 'hidden'
+  height: '350px',
+  display: 'flex',
+  justifyContent: 'center',
+  overflow: 'hidden'
 };
 
 const imgStyle = {
-  //height: '100%'
-  width: '100%'
+  height: '100%'
 };
 
 function search({ nameSearch }) {
@@ -71,9 +70,11 @@ function CourseDeliveryInstances() {
 
   const classes = useStyles();
   return <div>
-    <div style={imgContainerStyle}>
-      <img src={greetingImg} style={imgStyle} />
+
+    <div className={classes.myCourses}>
+      <Typography variant="h4">Мои курсы</Typography>
     </div>
+    
 
     <div className={classes.searchRoot}>
       <TextField className={classes.searchInput}
@@ -91,7 +92,7 @@ function CourseDeliveryInstances() {
         {availableCourseDeliveryInstances && (
           availableCourseDeliveryInstances?.length > 0
           ? <div className={classes.items}>{courseDevlieryInstanceItems}</div>
-          : (form?.values?.nameSearch ? <div style={{ textAlign: 'center' }}>По вашему запросу ничего не найдено</div> : <div style={{ textAlign: 'center' }}>Пока не создан не один курс</div>)
+          : (form?.values?.nameSearch ? <div style={{ textAlign: 'center' }}>По вашему запросу ничего не найдено</div> : <div style={{ textAlign: 'center' }}>Вы не записаны не на один курс</div>)
         )}
       </Loader>
     </div>

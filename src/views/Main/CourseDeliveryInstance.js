@@ -89,13 +89,13 @@ function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDa
             ? <div>
               {access
                 ? <Link className={classes.nameEnrolled} styled path={`/delivery-subsection/${id}`}>
-                  <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography>
+                  {/* <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography> */}
                   <Typography variant="inherit" component="span">
                     {name}
                   </Typography>
                 </Link>
                 : <div>
-                  <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography>
+                  {/* <Typography variant="inherit" component="span">{sectionIndex}.{index}. </Typography> */}
                   <Typography variant="inherit" component="span">
                     {name}
                   </Typography>
@@ -132,7 +132,7 @@ function Section({ name, summary, index, subsections, enrolled }) {
       <ExpansionPanel disabled={!summary} classes={{ disabled: classes.disabled }}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} classes={{ disabled: classes.sumDisabled }}>
           <div className={classes.name}>
-            <Typography component="span" variant="inherit">{index}. </Typography>
+            {/* <Typography component="span" variant="inherit">{index}. </Typography> */}
             <Typography component="span" variant="inherit">{name}</Typography>
           </div>
         </ExpansionPanelSummary>

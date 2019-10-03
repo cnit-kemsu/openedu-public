@@ -17,15 +17,21 @@ import logImg from './logo.png';
 // }
 
 const imgStyle = {
-  height: '64px',
-  marginTop: '6px',
+  //height: '64px',
+  height: '100%',
+  //marginTop: '6px',
   cursor: 'pointer'
+};
+
+const containerStyle = {
+  height: '70px',
+  paddingTop: '6px'
 };
 
 function Logo({ className, classes, ...props }) {
   
   //const _classes = useStyles();
-  return <div {...props}>
+  return <div style={containerStyle} {...props}>
     <img src={logImg} style={imgStyle} />
   </div>;
 }
