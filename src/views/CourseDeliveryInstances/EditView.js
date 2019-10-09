@@ -43,6 +43,7 @@ function EditCourseDeliveryInstance() {
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
     <Editor className={classes.description} name="description" label="Полное описание" />
     <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
+    <TextField className={classes.summary} name="price" label="Цена" multiline />
     <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
     <Instructors />
@@ -58,7 +59,8 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
   picture = 'JSON',
   startDate = 'String',
   enrollmentEndDate = 'String',
-  instructorKeys = 'JSON'
+  instructorKeys = 'JSON',
+  price = 'Float'
 }) => `
   updateCourseDeliveryInstance(
     id: ${id}
@@ -69,6 +71,7 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
     startDate: ${startDate}
     enrollmentEndDate: ${enrollmentEndDate}
     instructorKeys: ${instructorKeys}
+    price: ${price}
   )
 `;
 function onComplete() {

@@ -78,8 +78,8 @@ export default {
 
   devServer: {
     proxy: {
-      '/graphql': 'http://localhost:8080/graphql',
-      '/files': 'http://localhost:8080/'
+      '/graphql': 'http://localhost:443/graphql',
+      '/files': 'http://localhost:443/'
     },
     contentBase: './test/server',
     historyApiFallback: true,

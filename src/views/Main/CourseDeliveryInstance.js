@@ -67,9 +67,33 @@ const ENROLL_TO_COURSE_DELIVERY_INSTANCE = ({
     courseId: ${id}
   )
 `;
-function onComplete() {
+function onCompleteEnroll() {
   refetch(COURSE_DELIVERY_INSTANCE);
   Notifications.push('Вы были успешно записаны на курсы.', 'success');
+}
+
+const PURCHASE_COURSE_DELIVERY_INSTANCE = ({
+  id = 'Int!'
+}) => `
+  createPayment(
+    courseId: ${id}
+  )
+`;
+function onCompletePurchase({ createPayment: request }) {
+  
+  const form = document.createElement('form');
+  form.action='https://mdm-webapi-mdmpay-financial-staging.mdmbank.ru/web/v1/payment';
+  form.method='POST';
+  //form.target='_blank';
+  
+  const input=document.createElement('input');
+  input.type='hidden';
+  input.name='request';
+  input.value=request;
+
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
 }
 
 function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDate, expirationDate }) {
@@ -203,7 +227,8 @@ function UserItem({ id, email, firstname, lastname, middlename, picture }) {
 function CourseDeliveryInstance({ id, showType, userId }) {
   
   const [{ courseDeliveryInstance }, loading, errors] = useQuery(COURSE_DELIVERY_INSTANCE, { id });
-  const enrollToCourseDeliveryInstance = useMutation(ENROLL_TO_COURSE_DELIVERY_INSTANCE, { onComplete }, { id });
+  const enrollToCourseDeliveryInstance = useMutation(ENROLL_TO_COURSE_DELIVERY_INSTANCE, { onComplete: onCompleteEnroll }, { id });
+  const purchaseCourseDeliveryInstance = useMutation(PURCHASE_COURSE_DELIVERY_INSTANCE, { onComplete: onCompletePurchase }, { id });
   const tabValue = showType === 'content' ? 1 : (showType === 'progress' ? 2 : 0);
 
   const classes = useStyles();
@@ -218,8 +243,11 @@ function CourseDeliveryInstance({ id, showType, userId }) {
             </Typography>
             {courseDeliveryInstance.enrolled 
               ? <Typography variant="h6" color="primary">Вы уже записаны на курс</Typography>
-              : (UserInfo.bearer && UserInfo.role === 'student' ? <Button className={classes.enrollButton} color="primary" variant="contained" onClick={() => {
-                if (UserInfo.bearer) enrollToCourseDeliveryInstance();
+              : (!UserInfo.bearer || UserInfo.role === 'student' ? <Button className={classes.enrollButton} color="primary" variant="contained" onClick={() => {
+                if (UserInfo.bearer) {
+                  if (courseDeliveryInstance.price) purchaseCourseDeliveryInstance();
+                  else enrollToCourseDeliveryInstance();
+                }
                 else History.push('/account/signin');
               }}>Записаться на курс</Button> : null)
             }
