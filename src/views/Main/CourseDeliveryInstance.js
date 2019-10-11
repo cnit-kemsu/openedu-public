@@ -82,7 +82,8 @@ const PURCHASE_COURSE_DELIVERY_INSTANCE = ({
 function onCompletePurchase({ createPayment: request }) {
   
   const form = document.createElement('form');
-  form.action='https://mdm-webapi-mdmpay-financial-staging.mdmbank.ru/web/v1/payment';
+  //form.action='https://mdm-webapi-mdmpay-financial-staging.mdmbank.ru/web/v1/payment';
+  form.action='https://pay.mdm.ru/web/v1/payment';
   form.method='POST';
   //form.target='_blank';
   
