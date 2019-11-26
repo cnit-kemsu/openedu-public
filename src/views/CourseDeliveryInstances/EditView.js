@@ -9,6 +9,7 @@ import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
+import CourseGradeTypeSelect from '@views/_shared/CourseGradeTypeSelect';
 import { CourseReleaseForm as useStyles } from './styles';
 import Instructors from './Instructors';
 
@@ -43,6 +44,11 @@ function EditCourseDeliveryInstance() {
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
     <Editor className={classes.description} name="description" label="Полное описание" />
     <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
+    <CourseGradeTypeSelect className={classes.gradeTypeSelect} />
+    <TextField className={classes.laborInput_creditUnit} name="data.laborInput_creditUnit" multiline={true} label="Трудоемкость (в зачетных единицах)" multiline />
+    <TextField className={classes.laborInput_hours} name="data.laborInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
+    <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
+    <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
     <TextField className={classes.summary} name="price" label="Цена" multiline />
     <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
@@ -60,7 +66,8 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
   startDate = 'String',
   enrollmentEndDate = 'String',
   instructorKeys = 'JSON',
-  price = 'Float'
+  price = 'Float',
+  data = 'JSON'
 }) => `
   updateCourseDeliveryInstance(
     id: ${id}
@@ -72,6 +79,7 @@ const UPDATE_COURSE_DELIVERY_INSTANCE = ({
     enrollmentEndDate: ${enrollmentEndDate}
     instructorKeys: ${instructorKeys}
     price: ${price}
+    data: ${data}
   )
 `;
 function onComplete() {
@@ -87,6 +95,7 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     picture
     startDate
     enrollmentEndDate
+    data
     instructors {
       id
       email

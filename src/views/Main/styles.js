@@ -180,6 +180,22 @@ export const SubsectionView = makeStyles({
     display: 'flex',
     alignItems: 'center',
     paddingBottom: '16px'
+  },
+  navNextBack: {
+    display: 'inline-block',
+    width: '100%'
+  },
+  previousSubsectionButton: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingBottom: '16px',
+    float: 'left'
+  },
+  nextSubsectionButton: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingBottom: '16px',
+    float: 'right'
   }
 });
 

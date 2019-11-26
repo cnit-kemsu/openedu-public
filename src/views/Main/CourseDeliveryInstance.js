@@ -37,6 +37,7 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     startDate
     enrollmentEndDate
     enrolled
+    isAwaitPurchaseComplition
     instructors {
       id
       email
@@ -97,7 +98,7 @@ function onCompletePurchase({ createPayment: request }) {
   form.submit();
 }
 
-function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDate, expirationDate }) {
+function Subsection({ id, name, summary, sectionIndex, enrolled, isAwaitPurchaseComplition, index, accessDate, expirationDate }) {
 
   const isAdmin = UserInfo.role === 'admin' || UserInfo.role === 'superuser';
   const _enrolled = enrolled || isAdmin;
@@ -153,7 +154,7 @@ function Section({ name, summary, index, subsections, enrolled }) {
 
   const classes = useSectionStyles();
   return <div className={classes.root}>
-    <div className={classes.header}>
+    {name !== '0' && <div className={classes.header}>
       <ExpansionPanel disabled={!summary} classes={{ disabled: classes.disabled }}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} classes={{ disabled: classes.sumDisabled }}>
           <div className={classes.name}>
@@ -165,7 +166,7 @@ function Section({ name, summary, index, subsections, enrolled }) {
           <Typography className={classes.summary}>{summary}</Typography>
         </ExpansionPanelDetails>
       </ExpansionPanel>
-    </div>
+    </div>}
     <div>
       {subsections.map((props, _index) => renderSubsection(props, _index + 1, index, enrolled))}
     </div>

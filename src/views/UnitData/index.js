@@ -33,8 +33,8 @@ const UPDATE_UNIT_DELIVERY = ({
   )
 `;
 
-function onComplete(courseId, isDelivery) {
-  History.push(isDelivery ? `/admin/course-delivery-instances/${courseId}/structure` : `/admin/course-design-templates/${courseId}/structure`);
+function onComplete(id, courseId, isDelivery) {
+  History.push(isDelivery ? `/admin/course-delivery-instances/${courseId}/structure#${id}` : `/admin/course-design-templates/${courseId}/structure#${id}`);
   Notifications.push('Блок был успешно обновлен.', 'success');
 }
 
@@ -89,7 +89,7 @@ export default React.memo(
 
     const UPDATE_MUTATION = isDelivery ? UPDATE_UNIT_DELIVERY : UPDATE_UNIT_DESIGN;
     const updateUnit = useMutation(UPDATE_MUTATION,
-      { onComplete: () => onComplete(course?.id, isDelivery) },
+      { onComplete: () => onComplete(id, course?.id, isDelivery) },
       { id });
 
     const _data = type === 'QUIZ' ? {

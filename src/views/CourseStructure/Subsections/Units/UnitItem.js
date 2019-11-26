@@ -8,6 +8,7 @@ import FrontItemDropArea from '@components/FrontItemDropArea';
 import { UnitItem as useStyles } from './styles';
 import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '../../';
 import { Notifications } from '@kemsu/core';
+import { useHash } from '@views/_shared/useHash';
 
 const types = {
   DOCUMENT: 'Документ',
@@ -52,6 +53,7 @@ export function onComplete(isDelivery) {
 
 export default function UnitItem({ index, id, type, ...item }, { unitMenu, subsectionIndex, isDelivery, ...props }) {
 
+  useHash(`#${id}`);
   const moveCourseDesignUnit = useMutation(isDelivery ? MOVE_COURSE_DELIVERY_UNIT : MOVE_COURSE_DESIGN_UNIT, { onComplete: () => onComplete(isDelivery) });
 
   const classes = useStyles();
@@ -62,7 +64,7 @@ export default function UnitItem({ index, id, type, ...item }, { unitMenu, subse
   </>;
   return <div>
     <FrontItemDropArea frontKey={id} onDrop={(movableKey, frontKey) => moveCourseDesignUnit({ movableKey, frontKey })} />
-    <ListItem>
+    <ListItem id={id}>
       <ListItemText primary={primary} secondary={item.summary} />
       <ListItemSecondaryAction>
         <MoreIconButton onClick={event => unitMenu.open(event, { id, item, subsectionIndex, ...props })} />

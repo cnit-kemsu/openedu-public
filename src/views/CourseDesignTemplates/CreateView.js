@@ -10,6 +10,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import CreateFab from '@components/CreateFab';
 import ResetButton from '@components/ResetButton';
 import { validateCourseName } from '@lib/validate';
+import CourseGradeTypeSelect from '@views/_shared/CourseGradeTypeSelect';
 import { CourseForm as useStyles } from './styles';
 
 function CreateCourseDesignTemplate() {
@@ -20,6 +21,11 @@ function CreateCourseDesignTemplate() {
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
     <Editor className={classes.description} name="description" label="Полное описание" />
     <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
+    <CourseGradeTypeSelect className={classes.gradeTypeSelect} />
+    <TextField className={classes.laborInput_creditUnit} name="data.laborInput_creditUnit" multiline={true} label="Трудоемкость (в зачетных единицах)" multiline />
+    <TextField className={classes.laborInput_hours} name="data.laborInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
+    <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
+    <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
   </div>;
 }
 CreateCourseDesignTemplate = React.memo(CreateCourseDesignTemplate);
@@ -28,13 +34,15 @@ const CREATE_COURSE_DESIGN_TEMPLATE = ({
   name = 'String!',
   summary = 'String',
   description = 'JSON',
-  picture = 'JSON'
+  picture = 'JSON',
+  data = 'JSON'
 }) => `
   createCourseDesignTemplate(
     name: ${name}
     summary: ${summary}
     description: ${description}
     picture: ${picture}
+    data: ${data}
   )
 `;
 function onComplete() {
@@ -43,8 +51,14 @@ function onComplete() {
 }
 const createCourseDesignTemplate = new Mutation(CREATE_COURSE_DESIGN_TEMPLATE, { onComplete }).commit;
 
+const initialValues = {
+  data: {
+    gradeType: 'SCORE'
+  }
+};
+
 export default (() => {
-  const form = useForm(createCourseDesignTemplate);
+  const form = useForm(createCourseDesignTemplate, initialValues);
 
   return <Fields comp={form}>
     <AdminView.AppBar>

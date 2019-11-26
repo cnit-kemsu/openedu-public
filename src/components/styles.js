@@ -50,6 +50,12 @@ export const RouteBackBtn = makeStyles({
   }
 });
 
+export const RouteNextBtn = makeStyles({
+  root: {
+    marginLeft: '8px !important'
+  }
+});
+
 export const RefreshBtn = makeStyles({
   root: {
     marginLeft: '0px !important'

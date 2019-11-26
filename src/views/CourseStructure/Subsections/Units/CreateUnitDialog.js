@@ -44,7 +44,7 @@ function onComplete(closeDialog, isDelivery) {
 }
 
 export default function CreateUnitDialog(close, { subsectionId, subsectionIndex, isDelivery }) {
-  console.log('isDelivery', isDelivery);
+  //console.log('isDelivery', isDelivery);
   const CREATE_MUTATION = isDelivery ? CREATE_UNIT_DELIVERY : CREATE_UNIT_DESIGN;
   const createUnit = useMutation(CREATE_MUTATION, { onComplete: () => onComplete(close, isDelivery) }, { subsectionId });
   const form = useForm(createUnit);

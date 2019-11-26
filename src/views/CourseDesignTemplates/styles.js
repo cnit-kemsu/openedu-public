@@ -7,6 +7,25 @@ export const CourseForm = makeStyles({
   name: {
     width: '100%'
   },
+  gradeTypeSelect: {
+    width: '300px'
+  },
+  laborInput_creditUnit: {
+    marginTop: '12px',
+    width: '600px'
+  },
+  laborInput_hours: {
+    marginTop: '12px',
+    width: '600px'
+  },
+  outcomes: {
+    marginTop: '12px',
+    width: '100%'
+  },
+  competencies: {
+    marginTop: '12px',
+    width: '100%'
+  },
   summary: {
     marginTop: '12px',
     width: '100%'

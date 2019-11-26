@@ -10,6 +10,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
 import { validateCourseName } from '@lib/validate';
+import CourseGradeTypeSelect from '@views/_shared/CourseGradeTypeSelect';
 import { CourseForm as useStyles } from './styles';
 
 function EditCourseDesignTemplate() {
@@ -20,6 +21,11 @@ function EditCourseDesignTemplate() {
     <TextField className={classes.summary} name="summary" label="Краткое описание" multiline />
     <Editor className={classes.description} name="description" label="Полное описание" />
     <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
+    <CourseGradeTypeSelect className={classes.gradeTypeSelect} />
+    <TextField className={classes.laborInput_creditUnit} name="data.laborInput_creditUnit" multiline={true} label="Трудоемкость (в зачетных единицах)" multiline />
+    <TextField className={classes.laborInput_hours} name="data.laborInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
+    <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
+    <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
   </div>;
 }
 EditCourseDesignTemplate = React.memo(EditCourseDesignTemplate);
@@ -29,7 +35,8 @@ const UPDATE_COURSE_DESIGN_TEMPLATE = ({
   name = 'String',
   summary = 'String',
   description = 'JSON',
-  picture = 'JSON'
+  picture = 'JSON',
+  data = 'JSON'
 }) => `
   updateCourseDesignTemplate(
     id: ${id}
@@ -37,6 +44,7 @@ const UPDATE_COURSE_DESIGN_TEMPLATE = ({
     summary: ${summary}
     description: ${description}
     picture: ${picture}
+    data: ${data}
   )
 `;
 function onComplete() {
@@ -50,6 +58,7 @@ export const COURSE_DESIGN_TEMPLATE = ({ id = 'Int!' }) => `
     summary
     description
     picture
+    data
   }
 `;
 
