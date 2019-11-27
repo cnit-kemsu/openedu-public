@@ -14,6 +14,9 @@ export const Parameters = makeStyles({
   },
   maxScore: {
     width: '100%'
+  },
+  finalCertificationLabel: {
+    display: 'inline-block'
   }
 });
 

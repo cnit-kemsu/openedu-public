@@ -1,7 +1,7 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { TextField } from '@kemsu/inputs';
+import { TextField, Checkbox } from '@kemsu/inputs';
 import { Parameters as useStyles } from './styles';
 
 function validateTotalAttempts(value) {
@@ -31,6 +31,10 @@ function Parameters() {
     <TextField className={classes.totalAttempts} name="data.totalAttempts" validate={validateTotalAttempts} label="Количество попыток" type="number" />
     <TextField className={classes.timeLimit} name="data.timeLimit" validate={validateTimeLimit} label="Ограничение по времени (в минутах)" type="number" />
     <TextField className={classes.maxScore} name="data.maxScore" validate={validateMaxScore} label="Максимальное количество баллов" type="number" />
+    <div>
+      <Checkbox color="primary" name="data.finalCertification" />
+      <Typography className={classes.finalCertificationLabel}>Включить в итоговую аттестацию</Typography>
+    </div>
   </Paper>;
 }
 export default React.memo(Parameters);
