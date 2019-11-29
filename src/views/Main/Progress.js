@@ -33,6 +33,7 @@ function Progress({ id, userId }) {
   let allScores = 0;
   let maxAllScores = 0;
   if (units) for (const progress of units) {
+    if (!progress.quiz.finalCertification) continue;
     allScores += progress.score;
     maxAllScores += progress.quiz.maxScore;
   }

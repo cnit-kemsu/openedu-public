@@ -98,7 +98,7 @@ function onCompletePurchase({ createPayment: request }) {
   form.submit();
 }
 
-function Subsection({ id, name, summary, sectionIndex, enrolled, isAwaitPurchaseComplition, index, accessDate, expirationDate }) {
+function Subsection({ id, name, summary, sectionIndex, enrolled, index, accessDate, expirationDate }) {
 
   const isAdmin = UserInfo.role === 'admin' || UserInfo.role === 'superuser';
   const _enrolled = enrolled || isAdmin;
@@ -232,6 +232,7 @@ function CourseDeliveryInstance({ id, showType, userId }) {
   const enrollToCourseDeliveryInstance = useMutation(ENROLL_TO_COURSE_DELIVERY_INSTANCE, { onComplete: onCompleteEnroll }, { id });
   const purchaseCourseDeliveryInstance = useMutation(PURCHASE_COURSE_DELIVERY_INSTANCE, { onComplete: onCompletePurchase }, { id });
   const tabValue = showType === 'content' ? 1 : (showType === 'progress' ? 2 : 0);
+  const isAwaitPurchaseComplition = courseDeliveryInstance?.isAwaitPurchaseComplition;
 
   const classes = useStyles();
   return <Paper className={classes.root}>
@@ -244,7 +245,7 @@ function CourseDeliveryInstance({ id, showType, userId }) {
               {courseDeliveryInstance.name}
             </Typography>
             {courseDeliveryInstance.enrolled 
-              ? <Typography variant="h6" color="primary">Вы уже записаны на курс</Typography>
+              ? (!isAwaitPurchaseComplition ? <Typography variant="h6" color="primary">Вы записаны на курс</Typography> : <Typography variant="h6" color="primary">Дождитесь подтверждения оплаты</Typography>)
               : (!UserInfo.bearer || UserInfo.role === 'student' ? <Button className={classes.enrollButton} color="primary" variant="contained" onClick={() => {
                 if (UserInfo.bearer) {
                   if (courseDeliveryInstance.price) purchaseCourseDeliveryInstance();

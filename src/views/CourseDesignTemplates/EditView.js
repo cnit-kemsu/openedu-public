@@ -22,8 +22,8 @@ function EditCourseDesignTemplate() {
     <Editor className={classes.description} name="description" label="Полное описание" />
     <DragAndDropImageDialog className={classes.picture} name="picture" label="Изображение" />
     <CourseGradeTypeSelect className={classes.gradeTypeSelect} />
-    <TextField className={classes.laborInput_creditUnit} name="data.laborInput_creditUnit" multiline={true} label="Трудоемкость (в зачетных единицах)" multiline />
-    <TextField className={classes.laborInput_hours} name="data.laborInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
+    <TextField className={classes.laborInput_creditUnit} name="data.labourInput_creditUnit" multiline={true} label="Трудоемкость (в зачетных единицах)" multiline />
+    <TextField className={classes.laborInput_hours} name="data.labourInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
     <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
     <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
   </div>;
