@@ -33,7 +33,7 @@ function CourseDeliveryInstanceItem({ id, name, summary, picture }) {
   const classes = useCourseDeliveryInstanceItemStyles();
   return <Card className={classes.root}>
       <CardMedia className={classes.picture} component="img" src={picture ? ('/files/' + picture.fileSourceKey) : defaultImage} />
-      <CardContent>
+      <CardContent style={{ height: '170px', overflow: 'hidden' }}>
         <Typography gutterBottom variant="h5" component="h2">{name}</Typography>
         <Typography className={classes.summary} color="textSecondary">
           {summary}
