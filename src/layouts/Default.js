@@ -3,7 +3,7 @@ import { useRoutes } from '@kemsu/router';
 import pageNotFound from '@components/PageNotFound';
 import AppBar from '@components/AppBar';
 //import MainView from '@views/Main';
-import AllCourseDeliveryInstancesView from '@views/Main/AllCourseDeliveryInstances';
+import Main from '@views/Main';
 import CourseDeliveryInstanceView from '@views/Main/CourseDeliveryInstance';
 import DeliverySubsectionView from '@views/Main/DeliverySubsection';
 import AccountView from '@views/Account';
@@ -12,7 +12,7 @@ import notAuthorisedPage from '@components/NotAuthorizedPage';
 import MyCoursesView from '@views/Main/MyCourses';
 
 const routes = [
-  [/^\/$/, () => <AllCourseDeliveryInstancesView />],
+  [/^\/$/, () => <Main />],
   [/\/my-courses/, () => <MyCoursesView />],
   [/\/course-delivery\/(?<courseId>\d+)(\/(?<showType>\w+))?/, ({ courseId, showType }) => <CourseDeliveryInstanceView showType={showType} id={courseId} />],
   [/\/delivery-subsection\/(?<subsectionId>\d+)/, ({ subsectionId }) => <DeliverySubsectionView id={subsectionId} />],

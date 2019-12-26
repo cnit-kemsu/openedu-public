@@ -1,12 +1,23 @@
-// import React from 'react';
-// import { useRoutes } from '@kemsu/router';
-// import CoursesView from './courses';
-// import CourseView from './course';
+import React from 'react';
+import Search from './AvailableCourses/Search';
+import AvailableCourses from './AvailableCourses';
+import { Main as useStyles } from './styles';
+import greetingImg from './greeting_img.png';
 
-// const routes = [
-//   [/\/$/, props => <CoursesView {...props} />],
-//   [/^\/course\/(?<courseId>)/, () => <CourseView />],
-// ];
+function Main() {
+  
+  const classes = useStyles();
+  return <div>
 
-// export default (() => useRoutes(routes))
-// |> React.memo(#);
+    <div className={classes.greetingContainer}>
+      <img src={greetingImg} className={classes.greetingImg} />
+    </div>
+
+    <Search />
+
+    <AvailableCourses />
+
+  </div>;
+}
+
+export default React.memo(Main);

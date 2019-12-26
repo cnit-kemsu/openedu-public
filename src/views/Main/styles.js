@@ -2,50 +2,27 @@ import { makeStyles } from "@material-ui/core/styles";
 import Answers from "@views/UnitData/QuizUnit/Questions/Answers";
 import { QuestionItem } from "@views/UnitData/QuizUnit/Questions/QuestionItem";
 
-export const CourseDeliveryInstanceItem = makeStyles({
+export const Main = makeStyles({
+  // myCourses: {
+  //   maxWidth: '1100px',
+  //   margin: 'auto',
+  //   paddingTop: '36px',
+  //   paddingBottom: '12px'
+  // },
   root: {
-    width: '320px',
-    height: '400px !important'
   },
-  summary: {
-    height: '100px',
-    overflow: 'hidden'
+  greetingContainer: {
+    // height: '350px',
+    // display: 'flex',
+    // justifyContent: 'center',
+    // overflow: 'hidden'
   },
-  picture: {
-    height: '180px'
+  greetingImg: {
+    //height: '100%'
+    width: '100%'
   }
 });
 
-export const CourseDeliveryInstances = makeStyles({
-  myCourses: {
-    maxWidth: '1100px',
-    margin: 'auto',
-    paddingTop: '36px',
-    paddingBottom: '12px'
-  },
-  searchRoot: {
-    width: 'fit-content',
-    margin: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: '24px'
-  },
-  searchInput: {
-    width: '400px',
-    marginRight: '6px'
-  },
-  root: {
-    maxWidth: '1100px',
-    margin: 'auto',
-    paddingTop: '48px'
-  },
-  items: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 400px)',
-    gridAutoRows: '450px',
-    padding: '50px'
-  }
-});
 
 export const CourseDeliveryInstance = makeStyles({
   root: {

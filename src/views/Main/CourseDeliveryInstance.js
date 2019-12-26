@@ -10,7 +10,7 @@ import { Loader, Link, Notifications, useElementArray, List } from '@kemsu/core'
 import { Editor } from '@kemsu/editor';
 import { dispdate } from '@lib/dispdate';
 import { CourseDeliveryInstance as useStyles, Section as useSectionStyles, Subsection as useSubsectionStyles } from './styles';
-import defaultImage from './default_img.jpg';
+import defaultImage from './course_default_img.jpg';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';

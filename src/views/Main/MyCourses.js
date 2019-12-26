@@ -11,8 +11,7 @@ import { useForm } from '@kemsu/form';
 import { useQuery, refetch } from '@kemsu/graphql-client';
 import { useElementArray, Loader } from '@kemsu/core';
 import { CourseDeliveryInstanceItem as useCourseDeliveryInstanceItemStyles, CourseDeliveryInstances as useStyles } from './styles';
-import defaultImage from './default_img.jpg';
-import greetingImg from './greeting.png';
+import defaultImage from './course_default_img.jpg';
 import SearchIcon from '@material-ui/icons/Search';
 
 export const AVAILABLE_COURSE_DELIVERY_INSTANCES = ({ nameSearch = 'String' }) => `
