@@ -21,6 +21,12 @@ export class UserInfo {
   static get pictureFileId() {
     return localStorage.getItem('user.pictureFileId');
   }
+  static get isSignedIn() {
+    return UserInfo.bearer !== undefined;
+  }
+  static get isStudent() {
+    return UserInfo.role === 'student';
+  }
 
   static update({ role, email, verified, complete, bearer, picture }) {
     if (role !== undefined) localStorage.setItem('user.role', role);

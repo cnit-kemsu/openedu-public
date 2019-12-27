@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import green from '@material-ui/core/colors/green';
 
 export const CourseList = makeStyles({
   root: {
@@ -19,15 +20,21 @@ export const CourseList = makeStyles({
 
 export const CourseItem = makeStyles({
   root: {
-    width: '320px',
-    height: '400px !important'
+    width: '320px'
   },
-  summary: {
-    height: '100px',
+  content: {
+    height: '200px',
     overflow: 'hidden'
   },
   picture: {
-    height: '180px'
+    height: '200px'
+  },
+  actions: {
+    justifyContent: 'space-between'
+  },
+  enrolledMark: {
+    marginLeft: '8px',
+    color: green[600] + ' !important'
   }
 });
 

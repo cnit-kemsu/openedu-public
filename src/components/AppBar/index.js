@@ -13,7 +13,7 @@ function routeToMainView() {
 function AppBar() {
   const classes = useStyles();
   return <div>
-    <MuiAppBar position="static" className={classes.root}>
+    <MuiAppBar position="relative" className={classes.root}>
       <Toolbar className={classes.toolbar}>
         <Logo className={classes.logo} classes={{ logo: classes.logo_logo, title: classes.logo_title }} onClick={routeToMainView} />
         <AuthStatus />

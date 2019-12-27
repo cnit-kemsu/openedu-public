@@ -17,6 +17,7 @@ export const AVAILABLE_COURSES = ({ searchName = 'String' }) => `
     picture
     startDate
     enrollmentEndDate
+    isCurrentUserEnrolled
   }
 `;
 
