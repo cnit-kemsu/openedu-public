@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const Header = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.common.white,
-    borderBottom: '1px solid rgba(0, 0, 0, 0.54)',
+    borderBottom: '1px solid rgba(0, 0, 0, 0.28)',
     boxShadow: '0px 4px 8px -2px rgba(0,0,0,0.2), 0px 8px 10px 0px rgba(0,0,0,0.14), 0px 2px 20px 0px rgba(0,0,0,0.12)'
   },
   inner: {
@@ -49,13 +49,46 @@ export const Description = makeStyles(theme => ({
     margin: 'auto',
     paddingTop: '64px ',
     display: 'flex',
-    //justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   main: {
+    '& h5': {
+      paddingBottom: '12px'
+    },
+    '& > div': {
+      paddingBottom: '24px'
+    }
   },
   info: {
+    '& table': {
+      borderSpacing: '0px',
+      '& tbody': {
+        '& tr:not(:last-child)': {
+          '& td': {
+            borderBottom: '1px solid rgba(0, 0, 0, 0.2)'
+          }
+        }
+      }
+    }
   }
 }));
+
+export const InfoItem = makeStyles({
+  root: {
+    '& td': {
+      paddingTop: '12px',
+      paddingBottom: '12px',
+      color: 'rgba(0, 0, 0, 0.72)',
+      fontWeight: 'bold'
+    }
+  },
+  icon: {
+    paddingRight: '8px'
+  },
+  name: {
+    paddingRight: '36px'
+  }
+});
 
 export default makeStyles({
   root: {

@@ -1,21 +1,11 @@
-function numToLocStr(value) {
-  return value.toLocaleString('en', { minimumIntegerDigits: 2 });
+function _pad(value) {
+  return ('0' + value).slice(-2);
 }
 
-// export function dispdate(date) {
-//   return new Date(date)
-//   |> #.getFullYear()
-//     + '.' + (#.getMonth() |> numToLocStr)
-//     + '.' + (#.getDate() |> numToLocStr)
-//     // + ' ' + #.getHours()
-//     // + ':' + #.getMinutes();
-// }
-
 export function dispdate(date) {
-  return new Date(date)
-  |> (#.getDate() |> numToLocStr)
-  + '.' + (#.getMonth() |> numToLocStr)
-  + '.' + #.getFullYear();
-  // + ' ' + #.getHours()
-  // + ':' + #.getMinutes();
+  const _date = new Date(date);
+  const year = _date.getFullYear();
+  const month = (_date.getMonth() + 1) |> _pad;
+  const __date = _date.getDate() |> _pad;
+  return `${__date}.${month}.${year}`;
 }

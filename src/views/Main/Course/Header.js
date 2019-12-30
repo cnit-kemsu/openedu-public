@@ -58,7 +58,8 @@ function performIfSignedIn(action, ...args) {
 
 function CourseHeader({ course: { id, name, summary, picture, price, enrollmentEndDate, isCurrentUserEnrolled } }) {
 
-  const availableToEnroll = enrollmentEndDate == null || enrollmentEndDate <= new Date();
+  const _enrollmentEndDate = new Date(enrollmentEndDate);
+  const availableToEnroll = _enrollmentEndDate == null || _enrollmentEndDate <= new Date();
   
   const classes = useStyles();
   return <div className={classes.root}>
@@ -72,14 +73,16 @@ function CourseHeader({ course: { id, name, summary, picture, price, enrollmentE
 
         {UserInfo.isStudent && <div>
           {isCurrentUserEnrolled && <Typography variant="h6" color="primary">Вы записаны на этот курс</Typography>}
-          {availableToEnroll && (
+          {availableToEnroll
+          ? (
             price == null
             ? <Button color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
             : <div>
               <Typography color="primary">Чтобы записаться на курс, вам необходимо произвести оплату</Typography>
               <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button>  
             </div>
-          )}
+          ) : <Typography color="primary">Регистрация на курс закончена</Typography>
+          }
         </div>}
 
       </div>

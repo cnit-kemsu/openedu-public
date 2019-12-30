@@ -100,8 +100,8 @@ export const INSTRUCTORS = ({ search = 'String!' }) => `
   }
 `;
 
-export const USERS = ({ keys = 'JSON' }) => `
-  users(keys: ${keys}) {
+export const USERS = ({ keys = '[Int]' }) => `
+  allUsers(keys: ${keys}) {
     id
     email
     firstname
