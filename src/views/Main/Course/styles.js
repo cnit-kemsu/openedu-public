@@ -52,15 +52,19 @@ export const Description = makeStyles(theme => ({
     justifyContent: 'space-between',
   },
   main: {
+    width: '70%',
+    paddingRight: '48px',
     '& h5': {
       paddingBottom: '12px'
     },
-    '& > div': {
+    '& > div.section': {
       paddingBottom: '24px'
     }
   },
   info: {
+    width: '30%',
     '& table': {
+      width: '100%',
       borderSpacing: '0px',
       '& tbody': {
         '& tr:not(:last-child)': {

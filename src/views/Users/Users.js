@@ -14,10 +14,10 @@ import ConfirmDeleteUserDialog from './ConfirmDeleteUserDialog';
 export const limit = 5;
 
 export const TOTAL_USERS = () => `
-  totalUsers
+  totalUsers(roles: [ADMIN, INSTRUCTOR])
 `;
 export const USERS = ({ offset = 'Int' }) => `
-  users(offset: ${offset}, limit: ${limit}) {
+  allUsers(offset: ${offset}, limit: ${limit}, roles: [ADMIN, INSTRUCTOR]) {
     id
     role
     email
@@ -33,7 +33,7 @@ function Users({ offset, menu }) {
   
   const [{ totalUsers }] = useQuery(TOTAL_USERS);
   adjustOffset(totalUsers, offset, limit);
-  const [{ users }, loading, errors] = useQuery(USERS, { offset });
+  const [{ allUsers: users }, loading, errors] = useQuery(USERS, { offset });
   const userItems = useElementArray(UserItem, users, { key: user => user.id, menu });
 
   return <Loader loading={loading} errors={errors}>

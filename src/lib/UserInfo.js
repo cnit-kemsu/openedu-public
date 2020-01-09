@@ -27,6 +27,9 @@ export class UserInfo {
   static get isStudent() {
     return UserInfo.role === 'student';
   }
+  static get isAdmin() {
+    return UserInfo.role === 'admin' || UserInfo.role === 'superuser';
+  }
 
   static update({ role, email, verified, complete, bearer, picture }) {
     if (role !== undefined) localStorage.setItem('user.role', role);

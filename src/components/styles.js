@@ -67,3 +67,32 @@ export const MenuIcon = makeStyles({
     marginRight: '8px'
   }
 });
+
+export const MoreText = makeStyles({
+  summaryRoot: {
+    padding: '0px 12px 0px 12px'
+  },
+  expandIcon: {
+    order: '-1',
+    marginRight: '0px'
+  },
+});
+
+export const ExpansionItem = makeStyles({
+  root: {
+    boxShadow: 'none',
+    '&::before': {
+      height: '0px'
+    }
+  },
+  summaryRoot: {
+    padding: '0px 12px 0px 12px'
+  },
+  expandIcon: {
+    order: '-1',
+    marginRight: '0px'
+  },
+  detailsRoot: {
+    flexDirection: 'column'
+  }
+});

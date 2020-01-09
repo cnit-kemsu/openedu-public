@@ -3,6 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import { Editor } from '@kemsu/editor';
 import { dispdate } from '@lib/dispdate';
+import MoreText from '@components/MoreText';
+import Content from './Content';
+import Instructors from './Instructors';
 import { Description as useStyles, InfoItem as useInfoItemStyles } from './styles';
 
 function InfoItem({ icon, name, value }) {
@@ -16,7 +19,7 @@ function InfoItem({ icon, name, value }) {
 }
 InfoItem = memo(InfoItem);
 
-function Description({ course: { description, instructors, startDate, enrollmentEndDate } }) {
+function Description({ course: { description, instructors, startDate, enrollmentEndDate, sections, isCurrentUserEnrolled } }) {
 
   const classes = useStyles();
   return <div className={classes.root}>
@@ -24,15 +27,19 @@ function Description({ course: { description, instructors, startDate, enrollment
 
       <div className={classes.main}>
 
-        <div className={classes.text}>
+        <div className={classes.text + ' section'}>
           <Typography variant="h5">О курсе</Typography>
           <Editor editorState={description} readOnly={true} />
         </div>
 
+        <div className="section">
+          <MoreText header="Содержание" content={<Content {...{ sections, isCurrentUserEnrolled }} />} />
+        </div>
+
         {instructors.length > 0 && <>
-          <div className={classes.instructors}>
+          <div className={classes.instructors  + ' section'}>
             <Typography variant="h5">Ваши преподаватели</Typography>
-            {/* <Instructors instructors={instructors} /> */}
+            <Instructors instructors={instructors} />
           </div>
         </>}
 

@@ -71,19 +71,20 @@ function CourseHeader({ course: { id, name, summary, picture, price, enrollmentE
         <Typography className={classes.name} variant="h4">{name}</Typography>
         {summary && <Typography className={classes.summary}>{summary}</Typography>}
 
-        {UserInfo.isStudent && <div>
-          {isCurrentUserEnrolled && <Typography variant="h6" color="primary">Вы записаны на этот курс</Typography>}
-          {availableToEnroll
-          ? (
-            price == null
-            ? <Button color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
-            : <div>
-              <Typography color="primary">Чтобы записаться на курс, вам необходимо произвести оплату</Typography>
-              <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button>  
-            </div>
-          ) : <Typography color="primary">Регистрация на курс закончена</Typography>
-          }
-        </div>}
+        {UserInfo.isStudent &&
+          <div>
+            {isCurrentUserEnrolled && <Typography variant="h6" color="primary">Вы записаны на этот курс</Typography>}
+            {!isCurrentUserEnrolled && availableToEnroll ? (
+              price == null
+              ? <Button color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
+              : <div>
+                <Typography color="primary">Чтобы записаться на курс, вам необходимо произвести оплату</Typography>
+                <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button>  
+              </div>
+              ) : <Typography color="secondary" variant="h6">Регистрация на курс закончена</Typography>
+            }
+          </div>
+        }
 
       </div>
 
