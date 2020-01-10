@@ -7,17 +7,17 @@ import Paper from '@material-ui/core/Paper';
 import { useQuery } from '@kemsu/graphql-client';
 import { Loader, Link } from '@kemsu/core';
 import { Editor } from '@kemsu/editor';
-import { SubsectionView as useStyles } from './styles';
+import { SubsectionView as useStyles } from '../styles';
 import RouteBackBtn from '@components/RouteBackBtn';
 import RouteNextBtn from '@components/RouteNextBtn';
-import CourseDeliveryUnit from './CourseDeliveryUnit';
+import CourseDeliveryUnit from '../CourseDeliveryUnit';
 
 export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
-  subsectionDelivery: courseDeliverySubsection(id: ${id}) {
+  courseDeliverySubsection(id: ${id}) {
     id
     name
     previousSubsectionId
-        nextSubsectionId
+    nextSubsectionId
     units {
       id
       name
@@ -36,42 +36,42 @@ export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
 function Subsection({ id }) {
   
   const [tabValue, setTabValue] = useState(0);
-  const [{ subsectionDelivery }, loading, errors] = useQuery(SUBSECTION_DELIVERY, { id });
-  const unit = subsectionDelivery?.units[tabValue];
+  const [{ courseDeliverySubsection: subsection }, loading, errors] = useQuery(SUBSECTION_DELIVERY, { id });
+  const unit = subsection?.units[tabValue];
 
   const classes = useStyles();
   return <div>
     <div className={classes.header}>
-      <Typography variant="h3">{subsectionDelivery?.section?.course?.name}</Typography>
-      {subsectionDelivery?.section?.name !== '0' && <Typography variant="h4">{subsectionDelivery?.section?.name}</Typography>}
-      <Typography variant="h5">{subsectionDelivery?.name}</Typography>
+      <Typography variant="h3">{subsection?.section?.course?.name}</Typography>
+      {subsection?.section?.name !== '0' && <Typography variant="h4">{subsection?.section?.name}</Typography>}
+      <Typography variant="h5">{subsection?.name}</Typography>
     </div>
     <Paper className={classes.root}>
       <Loader loading={loading} errors={errors}>
-        {subsectionDelivery && <div>
+        {subsection && <div>
 
           <div>
             <div className={classes.topBar}>
-              <RouteBackBtn path={`/course-delivery/${subsectionDelivery.section.course.id}/content`} />
+              <RouteBackBtn path={`/course-delivery/${subsection.section.course.id}/content`} />
               <Typography>Назад к содержанию</Typography>
             </div>
           </div>
 
           <div className={classes.navNextBack}>
             <div className={classes.previousSubsectionButton}>
-              <RouteBackBtn disabled={subsectionDelivery.previousSubsectionId == null} path={`/delivery-subsection/${subsectionDelivery.previousSubsectionId}`} />
+              <RouteBackBtn disabled={subsection.previousSubsectionId == null} path={`/delivery-subsection/${subsection.previousSubsectionId}`} />
               <Typography>Предыдущий подраздел</Typography>
             </div>
             <div className={classes.nextSubsectionButton}>
               <Typography>Следующий подраздел</Typography>
-              <RouteNextBtn disabled={subsectionDelivery.nextSubsectionId == null} path={`/delivery-subsection/${subsectionDelivery.nextSubsectionId}`} />
+              <RouteNextBtn disabled={subsection.nextSubsectionId == null} path={`/delivery-subsection/${subsection.nextSubsectionId}`} />
             </div>
           </div>
 
-          {subsectionDelivery.units.length > 0 && <div>
+          {subsection.units.length > 0 && <div>
 
             <Tabs variant="fullWidth" className={classes.tabs} value={tabValue} onChange={(event, value) => setTabValue(value)} indicatorColor="primary" textColor="primary">
-              {subsectionDelivery.units.map(({ name }, index) => (
+              {subsection.units.map(({ name }, index) => (
                 <Tab className={classes.tab} key={index} label={name} />
               ))}
             </Tabs>

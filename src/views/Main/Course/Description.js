@@ -33,7 +33,7 @@ function Description({ course: { description, instructors, startDate, enrollment
         </div>
 
         <div className="section">
-          <MoreText header="Содержание" content={<Content {...{ sections, isCurrentUserEnrolled }} />} />
+          <MoreText title="Содержание" content={<Content {...{ sections, isCurrentUserEnrolled }} />} />
         </div>
 
         {instructors.length > 0 && <>

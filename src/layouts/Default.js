@@ -5,7 +5,7 @@ import AppBar from '@components/AppBar';
 //import MainView from '@views/Main';
 import Main from '@views/Main';
 import CourseView from '@views/Main/Course';
-import DeliverySubsectionView from '@views/Main/DeliverySubsection';
+import DeliverySubsectionView from '@views/Main/Subsection';
 import AccountView from '@views/Account';
 import { DefaultLayout as useStyles } from './styles';
 import notAuthorisedPage from '@components/NotAuthorizedPage';

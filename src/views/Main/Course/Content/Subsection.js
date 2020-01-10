@@ -1,18 +1,29 @@
 import React, { memo } from 'react';
-import Typography from '@material-ui/core/Typography';
 import { Link } from '@kemsu/core';
 import { UserInfo } from '@lib/UserInfo';
 import ExpansionItem from '@components/ExpansionItem';
+import Unit from './Unit';
 
-function Subsection({ id, name, summary, /*sectionIndex, index: subsectionIndex,*/ isCurrentUserEnrolled, accessDate }) {
+function Subsection({ id, name, summary, /*sectionIndex, index: subsectionIndex,*/ isCurrentUserEnrolled, accessDate, units }) {
 
   const hasAccess = UserInfo.isAdmin || (isCurrentUserEnrolled && new Date() >= new Date(accessDate));
 
+  const unitItems = units.map(
+    (props, index) =>
+      <Unit
+        key={props.id}
+        //index={index + 1}
+        //sectionIndex={sectionIndex}
+        subsectionId={id}
+        hasAccess={hasAccess}
+        {...props}
+      />
+  );
+
   return <ExpansionItem
-    header={hasAccess ? <Link styled path={`/delivery-subsection/${id}`}>{name}</Link> : name}
-    content={<>
-      <Typography>{summary}</Typography>
-    </>}
+    title={hasAccess ? <Link styled path={`/delivery-subsection/${id}`}>{name}</Link> : name}
+    summary={summary}
+    content={unitItems}
   />;
 }
 

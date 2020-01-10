@@ -1,20 +1,23 @@
 import React, { memo } from 'react';
-import displayProp from '@lib/displayProp';
-import { ExpansionItem as useStyles } from './styles';
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/AddCircle';
+import Typography from '@material-ui/core/Typography';
+import displayProp from '@lib/displayProp';
+import { ExpansionItem as useStyles } from './styles';
 
-function ExpansionItem({ header, content }) {
+function ExpansionItem({ title, summary, content }) {
   const classes = useStyles();
-  return <ExpansionPanel className={classes.root} square>
-    <ExpansionPanelSummary classes={{ root: classes.summaryRoot, expandIcon: classes.expandIcon }} expandIcon={<ExpandMoreIcon color="primary" />}>
-      {displayProp(header)}
+  return <ExpansionPanel classes={{ root: classes.root, expanded: classes.rootExpanded }} square>
+    <ExpansionPanelSummary classes={{ root: classes.summaryRoot, expanded: classes.summaryExpanded, expandIcon: classes.expandIcon }} expandIcon={<ExpandMoreIcon color="primary" />}>
+      {displayProp(title)}
     </ExpansionPanelSummary>
     <ExpansionPanelDetails className={classes.detailsRoot}>
-      {displayProp(content)}
+      <div className={classes.detailsInner}>
+        <Typography className={classes.expandSummary}>{summary}</Typography>
+        {displayProp(content)}
+      </div>
     </ExpansionPanelDetails>
   </ExpansionPanel>;
 }

@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import Typography from '@material-ui/core/Typography';
 import ExpansionItem from '@components/ExpansionItem';
 import Subsection from './Subsection';
 
@@ -19,11 +18,9 @@ function Section({ name, summary, /*index: sectionIndex,*/ subsections, isCurren
   if (name === '0') return subsectionItems;
 
   return <ExpansionItem
-    header={name}
-    content={<>
-      <Typography>{summary}</Typography>
-      {subsectionItems}
-    </>}
+    title={name}
+    summary={summary}
+    content={subsectionItems}
   />;
 }
 

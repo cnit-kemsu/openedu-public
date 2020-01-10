@@ -24,7 +24,7 @@ function SimpleUnit({ id }) {
   const [{ unitDelivery }, loading, errors] = useQuery(UNIT_DELIVERY, { id });
 
   return <Loader loading={loading} errors={errors}>
-    {unitDelivery && <div>
+    {unitDelivery && (!unitDelivery.data && <Typography>Пусто</Typography> || <div>
 
       {unitDelivery.type === 'DOCUMENT' && <div>
         <Editor editorState={unitDelivery.data} readOnly={true} />
@@ -41,7 +41,7 @@ function SimpleUnit({ id }) {
         />
       </div>}
 
-    </div>}
+    </div>)}
   </Loader>;
 }
 

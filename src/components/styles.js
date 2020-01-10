@@ -78,15 +78,22 @@ export const MoreText = makeStyles({
   },
 });
 
-export const ExpansionItem = makeStyles({
+export const ExpansionItem = makeStyles(theme => ({
   root: {
     boxShadow: 'none',
     '&::before': {
       height: '0px'
     }
   },
+  rootExpanded: {
+    margin: '0px !important'
+  },
   summaryRoot: {
-    padding: '0px 12px 0px 12px'
+    padding: '0px 12px 0px 12px',
+    minHeight: '0px !important'
+  },
+  summaryExpanded: {
+    margin: '0px !important'
   },
   expandIcon: {
     order: '-1',
@@ -94,5 +101,13 @@ export const ExpansionItem = makeStyles({
   },
   detailsRoot: {
     flexDirection: 'column'
+  },
+  detailsInner: {
+    borderLeft: `1px solid ${theme.palette.primary.light}`,
+    paddingLeft: '12px',
+    marginLeft: '12px'
+  },
+  expandSummary: {
+    fontSize: '14px'
   }
-});
+}));

@@ -10,7 +10,7 @@ import { UnitForm as useStyles } from './styles';
 
 const UPDATE_UNIT_DESIGN = ({
   id = 'Int!',
-  name = 'String!',
+  name = 'String',
   summary = 'String'
 }) => `
   updateCourseDesignUnit(
@@ -22,7 +22,7 @@ const UPDATE_UNIT_DESIGN = ({
 
 const UPDATE_UNIT_DELIVERY = ({
   id = 'Int!',
-  name = 'String!',
+  name = 'String',
   summary = 'String'
 }) => `
   updateCourseDeliveryUnit(

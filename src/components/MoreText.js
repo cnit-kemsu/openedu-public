@@ -1,17 +1,16 @@
 import React, { memo } from 'react';
-import displayProp from '@lib/displayProp';
-import { MoreText as useStyles } from './styles';
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/AddCircle';
+import displayProp from '@lib/displayProp';
+import { MoreText as useStyles } from './styles';
 
-function MoreText({ header, content }) {
+function MoreText({ title, content }) {
   const classes = useStyles();
   return <ExpansionPanel square>
     <ExpansionPanelSummary classes={{ root: classes.summaryRoot, expandIcon: classes.expandIcon }} expandIcon={<ExpandMoreIcon color="primary" />}>
-      {displayProp(header)}
+      {displayProp(title)}
     </ExpansionPanelSummary>
     <ExpansionPanelDetails>
       {displayProp(content)}

@@ -63,6 +63,11 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
         summary
         accessDate
         expirationDate
+        units {
+          id
+          name
+          summary
+        }
       }
     }
   }
