@@ -46,12 +46,20 @@ export const Logo = makeStyles({
 
 export const RouteBackBtn = makeStyles({
   root: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  button: {
     marginRight: '8px !important'
   }
 });
 
 export const RouteNextBtn = makeStyles({
   root: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  button: {
     marginLeft: '8px !important'
   }
 });
@@ -74,7 +82,8 @@ export const MoreText = makeStyles({
   },
   expandIcon: {
     order: '-1',
-    marginRight: '0px'
+    marginRight: '0px',
+    transition: 'none'
   },
 });
 
@@ -97,7 +106,8 @@ export const ExpansionItem = makeStyles(theme => ({
   },
   expandIcon: {
     order: '-1',
-    marginRight: '0px'
+    marginRight: '0px',
+    transition: 'none'
   },
   detailsRoot: {
     flexDirection: 'column'

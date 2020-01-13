@@ -25,7 +25,7 @@ function DefaultLayout({ notAuthorized }) {
   return <div className={classes.root}>
     <AppBar />
     {useRoutes(routes) || (notAuthorized ? notAuthorisedPage : pageNotFound)}
-  </div >;
+  </div>;
 }
 
 export default React.memo(DefaultLayout);
