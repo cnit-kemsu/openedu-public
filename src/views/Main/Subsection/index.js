@@ -1,17 +1,9 @@
-import React, { useState } from 'react';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
+import React, { useMemo } from 'react';
 import { useQuery } from '@kemsu/graphql-client';
-import { Loader, Link } from '@kemsu/core';
-import { Editor } from '@kemsu/editor';
-import { SubsectionView as useStyles } from '../styles';
-import RouteBackBtn from '@components/RouteBackBtn';
-import RouteNextBtn from '@components/RouteNextBtn';
-import CourseDeliveryUnit from '../CourseDeliveryUnit';
+import { Loader } from '@kemsu/core';
+import { Location, useRoute } from '@kemsu/router';
 import Header from './Header';
+import Unit from './Unit';
 
 export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
   courseDeliverySubsection(id: ${id}) {
@@ -22,7 +14,6 @@ export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
     units {
       id
       name
-      type
       previousUnitId
       nextUnitId
     }
@@ -36,33 +27,26 @@ export const SUBSECTION_DELIVERY = ({ id = 'Int!' }) => `
   }
 `;
 
+function getUnitIndex(units) {
+  const unitIndex = Location.search['unit-index'];
+  if (!unitIndex) return 0;
+  if (unitIndex === -1 && units != null) return units.length - 1;
+  return unitIndex;
+}
+
 function Subsection({ id }) {
-  
-  const [tabValue, setTabValue] = useState(0);
+  useRoute();
   const [{ courseDeliverySubsection: subsection }, loading, errors] = useQuery(SUBSECTION_DELIVERY, { id });
-  const unit = subsection?.units[tabValue];
+  const unitIndex = getUnitIndex(subsection?.units);
+  const unitId = loading ? null : subsection?.units[unitIndex]?.id;
 
-  const classes = useStyles();
   return <div>
+    <Loader loading={loading} errors={errors}>
       {subsection != null && <>
-        <Header subsection={subsection} />
+        <Header subsection={subsection} unitIndex={unitIndex} />
+        {unitId != null && <Unit id={unitId} />}
       </>}
-    
-      <Loader loading={loading} errors={errors}>
-        {subsection && <div>
-
-
-          {subsection.units.length > 0 && <div>
-
-
-            <div className={classes.content}>
-              <CourseDeliveryUnit id={unit.id} type={unit.type} />
-            </div>
-          
-          </div> || <div style={{ textAlign: 'center' }}><Typography>Пусто</Typography></div>}
-          
-        </div>}
-      </Loader>
+    </Loader>
   </div>;
 }
 

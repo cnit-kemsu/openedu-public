@@ -11,7 +11,7 @@ import { Loader, useElementArray, List } from '@kemsu/core';
 import { useForceUpdate } from '@kemsu/force-update';
 import { Editor } from '@kemsu/editor';
 import { useForm, Fields } from '@kemsu/form';
-import { AnswerItem1 as useAnswerItemStyles, Answers1 as useAnswersStyles, QuestionItem1 as useQuestionItemStyles, RightAnswerCheckbox as useRightAnswerCheckboxStyles } from './styles';
+import { AnswerItem1 as useAnswerItemStyles, Answers1 as useAnswersStyles, QuestionItem1 as useQuestionItemStyles, RightAnswerCheckbox as useRightAnswerCheckboxStyles } from '../../styles';
 import UpdateFab from '@components/UpdateFab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { ArrayCheckbox } from '@kemsu/inputs';

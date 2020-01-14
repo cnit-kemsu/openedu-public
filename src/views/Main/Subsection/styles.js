@@ -22,7 +22,20 @@ export const Header = makeStyles(theme => ({
   subsectionTitle: {
     maxWidth: '650px'
   },
+  controls: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  tabs: {
+    width: '100%'
+  },
   tab: {
-    textTransform: 'none'
+    textTransform: 'none',
+    fontSize: '16px'
+  },
+  navButton: {
+    minWidth: '48px',
+    borderRadius: '0px',
+    height: '100%'
   }
 }));

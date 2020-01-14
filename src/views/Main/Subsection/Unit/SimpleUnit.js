@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import { useQuery } from '@kemsu/graphql-client';
 import { Loader, Link } from '@kemsu/core';
 import { Editor } from '@kemsu/editor';
-import { SubsectionView as useStyles } from './styles';
+import { SubsectionView as useStyles } from '../../styles';
 import RouteBackBtn from '@components/RouteBackBtn';
 
 export const UNIT_DELIVERY = ({ id = 'Int!' }) => `
