@@ -121,3 +121,21 @@ export const ExpansionItem = makeStyles(theme => ({
     fontSize: '14px'
   }
 }));
+
+export const DropItem = makeStyles(theme => ({
+  common: {
+    height: '6px',
+    width: '100%',
+    padding: '2px',
+    backgroundClip: 'content-box'
+  },
+  default: {
+    backgroundColor: theme.palette.primary.light
+  },
+  active: {
+    backgroundColor: theme.palette.secondary.light
+  },
+  nonDisplayed: {
+    opacity: '0'
+  }
+}));

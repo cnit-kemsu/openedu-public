@@ -4,7 +4,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { useMutation, refetch } from '@kemsu/graphql-client';
 import MoreIconButton from '@components/MoreIconButton';
-import FrontItemDropArea from '@components/FrontItemDropArea';
+import { DragItem, DropItem } from '@components/DragAndDropItems';
 import { UnitItem as useStyles } from './styles';
 import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '../../';
 import { Notifications } from '@kemsu/core';
@@ -29,21 +29,21 @@ const draggerStyle = {
 };
 
 export const MOVE_COURSE_DESIGN_UNIT = ({
-  movableKey = 'Int!',
-  frontKey = 'Int'
+  movingKey = 'Int!',
+  putBeforeKey = 'Int'
 }) => `
   moveCourseDesignUnit(
-    movableUnitId: ${movableKey}
-    frontUnitId: ${frontKey}
+    movingUnitId: ${movingKey}
+    putBeforeUnitId: ${putBeforeKey}
   )
 `;
 export const MOVE_COURSE_DELIVERY_UNIT = ({
-  movableKey = 'Int!',
-  frontKey = 'Int'
+  movingKey = 'Int!',
+  putBeforeKey = 'Int'
 }) => `
   moveCourseDeliveryUnit(
-    movableUnitId: ${movableKey}
-    frontUnitId: ${frontKey}
+    movingUnitId: ${movingKey}
+    putBeforeUnitId: ${putBeforeKey}
   )
 `;
 export function onComplete(isDelivery) {
@@ -51,24 +51,27 @@ export function onComplete(isDelivery) {
   Notifications.push('Порядок блоков был успешно изменен.', 'success');
 }
 
-export default function UnitItem({ index, id, type, ...item }, { unitMenu, subsectionIndex, isDelivery, ...props }) {
+export default function UnitItem({ index, id, type, ...item }, { unitMenu, subsectionIndex, isDelivery, moveUnit, dragType, ...props }) {
 
   useHash(`#${id}`);
-  const moveCourseDesignUnit = useMutation(isDelivery ? MOVE_COURSE_DELIVERY_UNIT : MOVE_COURSE_DESIGN_UNIT, { onComplete: () => onComplete(isDelivery) });
+  //const moveUnit = useMutation(isDelivery ? MOVE_COURSE_DELIVERY_UNIT : MOVE_COURSE_DESIGN_UNIT, { onComplete: () => onComplete(isDelivery) });
 
   const classes = useStyles();
   const unitIndex = index + 1 |> subsectionIndex + '.' + #;
   const primary = <>
-    <span style={draggerStyle} draggable={true} onDragStart={event => { event.dataTransfer.setData('text/plain', id); }} />
+    {/* <span style={draggerStyle} draggable={true} onDragStart={event => { event.dataTransfer.setData('text/plain', id); }} /> */}
     {/*<span className={classes.index}>{unitIndex}</span>.*/} {item.name} ({types[type]})
   </>;
+  //const dragType = 'unit' + subsectionIndex;
   return <div>
-    <FrontItemDropArea frontKey={id} onDrop={(movableKey, frontKey) => moveCourseDesignUnit({ movableKey, frontKey })} />
-    <ListItem id={id}>
-      <ListItemText primary={primary} secondary={item.summary} />
-      <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => unitMenu.open(event, { id, item, subsectionIndex, ...props })} />
-      </ListItemSecondaryAction>
-    </ListItem>
+    <DropItem putBeforeKey={id} onDrop={moveUnit} dragType={dragType} />
+    <DragItem movingKey={id} dragType={dragType}>
+      <ListItem id={id}>
+        <ListItemText primary={primary} secondary={item.summary} />
+        <ListItemSecondaryAction>
+          <MoreIconButton onClick={event => unitMenu.open(event, { id, item, subsectionIndex, ...props })} />
+        </ListItemSecondaryAction>
+      </ListItem>
+    </DragItem>
   </div>;
 }

@@ -17,11 +17,11 @@ function SubsectionHeader({ subsection: { id, name: subsectionName, units, previ
   const navigateToPreviousUnit = useCallback(() => {
     if (isFirstUnitInSubsection) History.push(`/delivery-subsection/${previousSubsectionId}`, { 'unit-index': -1 });
     else History.push(`/delivery-subsection/${id}`, { 'unit-index': unitIndex - 1 });
-  }, [isFirstUnitInSubsection, previousSubsectionId]);
+  }, [isFirstUnitInSubsection, previousSubsectionId, unitIndex]);
   const navigateToNextUnit = useCallback(() => {
     if (isLastUnitInSubsection) History.push(`/delivery-subsection/${nextSubsectionId}`);
     else History.push(`/delivery-subsection/${id}`, { 'unit-index': unitIndex + 1 });
-  }, [isLastUnitInSubsection, nextSubsectionId]);
+  }, [isLastUnitInSubsection, nextSubsectionId, unitIndex]);
 
   const classes = useStyles();
   return <div className={classes.root}>
