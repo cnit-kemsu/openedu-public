@@ -6,7 +6,7 @@ import { useMutation, refetch } from '@kemsu/graphql-client';
 import MoreIconButton from '@components/MoreIconButton';
 import { DragItem, DropItem } from '@components/DragAndDropItems';
 import { UnitItem as useStyles } from './styles';
-import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '../../';
+// import { COURSE_DESIGN_TEMPLATE, COURSE_DELIVERY_INSTANCE } from '../../';
 import { Notifications } from '@kemsu/core';
 import { useHash } from '@views/_shared/useHash';
 
@@ -17,41 +17,30 @@ const types = {
   QUIZ: 'Тест'
 };
 
-const draggerStyle = {
-  backgroundImage: '-webkit-repeating-radial-gradient(center center, rgba(0,0,0,.2), rgba(0,0,0,.2) 1px, transparent 1px, transparent 100%)',
-  backgroundSize: '3px 3px',
-  width: '18px',
-  height: '18px',
-  cursor: 'grabbing',
-  display: 'inline-block',
-  marginRight: '4px',
-  transform: 'translate(0px, 2px)'
-};
+// export const MOVE_COURSE_DESIGN_UNIT = ({
+//   movingKey = 'Int!',
+//   putBeforeKey = 'Int'
+// }) => `
+//   moveCourseDesignUnit(
+//     movingUnitId: ${movingKey}
+//     putBeforeUnitId: ${putBeforeKey}
+//   )
+// `;
+// export const MOVE_COURSE_DELIVERY_UNIT = ({
+//   movingKey = 'Int!',
+//   putBeforeKey = 'Int'
+// }) => `
+//   moveCourseDeliveryUnit(
+//     movingUnitId: ${movingKey}
+//     putBeforeUnitId: ${putBeforeKey}
+//   )
+// `;
+// export function onComplete(isDelivery) {
+//   refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
+//   Notifications.push('Порядок блоков был успешно изменен.', 'success');
+// }
 
-export const MOVE_COURSE_DESIGN_UNIT = ({
-  movingKey = 'Int!',
-  putBeforeKey = 'Int'
-}) => `
-  moveCourseDesignUnit(
-    movingUnitId: ${movingKey}
-    putBeforeUnitId: ${putBeforeKey}
-  )
-`;
-export const MOVE_COURSE_DELIVERY_UNIT = ({
-  movingKey = 'Int!',
-  putBeforeKey = 'Int'
-}) => `
-  moveCourseDeliveryUnit(
-    movingUnitId: ${movingKey}
-    putBeforeUnitId: ${putBeforeKey}
-  )
-`;
-export function onComplete(isDelivery) {
-  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
-  Notifications.push('Порядок блоков был успешно изменен.', 'success');
-}
-
-export default function UnitItem({ index, id, type, ...item }, { unitMenu, subsectionIndex, isDelivery, moveUnit, dragType, ...props }) {
+export default function UnitItem({ index, id, type, ...item }, { unitMenu, subsectionIndex, isDelivery, moveUnit, dragScope, ...props }) {
 
   useHash(`#${id}`);
   //const moveUnit = useMutation(isDelivery ? MOVE_COURSE_DELIVERY_UNIT : MOVE_COURSE_DESIGN_UNIT, { onComplete: () => onComplete(isDelivery) });
@@ -64,14 +53,15 @@ export default function UnitItem({ index, id, type, ...item }, { unitMenu, subse
   </>;
   //const dragType = 'unit' + subsectionIndex;
   return <div>
-    <DropItem putBeforeKey={id} onDrop={moveUnit} dragType={dragType} />
-    <DragItem movingKey={id} dragType={dragType}>
-      <ListItem id={id}>
-        <ListItemText primary={primary} secondary={item.summary} />
-        <ListItemSecondaryAction>
-          <MoreIconButton onClick={event => unitMenu.open(event, { id, item, subsectionIndex, ...props })} />
-        </ListItemSecondaryAction>
-      </ListItem>
+    <DragItem index={index} dragData={id} dragElement={`<div>${item.name}</div>`} scope={dragScope}>
+      <DropItem index={index} dropData={id} onDrop={moveUnit} scope={dragScope}>
+        <ListItem id={id}>
+          <ListItemText primary={primary} secondary={item.summary} />
+          <ListItemSecondaryAction>
+            <MoreIconButton onClick={event => unitMenu.open(event, { id, item, subsectionIndex, ...props })} />
+          </ListItemSecondaryAction>
+        </ListItem>
+      </DropItem>
     </DragItem>
   </div>;
 }

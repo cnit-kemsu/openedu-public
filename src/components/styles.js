@@ -123,19 +123,36 @@ export const ExpansionItem = makeStyles(theme => ({
 }));
 
 export const DropItem = makeStyles(theme => ({
-  common: {
-    height: '6px',
+  root: {
+    position: 'relative',
+  },
+  root_dragOver: {
+    paddingTop: dragElement => (dragElement?.clientHeight || 0) + 'px'
+  },
+  dropArea: {
+    height: '50%',
     width: '100%',
-    padding: '2px',
-    backgroundClip: 'content-box'
+    top: '0px',
+    position: 'absolute',
+    minHeight: dragElement => (dragElement?.clientHeight || 0) + 'px',
+    //backgroundColor: '#88888888'
   },
-  default: {
-    backgroundColor: theme.palette.primary.light
+  dropArea_dragOver: {
+    height: dragElement => `calc(50% - ${(dragElement?.clientHeight || 0) / 2}px)`,
+    '&::before': {
+      content: '"_"',
+      display: 'block',
+      width: '100%',
+      height: dragElement => (dragElement?.clientHeight || 0) + 'px',
+      backgroundColor: theme.palette.primary.light,
+      color: 'transparent',
+      opacity: '0.25'
+    }
   },
-  active: {
-    backgroundColor: theme.palette.secondary.light
-  },
-  nonDisplayed: {
-    opacity: '0'
+}));
+
+export const DragItem = makeStyles(theme => ({
+  root_dragging: {
+    opacity: '0.5'
   }
 }));
