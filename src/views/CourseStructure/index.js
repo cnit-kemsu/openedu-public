@@ -1,15 +1,20 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import ExpandIcon from '@material-ui/icons/AddCircle';
+import CollapseIcon from '@material-ui/icons/RemoveCircle';
 import { useQuery } from '@kemsu/graphql-client';
 import { useElementArray, Loader, List, Fab, Link } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import RefreshBtn from '@components/RefreshBtn';
+import { ExpansionContext } from '@components/ExpansionPanel';
 import { useSectionItem } from './useSectionItem';
 import { useSubsectionItem } from './Subsections/useSubsectionItem';
 import { useUnitItem } from './Subsections/Units/useUnitItem';
 import SectionItem from './SectionItem';
+import useStyles from './styles';
 
 export const COURSE_DESIGN_TEMPLATE = ({ _courseId = 'Int!' }) => `
   courseDesignTemplate(id: ${_courseId}) {
@@ -70,6 +75,9 @@ function Sections({ _course: { sections }, ...props }) {
 }
 Sections = React.memo(Sections);
 
+const expandAll = () => ExpansionContext.expandAll('course-structure');
+const collapseAll = () => ExpansionContext.collapseAll('course-structure');
+
 export default (
   ({ courseDesignTemplateId, courseDeliveryInstanceId }) => {
     
@@ -98,6 +106,7 @@ export default (
    
     const [{ [isDelivery ? 'courseDeliveryInstance' : 'courseDesignTemplate']: _course }, loading, errors] = useQuery(COURSE_QUERY, { _courseId });
     
+    const classes = useStyles();
     return <>
       <AdminView.AppBar>
         <Typography variant="h6">
@@ -114,6 +123,10 @@ export default (
       </AdminView.Breadcrumbs>
       <AdminView.Div>
         <Loader {...{ loading, errors }}>
+          <div className={classes.expandCollapseContainer}>
+            <Button color="primary" variant="outlined" onClick={expandAll}>Развернуть все <ExpandIcon color="primary" /></Button>
+            <Button color="primary" variant="outlined" onClick={collapseAll}>Свернуть все <CollapseIcon color="primary" /></Button>
+          </div>
           {_course && <Sections {...{ _course, isDelivery, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
         </Loader>
       </AdminView.Div>

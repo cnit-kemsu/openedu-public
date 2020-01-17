@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import MoreIconButton from '@components/MoreIconButton';
 import AddIcon from '@material-ui/icons/Add';
+import ExpansionPanel from '@components/ExpansionPanel';
 import SubsectionsView from './Subsections';
 import { SectionItem as useStyles } from './styles';
 
@@ -18,19 +19,30 @@ export default function SectionItem({ index, id, subsections, ...item }, { secti
     {/*<span className={classes.index}>{sectionIndex}</span>.*/} {item.name}
   </>;
   return <Paper className={classes.root}>
-    <ListItem>
-      <ListItemText primary={primary} secondary={item.summary} />
-      <ListItemSecondaryAction>
-        <MoreIconButton onClick={event => sectionMenu.open(event, { id, item })} />
-      </ListItemSecondaryAction>
-    </ListItem>
-    <Divider />
-    <div className={classes.subsections}>
-      <SubsectionsView subsections={subsections} sectionIndex={sectionIndex} {...props} />
-    </div>
-    <Button size="small" variant="contained" color="primary" className={classes.addSubsectionButton} onClick={() => createSubsectionDialog.open({ sectionId: id, sectionIndex })}>
-      <AddIcon className={classes.addIcon} />
-      Создать подраздел
-    </Button>
+    <ExpansionPanel defaultExpanded={true} scope="course-structure"
+
+      summary={
+        <ListItem>
+          <ListItemText primary={primary} secondary={item.summary} />
+          <ListItemSecondaryAction>
+            <MoreIconButton onClick={event => sectionMenu.open(event, { id, item })} />
+          </ListItemSecondaryAction>
+        </ListItem>
+      }
+
+      details={<>
+        <Divider />
+        <div className={classes.subsections}>
+          <SubsectionsView subsections={subsections} sectionIndex={sectionIndex} {...props} />
+        </div>
+        <Button size="small" variant="contained" color="primary" className={classes.addSubsectionButton} onClick={() => createSubsectionDialog.open({ sectionId: id, sectionIndex })}>
+          <AddIcon className={classes.addIcon} />
+          Создать подраздел
+        </Button>
+      </>}
+
+    />
+    
+    
   </Paper>;
 }

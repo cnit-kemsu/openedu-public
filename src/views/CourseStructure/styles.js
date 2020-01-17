@@ -32,3 +32,16 @@ export const SectionItem = makeStyles({
     marginRight: '6px'
   }
 });
+
+export default makeStyles({
+  expandCollapseContainer: {
+    '& > *': {
+      marginRight: '12px',
+    },
+    '& button svg': {
+      marginLeft: '12px'
+    },
+    marginBottom: '24px',
+    textAlign: 'center'
+  }
+});

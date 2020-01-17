@@ -156,3 +156,42 @@ export const DragItem = makeStyles(theme => ({
     opacity: '0.5'
   }
 }));
+
+export const ExpansionPanel = makeStyles(theme => ({
+  root: {
+    boxShadow: 'none',
+    '&::before': {
+      height: '0px'
+    },
+    margin: '12px 0px'
+  },
+  rootExpanded: {
+    margin: '12px 0px !important'
+  },
+  summaryRoot: {
+    padding: '0px',
+    minHeight: '0px !important'
+  },
+  summaryContent: {
+    margin: '0px',
+    '& > li': {
+      width: '100%'
+    }
+  },
+  summaryExpanded: {
+    margin: '0px !important'
+  },
+  expandIcon: {
+    order: '-1',
+    marginRight: '0px',
+    transition: 'none'
+  },
+  detailsRoot: {
+    flexDirection: 'column',
+    paddingLeft: '48px'
+  },
+  summaryContent: {
+    cursor: 'auto',
+    width: '100%'
+  },
+}));

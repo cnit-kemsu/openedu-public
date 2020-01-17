@@ -22,12 +22,19 @@ class DragContext {
   }
 
   static stopDragging() {
+    document.body.removeEventListener('dragover', DragContext.handleMouseMove);
+    document.body.removeChild(DragContext.dragElement);
     DragContext.dragData = null;
     DragContext.dragElement = null;
     DragContext.dragIndex = null;
     const oldScope = DragContext.scope;
     DragContext.scope = null;
     DragContext.scopeChangeEvent.publish(oldScope);
+  }
+
+  static handleMouseMove(event) {
+    DragContext.dragElement.style.left = event.clientX + 24 + 'px';
+    DragContext.dragElement.style.top = event.clientY - (DragContext.dragElement.clientHeight / 2) + 'px';
   }
 }
 
@@ -47,8 +54,19 @@ class _DragItem {
   onDragStart(event) {
     const dragElement = document.createElement('div');
     dragElement.innerHTML = this.dragElement;
+    dragElement.style.width = 'fit-content';
+    dragElement.style.padding = '12px';
+    dragElement.style.borderRadius = '2px';
+    dragElement.style.position = 'fixed';
+    dragElement.style.opacity = '0.7';
+    dragElement.style.color = 'white';
+    dragElement.style.backgroundColor = 'rgba(63, 81, 181)';
+    dragElement.style.border = '1px solid #3f51b5';
+    dragElement.style.position = 'fixed';
     document.body.appendChild(dragElement);
-    event.dataTransfer.setDragImage(dragElement, 0, 0);
+    //document.body.insertBefore(dragElement, document.body.firstChild);
+    document.body.addEventListener('dragover', DragContext.handleMouseMove);
+    event.dataTransfer.setDragImage(new Image(), 0, 0);
     //event.dropEffect = 'move';
 
     DragContext.startDragging(this.dragData, this.scope, dragElement, this.index);
@@ -103,7 +121,7 @@ class _DropItem {
     this.onDragLeave = this.onDragLeave.bind(this);
     this._onDrop = this._onDrop.bind(this);
     this.onDrop = this.onDrop.bind(this);
-    this.handleDropTypeChangeEvent = this.handleDropTypeChangeEvent.bind(this);
+    this.handleScopeChangeEvent = this.handleScopeChangeEvent.bind(this);
     this.handleSubscriptions = this.handleSubscriptions.bind(this);
   }
 
@@ -133,13 +151,12 @@ class _DropItem {
     DragContext.pending = new Promise(this._onDrop);
   }
 
-  handleDropTypeChangeEvent(scope) {
+  handleScopeChangeEvent(scope) {
     if (this.scope === scope) this.forceUpdate();
-    
   }
 
   handleSubscriptions() {
-    const sub = DragContext.scopeChangeEvent.subscribe(this.handleDropTypeChangeEvent);
+    const sub = DragContext.scopeChangeEvent.subscribe(this.handleScopeChangeEvent);
     return () => sub.unsubscribe();
   }
 }
