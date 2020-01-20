@@ -33,10 +33,9 @@ function Units({ units, ...props }) {
   const moveUnit = useCallback((dragData, dropData) => _moveUnit({ movingKey: dragData, putBeforeKey: dropData }), []);
 
   const dragScope = 'unit' + props.subsectionIndex;
-  const unitItems = useElementArray(UnitItem, units, { ...props, dragScope, moveUnit });
   
   return units.length > 0 && <List>
-    {unitItems}
+    {units?.map((unit, index) => <UnitItem {...{ key: unit.id, index, unit, dragScope, moveUnit, ...props }} />)}
     <DropItem index={units?.length} onDrop={moveUnit} scope={dragScope} />
   </List>;
 }

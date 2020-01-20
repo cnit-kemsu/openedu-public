@@ -1,4 +1,5 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { Publisher } from '@kemsu/publisher';
 import { useForceUpdate } from '@kemsu/force-update';
 import { DropItem as useDropItemStyles, DragItem as useDragItemStyles } from './styles';
@@ -7,13 +8,15 @@ class DragContext {
   static scopeChangeEvent = new Publisher();
   scope = null;
   dragData = null;
-  dragElement = null;
   dragIndex = null;
   pending = null;
+  started = false;
 
   static startDragging(dragData, scope, dragElement, dragIndex) {
+    DragContext.started = true;
+    
     DragContext.dragData = dragData;
-    DragContext.dragElement = dragElement;
+    setDragElementChildren(dragElement);
     DragContext.dragIndex = dragIndex;
     if (scope !== DragContext.scope) {
       DragContext.scope = scope || null;
@@ -22,10 +25,12 @@ class DragContext {
   }
 
   static stopDragging() {
+    if (DragContext.started === false) return;
+    DragContext.started = false;
+
     document.body.removeEventListener('dragover', DragContext.handleMouseMove);
-    document.body.removeChild(DragContext.dragElement);
+    setDragElementChildren(null);
     DragContext.dragData = null;
-    DragContext.dragElement = null;
     DragContext.dragIndex = null;
     const oldScope = DragContext.scope;
     DragContext.scope = null;
@@ -38,44 +43,56 @@ class DragContext {
   }
 }
 
+const dragElementStyle = {
+  width: 'fit-content',
+  padding: '12px',
+  borderRadius: '2px',
+  position: 'fixed',
+  opacity: '0.7',
+  color: 'white',
+  backgroundColor: 'rgba(63, 81, 181)',
+  border: '1px solid #3f51b5',
+  position: 'fixed'
+};
+let setDragElementChildren;
+function setDragElement(element) {
+  DragContext.dragElement = element;
+}
+function DragRoot() {
+  const [children, setChildren] = useState(null);
+  useEffect(() => { setDragElementChildren = setChildren; }, []);
+  return <div style={{ ...dragElementStyle, display: children === null ? 'none' : 'block' }} ref={setDragElement}>{children}</div>;
+}
+const dragRoot = document.createElement('div');
+dragRoot.id = 'drag-root';
+document.body.appendChild(dragRoot);
+ReactDOM.render(<DragRoot />, dragRoot);
+
 class _DragItem {
-  constructor(forceUpdate, dragData, scope, dragElement, index) {
+  constructor(forceUpdate) {
     this.forceUpdate = forceUpdate;
-    this.dragData = dragData;
-    this.dragElement = dragElement;
-    this.scope = scope;
     this.dragging = false;
-    this.index = index;
 
     this.onDragStart = this.onDragStart.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   onDragStart(event) {
-    const dragElement = document.createElement('div');
-    dragElement.innerHTML = this.dragElement;
-    dragElement.style.width = 'fit-content';
-    dragElement.style.padding = '12px';
-    dragElement.style.borderRadius = '2px';
-    dragElement.style.position = 'fixed';
-    dragElement.style.opacity = '0.7';
-    dragElement.style.color = 'white';
-    dragElement.style.backgroundColor = 'rgba(63, 81, 181)';
-    dragElement.style.border = '1px solid #3f51b5';
-    dragElement.style.position = 'fixed';
-    document.body.appendChild(dragElement);
-    //document.body.insertBefore(dragElement, document.body.firstChild);
+    event.stopPropagation();
+
     document.body.addEventListener('dragover', DragContext.handleMouseMove);
     event.dataTransfer.setDragImage(new Image(), 0, 0);
     //event.dropEffect = 'move';
 
-    DragContext.startDragging(this.dragData, this.scope, dragElement, this.index);
+    DragContext.startDragging(this.dragData, this.scope, this.dragElement, this.index);
     
     this.dragging = true;
     this.forceUpdate();
   }
 
   async onDragEnd() {
+    // event.preventDefault();
+    // event.stopPropagation();
     if (DragContext.pending !== null) {
       await DragContext.pending;
       DragContext.pending = null;
@@ -92,7 +109,10 @@ function DragItem({ children, dragData, scope, dragElement, index }) {
 
   const classes = useDragItemStyles();
   const forceUpdate = useForceUpdate();
-  const dragItem = useMemo(() => new _DragItem(forceUpdate, dragData, scope, dragElement, index), []);
+  const dragItem = useMemo(() => new _DragItem(forceUpdate), []);
+  dragItem.dragElement = dragElement;
+  dragItem.dragData = dragData;
+  dragItem.scope = scope;
   dragItem.index = index;
 
   return <div className={dragItem.dragging ? classes.root_dragging : ''}
@@ -110,11 +130,8 @@ function preventDefault(event) {
 }
 
 class _DropItem {
-  constructor(forceUpdate, dropData, onDrop, scope) {
+  constructor(forceUpdate) {
     this.forceUpdate = forceUpdate;
-    this.dropData = dropData;
-    this.__onDrop = onDrop;
-    this.scope = scope;
     this.isDragOver = false;
 
     this.onDragEnter = this.onDragEnter.bind(this);
@@ -165,7 +182,10 @@ function DropItem({ dropData, onDrop, scope, children, index }) {
 
   const classes = useDropItemStyles(DragContext.dragElement || {});
   const forceUpdate = useForceUpdate();
-  const dropItem = useMemo(() => new _DropItem(forceUpdate, dropData, onDrop, scope), []);
+  const dropItem = useMemo(() => new _DropItem(forceUpdate), []);
+  dropItem.__onDrop = onDrop;
+  dropItem.dropData = dropData;
+  dropItem.scope = scope;
 
   useEffect(dropItem.handleSubscriptions, []);
   const root_ClassName = classes.root + ' ' + (dropItem.isDragOver ? classes.root_dragOver : '');

@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import ExpandIcon from '@material-ui/icons/AddCircle';
 import CollapseIcon from '@material-ui/icons/RemoveCircle';
-import { useQuery } from '@kemsu/graphql-client';
-import { useElementArray, Loader, List, Fab, Link } from '@kemsu/core';
+import { useQuery, refetch, useMutation } from '@kemsu/graphql-client';
+import { Notifications, useElementArray, Loader, List, Fab, Link } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import RefreshBtn from '@components/RefreshBtn';
 import { ExpansionContext } from '@components/ExpansionPanel';
+import { DropItem } from '@components/DragAndDropItems';
 import { useSectionItem } from './useSectionItem';
 import { useSubsectionItem } from './Subsections/useSubsectionItem';
 import { useUnitItem } from './Subsections/Units/useUnitItem';
@@ -66,11 +67,37 @@ export const COURSE_DELIVERY_INSTANCE = ({ _courseId = 'Int!' }) => `
   }
 `;
 
-function Sections({ _course: { sections }, ...props }) {
-  const sectionItems = useElementArray(SectionItem, sections, props);
+const MOVE_COURSE_DESIGN_SECTION = ({
+  movingKey = 'Int!',
+  putBeforeKey = 'Int'
+}) => `
+  moveCourseDesignSection(
+    movingSectionId: ${movingKey}
+    putBeforeSectionId: ${putBeforeKey}
+  )
+`;
+const MOVE_COURSE_DELIVERY_SECTION = ({
+  movingKey = 'Int!',
+  putBeforeKey = 'Int'
+}) => `
+  moveCourseDeliverySection(
+    movingSectionId: ${movingKey}
+    putBeforeSectionId: ${putBeforeKey}
+  )
+`;
+function onComplete(isDelivery) {
+  refetch(isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE);
+  Notifications.push('Порядок разделов был успешно изменен.', 'success');
+}
 
+function Sections({ _course: { id, sections }, ...props }) {
+  const _moveSection = useMutation(props.isDelivery ? MOVE_COURSE_DELIVERY_SECTION : MOVE_COURSE_DESIGN_SECTION, { onComplete: () => onComplete(props.isDelivery) });
+  const moveSection = useCallback((dragData, dropData) => _moveSection({ movingKey: dragData, putBeforeKey: dropData }), []);
+
+  const dragScope = 'section' + id;
   return sections.length > 0 && <List>
-    {sectionItems}
+    {sections?.map((section, index) => <SectionItem {...{ key: section.id, index, section, dragScope, moveSection, ...props }} />)}
+    <DropItem index={sections?.length} onDrop={moveSection} scope={dragScope} />
   </List>;
 }
 Sections = React.memo(Sections);

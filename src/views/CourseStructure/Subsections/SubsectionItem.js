@@ -6,38 +6,46 @@ import Button from '@material-ui/core/Button';
 import MoreIconButton from '@components/MoreIconButton';
 import AddIcon from '@material-ui/icons/Add';
 import ExpansionPanel from '@components/ExpansionPanel';
+import { DragItem, DropItem } from '@components/DragAndDropItems';
 import UnitsView from './Units';
 import { SubsectionItem as useStyles } from './styles';
 
-export default function SubsectionItem({ index, id, units, ...item }, { subsectionMenu, createUnitDialog, sectionIndex, ...props }) {
+function SubsectionItem({ index, subsection: { id, units, ...item }, subsectionMenu, createUnitDialog, sectionIndex, moveSubsection, dragScope, ...props }) {
+  const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
 
   const classes = useStyles({ count: units.length });
-  const subsectionIndex = index + 1 |> sectionIndex + '.' + #;
-  const primary = <>
-    {/*<span className={classes.index}>{subsectionIndex}</span>.*/} {item.name}
-  </>;
   return <div className={classes.root}>
-    <ExpansionPanel defaultExpanded={true} scope="course-structure"
 
-      summary={
-        <ListItem className={classes.listItem}>
-          <ListItemText primary={primary} secondary={item.summary} />
-          <ListItemSecondaryAction>
-            <MoreIconButton onClick={event => subsectionMenu.open(event, { id, item, sectionIndex })} />
-          </ListItemSecondaryAction>
-        </ListItem>
-      }
+    <DragItem index={index} dragData={id} dragElement={<div>{item.name}</div>} scope={dragScope}>
+      <DropItem index={index} dropData={id} onDrop={moveSubsection} scope={dragScope}>
+        
+        <ExpansionPanel defaultExpanded={true} scope="course-structure"
 
-      details={<>
-        <div className={classes.units}>
-          <UnitsView units={units} subsectionIndex={subsectionIndex} {...props} />
-        </div>
-        <Button size="small" variant="outlined" color="primary" className={classes.addUnitButton} onClick={() => createUnitDialog.open({ subsectionId: id, subsectionIndex })}>
-          <AddIcon className={classes.addIcon} />
-          Создать блок
-        </Button>
-      </>}
-      
-    />
+          summary={
+            <ListItem className={classes.listItem}>
+              <ListItemText primary={item.name} secondary={item.summary} />
+              <ListItemSecondaryAction>
+                <MoreIconButton onClick={event => subsectionMenu.open(event, { id, item, sectionIndex })} />
+              </ListItemSecondaryAction>
+            </ListItem>
+          }
+
+          details={<>
+            <div className={classes.units}>
+              <UnitsView units={units} subsectionIndex={subsectionIndex} {...props} />
+            </div>
+            <Button size="small" variant="outlined" color="primary" className={classes.addUnitButton} onClick={() => createUnitDialog.open({ subsectionId: id, subsectionIndex })}>
+              <AddIcon className={classes.addIcon} />
+              Создать блок
+            </Button>
+          </>}
+
+        />
+
+      </DropItem>
+    </DragItem>
+
   </div>;
 }
+
+export default React.memo(SubsectionItem);
