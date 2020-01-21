@@ -33,8 +33,21 @@ const UPDATE_UNIT_DELIVERY = ({
   )
 `;
 
+function getPreviousState() {
+  const previousState = History.getPreviousState();
+  console.log(previousState);
+  if (previousState) {
+    if (
+      previousState.path.includes('/admin/course-delivery-instances/')
+      || previousState.path.includes('/admin/course-design-templates/')
+    ) return previousState.state;
+  }
+  return {};
+}
+
 function onComplete(id, courseId, isDelivery) {
-  History.push(isDelivery ? `/admin/course-delivery-instances/${courseId}/structure#${id}` : `/admin/course-design-templates/${courseId}/structure#${id}`);
+  getPreviousState();
+  History.push(isDelivery ? `/admin/course-delivery-instances/${courseId}/structure` : `/admin/course-design-templates/${courseId}/structure`, {}, getPreviousState());
   Notifications.push('Блок был успешно обновлен.', 'success');
 }
 

@@ -5,7 +5,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import MoreIconButton from '@components/MoreIconButton';
 import { DragItem, DropItem } from '@components/DragAndDropItems';
 //import { UnitItem as useStyles } from './styles';
-import { useHash } from '@views/_shared/useHash';
+import { useHsitoryFocus } from '@views/_shared/useHsitoryFocus';
 
 const types = {
   DOCUMENT: 'Документ',
@@ -16,11 +16,11 @@ const types = {
 
 function UnitItem({ index, unit: { id, type, ...item }, unitMenu, subsectionIndex, /*isDelivery,*/ moveUnit, dragScope, ...props }) {
 
-  useHash(`#${id}`);
+  const ref = useHsitoryFocus(id);
 
   //const classes = useStyles();
   //const unitIndex = index + 1 |> subsectionIndex + '.' + #;
-  return <div>
+  return <div ref={ref}>
     <DragItem index={index} dragData={id} dragElement={<div>{item.name}</div>} scope={dragScope}>
       <DropItem index={index} dropData={id} onDrop={moveUnit} scope={dragScope}>
         <ListItem id={id}>

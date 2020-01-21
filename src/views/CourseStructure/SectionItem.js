@@ -19,7 +19,7 @@ function SectionItem({ index, section: { id, subsections, ...item }, sectionMenu
   return <DragItem index={index} dragData={id} dragElement={<div>{item.name}</div>} scope={dragScope}>
     <DropItem index={index} dropData={id} onDrop={moveSection} scope={dragScope}>
       <Paper className={classes.root}>
-        <ExpansionPanel defaultExpanded={true} scope="course-structure"
+        <ExpansionPanel id={'section'+id} scope="course-structure"
 
           summary={
             <ListItem>

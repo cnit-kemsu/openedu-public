@@ -19,7 +19,7 @@ function SubsectionItem({ index, subsection: { id, units, ...item }, subsectionM
     <DragItem index={index} dragData={id} dragElement={<div>{item.name}</div>} scope={dragScope}>
       <DropItem index={index} dropData={id} onDrop={moveSubsection} scope={dragScope}>
         
-        <ExpansionPanel defaultExpanded={true} scope="course-structure"
+        <ExpansionPanel id={'subsection'+id} scope="course-structure"
 
           summary={
             <ListItem className={classes.listItem}>

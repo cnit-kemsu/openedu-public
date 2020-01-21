@@ -21,10 +21,13 @@ export class ExpansionContext {
 }
 
 class Expansion {
-  constructor(defaultExpanded, forceUpdate, scope) {
-    this.expanded = defaultExpanded;
+  constructor(defaultExpanded, forceUpdate, scope, id) {
+    const historyExpanded = id ? history.state?.expansionMap?.get(id) : null;
+    const expanded = defaultExpanded != null ? defaultExpanded : true;
+    this.expanded = historyExpanded != null ? historyExpanded : expanded;
     this.forceUpdate = forceUpdate;
     this.scope = scope;
+    this.id = id;
 
     this.toggleExpand = this.toggleExpand.bind(this);
     this.handleExpandEvent = this.handleExpandEvent.bind(this);
@@ -34,13 +37,23 @@ class Expansion {
   toggleExpand(event, expanded) {
     if (this.expanded !== expanded) {
       this.expanded = expanded;
+      this.saveToHistory(expanded);
       this.forceUpdate();
+    }
+  }
+
+  saveToHistory(expanded) {
+    if (this.id) {
+      const expansionMap = history.state?.expansionMap || new Map();
+      expansionMap.set(this.id, expanded);
+      history.replaceState({ ...history.state, expansionMap }, document.title, location.href);
     }
   }
 
   handleExpandEvent(scope, expanded) {
     if (this.scope === scope && this.expanded !== expanded) {
       this.expanded = expanded;
+      this.saveToHistory(expanded);
       this.forceUpdate();
     }
   }
@@ -55,9 +68,9 @@ const clickSummary = event => {
   event.stopPropagation();
 };
 
-function ExpansionPanel({ defaultExpanded, scope, summary, details }) {
+function ExpansionPanel({ defaultExpanded, scope, summary, details, id }) {
   const forceUpdate = useForceUpdate();
-  const expansion = useMemo(() => new Expansion(defaultExpanded, forceUpdate, scope), []);
+  const expansion = useMemo(() => new Expansion(defaultExpanded, forceUpdate, scope, id), []);
   useEffect(expansion.handleSubscriptions, []);
 
   const classes = useStyles();
