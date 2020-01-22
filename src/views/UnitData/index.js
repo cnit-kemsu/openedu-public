@@ -35,7 +35,6 @@ const UPDATE_UNIT_DELIVERY = ({
 
 function getPreviousState() {
   const previousState = History.getPreviousState();
-  console.log(previousState);
   if (previousState) {
     if (
       previousState.path.includes('/admin/course-delivery-instances/')
@@ -46,7 +45,6 @@ function getPreviousState() {
 }
 
 function onComplete(id, courseId, isDelivery) {
-  getPreviousState();
   History.push(isDelivery ? `/admin/course-delivery-instances/${courseId}/structure` : `/admin/course-design-templates/${courseId}/structure`, {}, getPreviousState());
   Notifications.push('Блок был успешно обновлен.', 'success');
 }
@@ -113,7 +111,7 @@ export default React.memo(
     return <Fields comp={form}>
       <AdminView.AppBar>
         <AdminView.LeftBar>
-          <RouteBackBtn path={routeBackPath} />
+          <RouteBackBtn path={routeBackPath} data={getPreviousState()} />
           <Typography variant="h6">Редактирование блока: {name}</Typography>
         </AdminView.LeftBar>
         <ResetButton {...{ loading, errors }}>Сбросить</ResetButton>

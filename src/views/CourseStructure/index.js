@@ -94,7 +94,7 @@ function onComplete(isDelivery) {
 function Sections({ _course: { id, sections, }, ...props }) {
   const _moveSection = useMutation(props.isDelivery ? MOVE_COURSE_DELIVERY_SECTION : MOVE_COURSE_DESIGN_SECTION, { onComplete: () => onComplete(props.isDelivery) });
   const moveSection = useCallback((dragData, dropData) => _moveSection({ movingKey: dragData, putBeforeKey: dropData }), []);
-  useEffect(() => { props?.onFinished(); }, [sections]);
+  useHistoryScrollPosition();
 
   const dragScope = 'section' + id;
   return sections.length > 0 && <List>
@@ -110,7 +110,6 @@ const collapseAll = () => ExpansionContext.collapseAll('course-structure');
 export default (
   ({ courseDesignTemplateId, courseDeliveryInstanceId }) => {
     
-    useHistoryScrollPosition();
     const isDelivery = courseDesignTemplateId === undefined;
     const _courseId = isDelivery ? courseDeliveryInstanceId : courseDesignTemplateId;
     const COURSE_QUERY = isDelivery ? COURSE_DELIVERY_INSTANCE : COURSE_DESIGN_TEMPLATE;
@@ -157,7 +156,7 @@ export default (
             <Button color="primary" variant="outlined" onClick={expandAll}>Развернуть все <ExpandIcon color="primary" /></Button>
             <Button color="primary" variant="outlined" onClick={collapseAll}>Свернуть все <CollapseIcon color="primary" /></Button>
           </div>
-          {_course && <Sections {...{ _course, isDelivery, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} onFinished={() => { if (history.state?.scrollPosition) window.scrollTo(0, history.state.scrollPosition); }} />}
+          {_course && <Sections {...{ _course, isDelivery, sectionMenu, createSubsectionDialog, subsectionMenu, createUnitDialog, unitMenu }} />}
         </Loader>
       </AdminView.Div>
       <Fab icon={AddIcon} onClick={createSectionDialog.open}>

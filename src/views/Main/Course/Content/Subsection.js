@@ -6,6 +6,8 @@ import Unit from './Unit';
 
 function Subsection({ id, name, summary, /*sectionIndex, index: subsectionIndex,*/ isCurrentUserEnrolled, accessDate, units }) {
 
+  if (units.length === 0) return null;
+
   const hasAccess = UserInfo.isAdmin || (isCurrentUserEnrolled && new Date() >= new Date(accessDate));
 
   const unitItems = units.map(
@@ -19,6 +21,8 @@ function Subsection({ id, name, summary, /*sectionIndex, index: subsectionIndex,
         {...props}
       />
   );
+
+  if (name === '0') return unitItems;
 
   return <ExpansionItem
     title={hasAccess ? <Link styled path={`/delivery-subsection/${id}`}>{name}</Link> : name}

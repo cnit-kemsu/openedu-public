@@ -66,6 +66,7 @@ export const Description = makeStyles(theme => ({
     '& table': {
       width: '100%',
       borderSpacing: '0px',
+      marginBottom: '32px',
       '& tbody': {
         '& tr:not(:last-child)': {
           '& td': {
@@ -74,6 +75,12 @@ export const Description = makeStyles(theme => ({
         }
       }
     }
+  },
+  tabs: {
+    marginBottom: '32px'
+  },
+  tab: {
+    fontWeight: 'bold'
   }
 }));
 

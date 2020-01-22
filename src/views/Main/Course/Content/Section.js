@@ -4,6 +4,9 @@ import Subsection from './Subsection';
 
 function Section({ name, summary, /*index: sectionIndex,*/ subsections, isCurrentUserEnrolled }) {
 
+  const totalUnits = subsections.reduce((total, { units }) => total + units.length, 0);
+  if (totalUnits === 0) return null;
+
   const subsectionItems = subsections.map(
     (props, index) =>
       <Subsection

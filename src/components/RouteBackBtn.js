@@ -5,8 +5,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { History } from '@kemsu/router';
 import { RouteBackBtn as useStyles } from './styles';
 
-function RouteBackBtn({ path, label, ...props }) {
-  const route = useCallback(() => History.push(path), [path]);
+function RouteBackBtn({ path, label, data, ...props }) {
+  const route = useCallback(() => History.push(path, {}, data), [path]);
 
   const classes = useStyles();
   return <div className={classes.root}>

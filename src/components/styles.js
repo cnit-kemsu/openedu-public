@@ -89,6 +89,7 @@ export const MoreText = makeStyles({
 
 export const ExpansionItem = makeStyles(theme => ({
   root: {
+    backgroundColor: '#0000',
     boxShadow: 'none',
     '&::before': {
       height: '0px'
@@ -98,7 +99,7 @@ export const ExpansionItem = makeStyles(theme => ({
     margin: '0px !important'
   },
   summaryRoot: {
-    padding: '0px 12px 0px 12px',
+    padding: '0px',
     minHeight: '0px !important'
   },
   summaryExpanded: {
@@ -107,15 +108,17 @@ export const ExpansionItem = makeStyles(theme => ({
   expandIcon: {
     order: '-1',
     marginRight: '0px',
-    transition: 'none'
+    transition: 'none',
+    marginLeft: '-14px !important'
   },
   detailsRoot: {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    paddingLeft: '10px'
   },
   detailsInner: {
     borderLeft: `1px solid ${theme.palette.primary.light}`,
-    paddingLeft: '12px',
-    marginLeft: '12px'
+    paddingLeft: '10px',
+    marginLeft: '0px'
   },
   expandSummary: {
     fontSize: '14px'

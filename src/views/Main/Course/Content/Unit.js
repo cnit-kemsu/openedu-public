@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@kemsu/core';
 import displayProp from '@lib/displayProp';
-import { ExpansionItem as useStyles } from './styles';
+import { Unit as useStyles } from './styles';
 
 function Unit({ id, name, summary, hasAccess, subsectionId }) {
 
