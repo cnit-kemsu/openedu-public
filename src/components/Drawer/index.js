@@ -13,12 +13,14 @@ function Drawer() {
   return <MuiDrawer variant="permanent" className={classes.root} classes={{ paper: classes.paper }}>
 
     <div style={{
-      backgroundColor: 'rgb(92, 113, 232)',
-      paddingLeft: '16px'
+      //backgroundColor: 'rgb(92, 113, 232)',
+      backgroundColor: 'white',
+      paddingLeft: '16px',
+      border: '1px solid #222222'
     }}>
       <Logo className={classes.logo} style={{ height: '64px', paddingTop: '4px', paddingBottom: '2px' }} />
     </div>
-    <Divider className={classes.divider} />
+    {/* <Divider className={classes.divider} /> */}
 
     <AccountInfo />
     <Divider className={classes.divider} />

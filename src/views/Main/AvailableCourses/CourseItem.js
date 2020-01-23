@@ -11,13 +11,13 @@ import { CourseItem as useStyles } from './styles';
 import defaultCourseImage from '../course_default_img.jpg';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-function routeToCourseView(id) {
-  History.push(`/course-delivery/${id}`);
+function routeToCourseView(id, isCurrentUserEnrolled) {
+  History.push(`/course-delivery/${id}/${isCurrentUserEnrolled ? 'content' : 'about'}`);
 }
 
 export default function CourseItem({ id, picture, name, summary, isCurrentUserEnrolled }) {
   
-  if (id === 1) isCurrentUserEnrolled = true;
+  //if (id === 1) isCurrentUserEnrolled = true;
   const classes = useStyles();
   return <Card className={classes.root}>
 
@@ -36,7 +36,7 @@ export default function CourseItem({ id, picture, name, summary, isCurrentUserEn
         </Tooltip>}
       </div>
 
-      <Button size="small" color="primary" onClick={() => routeToCourseView(id)}>
+      <Button size="small" color="primary" onClick={() => routeToCourseView(id, isCurrentUserEnrolled)}>
         Подробнее
       </Button>
       

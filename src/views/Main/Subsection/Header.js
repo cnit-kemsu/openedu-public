@@ -29,7 +29,7 @@ function SubsectionHeader({ subsection: { id, name: subsectionName, units, previ
     <div className={classes.inner}>
 
       <Tooltip title="Назад к содержанию"><span>
-        <Link path={`/course-delivery/${courseId}`} styled variant="h4">{courseName}</Link>
+        <Link path={`/course-delivery/${courseId}/content`} styled variant="h4">{courseName}</Link>
       </span></Tooltip>
 
       {sectionName !== '0' && <Typography variant="h5">{sectionName}</Typography>}
