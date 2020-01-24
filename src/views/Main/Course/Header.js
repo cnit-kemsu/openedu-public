@@ -59,7 +59,7 @@ function performIfSignedIn(action, ...args) {
 function CourseHeader({ course: { id, name, summary, picture, price, enrollmentEndDate, isCurrentUserEnrolled } }) {
 
   const _enrollmentEndDate = new Date(enrollmentEndDate);
-  const availableToEnroll = _enrollmentEndDate == null || _enrollmentEndDate <= new Date();
+  const availableToEnroll = _enrollmentEndDate == null || _enrollmentEndDate >= new Date();
   
   const classes = useStyles();
   return <div className={classes.root}>

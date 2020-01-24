@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, useRef } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
@@ -16,23 +16,22 @@ import UpdateFab from '@components/UpdateFab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { ArrayCheckbox } from '@kemsu/inputs';
 import { UserInfo } from '@lib/UserInfo';
+import { UNIT_DELIVERY } from './';
 
-function RightAnswerCheckbox({ disabled, name, arrayValue, ...props }) {
+function RightAnswerCheckbox({ disabled, name, arrayValue }) {
 
   const classes = useRightAnswerCheckboxStyles();
   return <Tooltip title={disabled ? "" : "Отметить как верный"}>
     <span>
-      <ArrayCheckbox arrayValue={arrayValue} disabled={disabled} name={'reply.' + name} classes={classes} {...props} color="primary" />
+      <ArrayCheckbox arrayValue={arrayValue} disabled={disabled} name={'reply.' + name} classes={classes} color="primary" />
     </span>
   </Tooltip>;
 }
 
-const keyProp = (item, index) => index;
+function AnswerItem({ item: { content }, index, disabled, questionIndex, feedback }) {
 
-function AnswerItem(element, { disabled, _questionIndex, feedback }) {
-
-  const markedCorrectly = feedback?.[element.index];
-  let itemStyle = markedCorrectly != null
+  const markedCorrectly = feedback?.[index];
+  const itemStyle = markedCorrectly != null
     ? (markedCorrectly ? {
       backgroundColor: '#0903',
       border: '2px solid #0907',
@@ -44,79 +43,69 @@ function AnswerItem(element, { disabled, _questionIndex, feedback }) {
     })
     : undefined;
 
-  const _dis = React.useRef(false);
-  if (markedCorrectly === false) {
-    _dis.current = true;
-  }
-  if (_dis.current) itemStyle = {
-    backgroundColor: '#f003',
-    border: '2px solid #f007',
-    borderRadius: '4px'
-  };
+  // const _dis = React.useRef(false);
+  // if (markedCorrectly === false) {
+  //   _dis.current = true;
+  // }
+  // if (_dis.current) itemStyle = {
+  //   backgroundColor: '#f003',
+  //   border: '2px solid #f007',
+  //   borderRadius: '4px'
+  // };
 
   const classes = useAnswerItemStyles();
-  const answerIndex = Number(element.index) + 1;
+  const answerIndex = Number(index) + 1;
   return <ListItem className={classes.root} style={itemStyle}>
     <div className={classes.pre}>
       <Typography className={classes.index}>{answerIndex}.</Typography>
       <ListItemIcon>
-        <RightAnswerCheckbox arrayValue={element.index} disabled={_dis.current || disabled || markedCorrectly} name={_questionIndex} />
+        <RightAnswerCheckbox arrayValue={index} disabled={disabled || markedCorrectly != null} name={questionIndex} />
       </ListItemIcon>
     </div>
-    <ListItemText className={classes.text} primary={<Editor editorState={element.content} readOnly={true} />} />
+    <ListItemText className={classes.text} primary={<Editor editorState={content} readOnly={true} />} />
   </ListItem>;
 }
+QuestionItem = React.memo(QuestionItem);
 
-function Answers({ answerOptions, _questionIndex, feedback, disabled, ...props }) {
-  const answerItems = useElementArray(AnswerItem, [...answerOptions], { key: keyProp, memoize: false, feedback, _questionIndex, disabled: disabled, ...props });
+function Answers({ answerOptions, questionIndex, feedback, disabled }) {
   
   //const classes = useAnswersStyles();
   return <>
     <div>
       {answerOptions.length > 0 && <List>
-        {answerItems}
+        {answerOptions.map((item, index) => <AnswerItem {...{ key: index, index, item, feedback, questionIndex, disabled }} />)}
       </List>}
     </div>
   </>;
 }
+Answers = React.memo(Answers);
 
-function QuestionItem(element, { disabled, feedback, ...props }) {
+function QuestionItem({ item: { content, answerOptions }, index, disabled, feedback }) {
 
   const classes = useQuestionItemStyles();
-  const questionIndex = Number(element.index) + 1;
+  const _questionIndex = Number(index) + 1;
   return <Paper className={classes.root}>
     <ListItem className={classes.item}>
       <div className={classes.pre}>
-        <Typography className={classes.index}>{questionIndex}.</Typography>
+        <Typography className={classes.index}>{_questionIndex}.</Typography>
       </div>
-      <ListItemText className={classes.text} primary={<Editor editorState={element.content} readOnly={true} />} />
+      <ListItemText className={classes.text} primary={<Editor editorState={content} readOnly={true} />} />
     </ListItem>
     <Divider />
-    <Answers disabled={disabled} feedback={feedback?.[element.index]} answerOptions={element.answerOptions} _questionIndex={element.index} {...props} />
+    <Answers disabled={disabled} feedback={feedback?.[index]} answerOptions={answerOptions} questionIndex={index}  />
   </Paper>;
 }
+QuestionItem = React.memo(QuestionItem);
 
-function Questions({ questions, disabled, feedback, ...props }) {
-  const questionItems = useElementArray(QuestionItem, [...questions], { key: keyProp, memoize: false, feedback, disabled: disabled, ...props });
+function Questions({ questions, disabled, feedback }) {
 
-  return <>
-    <div>
-      {questions.length > 0 && <List>
-        {questionItems}
-      </List>}
-    </div>
-  </>;
+  return <div>
+    {questions.length > 0 && <List>
+      {questions.map((item, index) => <QuestionItem {...{ key: index, index, item, feedback, disabled }} />)}
+    </List>}
+  </div>;
 }
-
-export const UNIT_DELIVERY = ({ id = 'Int!' }) => `
-  unitDelivery: courseDeliveryUnit(id: ${id}) {
-    id
-    name
-    type
-    data
-  },
-  quizAttempt(unitId: ${id})
-`;
+Questions = React.memo(Questions);
 
 const START_QUIZ_ATTEMPT = ({ id = 'Int!' }) => `
   createQuizAttempt(unitId: ${id})
@@ -130,27 +119,27 @@ class Timer extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.started = new Date(this.props.started);
-    let elapsedTime = this.props.timeLimit * 60 - Math.floor((new Date() - this.started) / 1000);
-    this.shoudUpdate = true;
+    const { timeLimit, started } = props;
+    let elapsedTime = timeLimit * 60 - Math.floor((new Date() - started) / 1000);
     if (elapsedTime < 0) {
       elapsedTime = 0;
       this.shoudUpdate = false;
-    }
+    } else this.shoudUpdate = true;
+
     this.state = {
       elapsedTime
     };
-
     this.makeTick = this.makeTick.bind(this);
   } 
 
   makeTick() {
+    const { timeLimit, started, onTick } = this.props;
     if (this.shoudUpdate) {
       this.setState({
-        elapsedTime: this.props.timeLimit * 60 - Math.floor((new Date() - this.started) / 1000)
+        elapsedTime: timeLimit * 60 - Math.floor((new Date() - started) / 1000)
       });
       if (this.state.elapsedTime > 0) setTimeout(this.makeTick, 1000);
-      else this.props.updateParent();
+      else onTick();
     }
   }
 
@@ -163,10 +152,12 @@ class Timer extends PureComponent {
   }
 
   render() {
-    const minutes = Math.floor(this.state.elapsedTime / 60);
-    const seconds = this.state.elapsedTime % 60 |> #.toString() |> ('0' + #).slice(-2);
-    return this.state.elapsedTime > 0
-      ? <Typography color={this.state.elapsedTime > 60 ? 'textPrimary' : 'error'}>Оставшееся время: {minutes}:{seconds}</Typography>
+    const { elapsedTime } = this.state;
+    const minutes = Math.floor(elapsedTime / 60);
+    const seconds = elapsedTime % 60 |> #.toString() |> ('0' + #).slice(-2);
+
+    return elapsedTime > 0
+      ? <Typography color={elapsedTime > 60 ? 'textPrimary' : 'error'}>Оставшееся время: {minutes}:{seconds}</Typography>
       : <Typography color="error">Время истекло</Typography>;
   }
 }
@@ -198,52 +189,71 @@ function filterReply(lastSubmittedReply, feedback) {
   return reply;
 }
 
-function StudentQuiz({ id }) {
+const refetchUnitDelivery = () => refetch(UNIT_DELIVERY);
+
+function QuizInfo({ id, timeLimit, totalAttempts, maxScore }) {
+  const startQuizAttempt = useMutation(START_QUIZ_ATTEMPT, { onComplete: refetchUnitDelivery }, { id });
+
+  return <div style={{ textAlign: 'center' }}>
+    {timeLimit && <Typography>Время на выполнение: {timeLimit} мин</Typography>}
+    <Typography style={{ marginBottom: '12px' }}>Число попыток: {totalAttempts}</Typography>
+    <Typography>Максимальное количество баллов: {maxScore}</Typography>
+    {timeLimit && <Typography>После нажатие кнопки, начнется отсчет времени</Typography>}
+    <Button style={{ marginTop: '12px' }} variant="contained" color="primary" onClick={() => startQuizAttempt()}>Начать тестирование</Button>
+  </div>;
+}
+QuizInfo = React.memo(QuizInfo);
+
+function QuizState({ timeLimit, totalAttempts, maxScore, currentUserLastAttempt, forceUpdate }) {
+
+  const { startDate, repliesCount, score } = currentUserLastAttempt || {};
+
+  if (UserInfo.role === 'student') return <span>
+    {timeLimit && currentUserLastAttempt != null && <Timer onTick={forceUpdate} started={startDate} timeLimit={timeLimit} />}
+    <Typography>Число использованных попыток: {repliesCount || 0} из {totalAttempts}</Typography>
+    {repliesCount >= totalAttempts && <Typography color="error">У вас закончились попытки</Typography>}
+    <Typography>Количество баллов: {score || 0} из {maxScore}</Typography>
+  </span>;
+
+  return <span>
+    {timeLimit && <Typography>Вермя на выполнение: {timeLimit} мин</Typography>}
+    <Typography>Число попыток: {totalAttempts}</Typography>
+    <Typography>Максимальное количество баллов: {maxScore}</Typography>
+  </span>;
+}
+QuizState = React.memo(QuizState);
+
+function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, currentUserLastAttempt, loading, errors }) {
   
+  if (UserInfo.role === 'student' && currentUserLastAttempt == null) return <QuizInfo {...{ id, timeLimit, totalAttempts, maxScore }} />;
+
   const forceUpdate = useForceUpdate();
-  const [{ unitDelivery, quizAttempt }, loading, errors] = useQuery(UNIT_DELIVERY, { id });
-  const startQuizAttempt = useMutation(START_QUIZ_ATTEMPT, { onComplete: () => { refetch(UNIT_DELIVERY); } }, { id });
-  const makeQuizAttempt = useMutation(MAKE_QUIZ_ATTEMPT, { onComplete: () => { refetch(UNIT_DELIVERY); } }, { id });
+  const makeQuizAttempt = useMutation(MAKE_QUIZ_ATTEMPT, { onComplete: refetchUnitDelivery }, { id });
 
-  const form = useForm(makeQuizAttempt, { reply: filterReply(quizAttempt?.lastSubmittedReply, quizAttempt?.feedback) });
+  const form = useForm(makeQuizAttempt, { reply: filterReply(currentUserLastAttempt?.lastSubmittedReply, currentUserLastAttempt?.feedback) });
 
-  const hastTime = unitDelivery ? hasTime(unitDelivery.data.timeLimit, quizAttempt?.startDate) : false;
-  const hasAttempts = unitDelivery ? quizAttempt?.repliesCount < unitDelivery.data.totalAttempts : false;
-  const disabled = (UserInfo.role !== 'student' && !(hastTime && hasAttempts)) || (quizAttempt?.score === unitDelivery?.data?.maxScore);
-  return <Loader loading={loading} errors={errors}>
-    {unitDelivery && <div>
+  //const hastTime = hasTime(timeLimit, currentUserLastAttempt?.startDate);
+  //const hasAttempts = currentUserLastAttempt?.repliesCount < totalAttempts;
+  const canSubmitQuizReply = UserInfo.role === 'student' && hasTime(timeLimit, currentUserLastAttempt?.startDate) && currentUserLastAttempt?.repliesCount < totalAttempts;
+  //const disabled = (UserInfo.role !== 'student' && !(hastTime && hasAttempts)) || (currentUserLastAttempt?.score === maxScore);
 
-      {!unitDelivery.data.questions && 
-        <div style={{ textAlign: 'center' }}>
-          {unitDelivery.data.timeLimit && <Typography>Вермя на выполнение: {unitDelivery.data.timeLimit} мин</Typography>}
-          <Typography style={{ marginBottom: '12px' }}>Число попыток: {unitDelivery.data.totalAttempts}</Typography>
-          <Typography>Максимальное количество баллов: {unitDelivery.data.maxScore}</Typography>
-          {unitDelivery.data.timeLimit && <Typography>После нажатие кнопки, начнется отсчет времени</Typography>}
-          <Button variant="contained" color="primary" onClick={() => startQuizAttempt()}>Начать тестирование</Button>
+  return <div>
+
+    {questions &&
+      <Fields comp={form}>
+
+        <div style={{ padding: '16px', marginBottom: '24px' }}>
+          <QuizState {...{ id, timeLimit, totalAttempts, maxScore, currentUserLastAttempt, forceUpdate }} />
         </div>
-      }
-      {unitDelivery.data.questions &&
-        <Fields comp={form}>
-          <Paper style={{ padding: '16px', marginBottom: '24px' }}>
-            {UserInfo.role === 'student' && <span>
-              {unitDelivery.data.timeLimit && hasAttempts && <Timer updateParent={forceUpdate} started={quizAttempt?.startDate} timeLimit={unitDelivery.data.timeLimit} />}
-              <Typography>Число использованных попыток: {quizAttempt?.repliesCount || 0} из {unitDelivery.data.totalAttempts}</Typography>
-              {quizAttempt?.repliesCount >= unitDelivery.data.totalAttempts && <Typography color="error">У вас закончились попытки</Typography>}
-              <Typography>Количество баллов: {quizAttempt?.score || 0} из {unitDelivery.data.maxScore}</Typography>
-            </span>}
-            {UserInfo.role !== 'student' && <span>
-              {unitDelivery.data.timeLimit && <Typography>Вермя на выполнение: {unitDelivery.data.timeLimit} мин</Typography>}
-              <Typography>Число попыток: {unitDelivery.data.totalAttempts}</Typography>
-              <Typography>Максимальное количество баллов: {unitDelivery.data.maxScore}</Typography>
-            </span>}
-          </Paper>
-          <Questions questions={unitDelivery?.data?.questions} feedback={quizAttempt?.feedback} disabled={disabled} />
-          {hasAttempts && hastTime && !disabled && <UpdateFab {...{ loading, errors }}>Отправить результат</UpdateFab>}
-        </Fields>
-      }
 
-    </div>}
-  </Loader>;
+        <Questions questions={questions} feedback={currentUserLastAttempt?.feedback} disabled={!canSubmitQuizReply} />
+
+        {canSubmitQuizReply && <UpdateFab {...{ loading, errors }}>Отправить результат</UpdateFab>}
+
+      </Fields>
+    }
+
+  </div>;
 }
 
-export default React.memo(StudentQuiz);
+export default React.memo(Quiz);

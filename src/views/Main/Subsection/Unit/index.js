@@ -5,13 +5,14 @@ import { Loader } from '@kemsu/core';
 import Document from './Document';
 import FileDocument from './FileDocument';
 import Video from './Video';
-//import StudentQuiz from './StudentQuiz';
+import Quiz from './StudentQuiz';
 import useStyles from './styles';
 
 export const UNIT_DELIVERY = ({ id = 'Int!' }) => `
   courseDeliveryUnit(id: ${id}) {
     type
     data
+    currentUserLastAttempt
   }
 `;
 
@@ -30,10 +31,7 @@ function Unit({ id }) {
         {type === 'DOCUMENT' && <Document data={data} />}
         {type === 'FILE_DOCUMENT' && <FileDocument data={data} />}
         {type === 'VIDEO' && <Video data={data} />}
-
-        {/* {type === 'QUIZ' && <div>
-          <StudentQuiz id={id} />
-        </div>} */}
+        {type === 'QUIZ' && <Quiz loading={loading} errors={errors} id={id} data={data} currentUserLastAttempt={unit.currentUserLastAttempt} />}
 
       </>}
     
