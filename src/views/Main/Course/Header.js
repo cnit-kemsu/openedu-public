@@ -73,8 +73,10 @@ function CourseHeader({ course: { id, name, summary, picture, price, enrollmentE
 
         {UserInfo.isStudent &&
           <div>
-            {isCurrentUserEnrolled && <Typography variant="h6" color="primary">Вы записаны на этот курс</Typography>}
-            {!isCurrentUserEnrolled && availableToEnroll ? (
+            {isCurrentUserEnrolled
+            ? <Typography variant="h6" color="primary">Вы записаны на этот курс</Typography>
+            : (
+              availableToEnroll ? (
               price == null
               ? <Button color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
               : <div>
@@ -82,7 +84,7 @@ function CourseHeader({ course: { id, name, summary, picture, price, enrollmentE
                 <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button>  
               </div>
               ) : <Typography color="secondary" variant="h6">Регистрация на курс закончена</Typography>
-            }
+            )}
           </div>
         }
 

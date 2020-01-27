@@ -14,7 +14,7 @@ import { useForm, Fields } from '@kemsu/form';
 import { AnswerItem1 as useAnswerItemStyles, Answers1 as useAnswersStyles, QuestionItem1 as useQuestionItemStyles, RightAnswerCheckbox as useRightAnswerCheckboxStyles } from '../../styles';
 import UpdateFab from '@components/UpdateFab';
 import Tooltip from '@material-ui/core/Tooltip';
-import { ArrayCheckbox } from '@kemsu/inputs';
+import { ArrayCheckbox, RadioButton, RadioButtonGroup } from '@kemsu/inputs';
 import { UserInfo } from '@lib/UserInfo';
 import { UNIT_DELIVERY } from './';
 
@@ -42,16 +42,6 @@ function AnswerItem({ item: { content }, index, disabled, questionIndex, feedbac
       borderRadius: '4px'
     })
     : undefined;
-
-  // const _dis = React.useRef(false);
-  // if (markedCorrectly === false) {
-  //   _dis.current = true;
-  // }
-  // if (_dis.current) itemStyle = {
-  //   backgroundColor: '#f003',
-  //   border: '2px solid #f007',
-  //   borderRadius: '4px'
-  // };
 
   const classes = useAnswerItemStyles();
   const answerIndex = Number(index) + 1;
@@ -120,26 +110,26 @@ class Timer extends PureComponent {
     super(props);
 
     const { timeLimit, started } = props;
-    let elapsedTime = timeLimit * 60 - Math.floor((new Date() - started) / 1000);
-    if (elapsedTime < 0) {
-      elapsedTime = 0;
+    let remainedTime = timeLimit * 60 - Math.floor((new Date() - new Date(started)) / 1000);
+    if (remainedTime < 0) {
+      remainedTime = 0;
       this.shoudUpdate = false;
     } else this.shoudUpdate = true;
 
     this.state = {
-      elapsedTime
+      remainedTime
     };
     this.makeTick = this.makeTick.bind(this);
   } 
 
   makeTick() {
-    const { timeLimit, started, onTick } = this.props;
+    const { timeLimit, started, onExpired } = this.props;
     if (this.shoudUpdate) {
       this.setState({
-        elapsedTime: timeLimit * 60 - Math.floor((new Date() - started) / 1000)
+        remainedTime: timeLimit * 60 - Math.floor((new Date() - new Date(started)) / 1000)
       });
-      if (this.state.elapsedTime > 0) setTimeout(this.makeTick, 1000);
-      else onTick();
+      if (this.state.remainedTime > 0) setTimeout(this.makeTick, 1000);
+      else onExpired();
     }
   }
 
@@ -152,37 +142,37 @@ class Timer extends PureComponent {
   }
 
   render() {
-    const { elapsedTime } = this.state;
-    const minutes = Math.floor(elapsedTime / 60);
-    const seconds = elapsedTime % 60 |> #.toString() |> ('0' + #).slice(-2);
+    const { remainedTime } = this.state;
+    const minutes = Math.floor(remainedTime / 60);
+    const seconds = remainedTime % 60 |> #.toString() |> ('0' + #).slice(-2);
 
-    return elapsedTime > 0
-      ? <Typography color={elapsedTime > 60 ? 'textPrimary' : 'error'}>Оставшееся время: {minutes}:{seconds}</Typography>
+    return remainedTime > 0
+      ? <Typography color={remainedTime > 60 ? 'textPrimary' : 'error'}>Оставшееся время: {minutes}:{seconds}</Typography>
       : <Typography color="error">Время истекло</Typography>;
   }
 }
 
 function hasTime(timeLimit, started) {
   if (!timeLimit) return true;
-  const elapsedTime = timeLimit * 60 - Math.floor((new Date() - new Date(started)) / 1000);
-  if (elapsedTime > 0) return true;
+  const remainedTime = timeLimit * 60 - Math.floor((new Date() - new Date(started)) / 1000);
+  if (remainedTime > 0) return true;
   return false;
 }
 
-function filterReply(lastSubmittedReply, feedback) {
+function filterReply({ lastSubmittedReply, feedback } = {}) {
   if (!lastSubmittedReply) return [];
 
   if (!feedback) return lastSubmittedReply;
 
   const reply = [...lastSubmittedReply];
-  for (const questionkIndex in lastSubmittedReply) {
+  for (const questionIndex in lastSubmittedReply) {
 
-    if (!feedback[questionkIndex]) continue;
-    const questionFeedback = feedback[questionkIndex];
+    if (!feedback[questionIndex]) continue;
+    const questionFeedback = feedback[questionIndex];
     if (questionFeedback instanceof Array) {
       for (const answerOptionIndex in questionFeedback) {
         const answerFeedback = questionFeedback[answerOptionIndex];
-        if (answerFeedback === false) reply[questionkIndex] = reply[questionkIndex].filter(val => val !== Number(answerOptionIndex));
+        if (answerFeedback === false) reply[questionIndex] = reply[questionIndex].filter(val => val !== Number(answerOptionIndex));
       }
     }
   }
@@ -196,7 +186,7 @@ function QuizInfo({ id, timeLimit, totalAttempts, maxScore }) {
 
   return <div style={{ textAlign: 'center' }}>
     {timeLimit && <Typography>Время на выполнение: {timeLimit} мин</Typography>}
-    <Typography style={{ marginBottom: '12px' }}>Число попыток: {totalAttempts}</Typography>
+    <Typography>Число попыток: {totalAttempts}</Typography>
     <Typography>Максимальное количество баллов: {maxScore}</Typography>
     {timeLimit && <Typography>После нажатие кнопки, начнется отсчет времени</Typography>}
     <Button style={{ marginTop: '12px' }} variant="contained" color="primary" onClick={() => startQuizAttempt()}>Начать тестирование</Button>
@@ -209,7 +199,7 @@ function QuizState({ timeLimit, totalAttempts, maxScore, currentUserLastAttempt,
   const { startDate, repliesCount, score } = currentUserLastAttempt || {};
 
   if (UserInfo.role === 'student') return <span>
-    {timeLimit && currentUserLastAttempt != null && <Timer onTick={forceUpdate} started={startDate} timeLimit={timeLimit} />}
+    {timeLimit && currentUserLastAttempt != null && currentUserLastAttempt?.score !== maxScore && currentUserLastAttempt?.repliesCount < totalAttempts && <Timer onExpired={forceUpdate} started={startDate} timeLimit={timeLimit} />}
     <Typography>Число использованных попыток: {repliesCount || 0} из {totalAttempts}</Typography>
     {repliesCount >= totalAttempts && <Typography color="error">У вас закончились попытки</Typography>}
     <Typography>Количество баллов: {score || 0} из {maxScore}</Typography>
@@ -230,12 +220,12 @@ function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, cur
   const forceUpdate = useForceUpdate();
   const makeQuizAttempt = useMutation(MAKE_QUIZ_ATTEMPT, { onComplete: refetchUnitDelivery }, { id });
 
-  const form = useForm(makeQuizAttempt, { reply: filterReply(currentUserLastAttempt?.lastSubmittedReply, currentUserLastAttempt?.feedback) });
+  const form = useForm(makeQuizAttempt, { reply: filterReply(currentUserLastAttempt) });
 
-  //const hastTime = hasTime(timeLimit, currentUserLastAttempt?.startDate);
-  //const hasAttempts = currentUserLastAttempt?.repliesCount < totalAttempts;
-  const canSubmitQuizReply = UserInfo.role === 'student' && hasTime(timeLimit, currentUserLastAttempt?.startDate) && currentUserLastAttempt?.repliesCount < totalAttempts;
-  //const disabled = (UserInfo.role !== 'student' && !(hastTime && hasAttempts)) || (currentUserLastAttempt?.score === maxScore);
+  const canSubmitQuizReply = UserInfo.role === 'student'
+    && hasTime(timeLimit, currentUserLastAttempt?.startDate)
+    && currentUserLastAttempt?.repliesCount < totalAttempts
+    && currentUserLastAttempt?.score !== maxScore;
 
   return <div>
 
