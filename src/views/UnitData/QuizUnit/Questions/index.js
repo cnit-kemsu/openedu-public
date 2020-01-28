@@ -9,13 +9,36 @@ import useStyles from './styles';
 
 const keyProp = ({ key }) => key;
 
+//[{ answerOptions: [null, 'Необходимо указать правильный ответ'] }, null]
+
+function correctAnswer(count, value) {
+  if (value.correct) return count + 1;
+  return count;
+}
+
 function validateQuestions(value) {
   if (value == null || value?.length === 0) return [null, 'Необходимо добавить хотя бы один вопрос'];
+  const errors = [];
+  for (const index in value) {
+    const question = value[index];
+    const answerOptions = question.answerOptions;
+    if (answerOptions == null || answerOptions?.length < 2) errors[index] = [null, 'Необходимо добавить хотя бы два ответа'];
+
+    console.log('debug', question.correctAnswerIndex);
+    if (question.type === 'SingleChoice' && (question.correctAnswerIndex == null || question.correctAnswerIndex === '')) errors[index] = [null, 'Необходимо указать правильный ответ'];
+    if (question.type === 'MultipleChoice' && !question.correctAnswerIndex) {   
+      const correctAnswersCount = answerOptions.reduce(correctAnswer, 0);
+      if (correctAnswersCount === 0) errors[index] = [null, "Необходимо указать хотя бы один ответ 'правильным'"];
+      if (correctAnswersCount === answerOptions.length) errors[index] = [null, "Необходимо указать хотя бы один ответ 'неправильным'"];
+    }
+  }
+  return [errors, null];
 }
 
 function Questions({ createQuestionDialog, ...props }) {
   const [questions, { push, error, dirty, touched, onBlur }] = useFieldArray(null, 'data.questions', validateQuestions);
-  const questionItems = useElementArray(QuestionItem, [...questions], { key: keyProp, ...props });
+  //const questionItems = useElementArray(QuestionItem, [...questions], { key: keyProp, ...props });
+  const questionItems = questions.map((question, index) => <QuestionItem key={index} element={question} {...props} />);
 
   const classes = useStyles();
   return <>

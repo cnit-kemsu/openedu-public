@@ -12,7 +12,7 @@ export const AnswerForm = makeStyles({
 
 export const AnswerItem = makeStyles({
   root: {
-    alignItems: 'end'
+    alignItems: 'baseline'
   },
   index: {
     fontWeight: 'bold'
@@ -33,6 +33,15 @@ export const RightAnswerCheckbox = makeStyles({
     color: green[400]
   },
   checked: {
+    color: green[600] + ' !important'
+  }
+});
+
+export const RightAnswerRadioButton = makeStyles({
+  formControlLabel: {
+    marginLeft: '0px !important'
+  },
+  radio: {
     color: green[600] + ' !important'
   }
 });

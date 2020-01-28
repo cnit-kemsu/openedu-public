@@ -230,3 +230,11 @@ export const RightAnswerCheckbox = makeStyles({
   //   color: blue[600] + ' !important'
   // }
 });
+
+export const RightAnswerRadioButton = makeStyles({
+  formControlLabel: {
+    marginLeft: '0px !important'
+  },
+  radio: {
+  }
+});

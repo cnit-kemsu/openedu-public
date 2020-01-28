@@ -11,7 +11,7 @@ import { Loader, useElementArray, List } from '@kemsu/core';
 import { useForceUpdate } from '@kemsu/force-update';
 import { Editor } from '@kemsu/editor';
 import { useForm, Fields } from '@kemsu/form';
-import { AnswerItem1 as useAnswerItemStyles, Answers1 as useAnswersStyles, QuestionItem1 as useQuestionItemStyles, RightAnswerCheckbox as useRightAnswerCheckboxStyles } from '../../styles';
+import { AnswerItem1 as useAnswerItemStyles, Answers1 as useAnswersStyles, QuestionItem1 as useQuestionItemStyles, RightAnswerCheckbox as useRightAnswerCheckboxStyles, RightAnswerRadioButton as useRightAnswerRadioButtonStyles } from '../../styles';
 import UpdateFab from '@components/UpdateFab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { ArrayCheckbox, RadioButton, RadioButtonGroup } from '@kemsu/inputs';
@@ -28,7 +28,7 @@ function RightAnswerCheckbox({ disabled, name, arrayValue }) {
   </Tooltip>;
 }
 
-function AnswerItem({ item: { content }, index, disabled, questionIndex, feedback }) {
+function AnswerItem({ item: { content }, hasMarkedCorrectly, type, index, disabled, questionIndex, feedback }) {
 
   const markedCorrectly = feedback?.[index];
   const itemStyle = markedCorrectly != null
@@ -44,33 +44,42 @@ function AnswerItem({ item: { content }, index, disabled, questionIndex, feedbac
     : undefined;
 
   const classes = useAnswerItemStyles();
+  const rightAnswerRadioButtonClasses = useRightAnswerRadioButtonStyles();
   const answerIndex = Number(index) + 1;
   return <ListItem className={classes.root} style={itemStyle}>
     <div className={classes.pre}>
+
       <Typography className={classes.index}>{answerIndex}.</Typography>
-      <ListItemIcon>
-        <RightAnswerCheckbox arrayValue={index} disabled={disabled || markedCorrectly != null} name={questionIndex} />
-      </ListItemIcon>
+
+      {type === 'MultipleChoice' && <ListItemIcon>
+      <RightAnswerCheckbox arrayValue={index} disabled={disabled || markedCorrectly != null} name={questionIndex} />
+      </ListItemIcon>}
+
+      {type === 'SingleChoice' && <ListItemIcon><RadioButton classes={rightAnswerRadioButtonClasses} disabled={disabled || hasMarkedCorrectly || markedCorrectly != null} value={index} /></ListItemIcon>}
+
     </div>
     <ListItemText className={classes.text} primary={<Editor editorState={content} readOnly={true} />} />
   </ListItem>;
 }
-QuestionItem = React.memo(QuestionItem);
+AnswerItem = React.memo(AnswerItem);
 
-function Answers({ answerOptions, questionIndex, feedback, disabled }) {
+function Answers({ answerOptions, type, questionIndex, feedback, disabled }) {
   
+  const hasMarkedCorrectly = type === 'SingleChoice' && feedback ? feedback.includes(true) : null;
+  const answerOptionItems = answerOptions.map((item, index) => <AnswerItem {...{ key: index, type, hasMarkedCorrectly, index, item, feedback, questionIndex, disabled }} />);
+  let list = answerOptions.length > 0 ? <List>{answerOptionItems}</List> : null;
+  if (type === 'SingleChoice') list = <RadioButtonGroup style={{ width: '100%' }} name={`reply.${questionIndex}`}>{list}</RadioButtonGroup>;
+
   //const classes = useAnswersStyles();
   return <>
     <div>
-      {answerOptions.length > 0 && <List>
-        {answerOptions.map((item, index) => <AnswerItem {...{ key: index, index, item, feedback, questionIndex, disabled }} />)}
-      </List>}
+      {list}
     </div>
   </>;
 }
 Answers = React.memo(Answers);
 
-function QuestionItem({ item: { content, answerOptions }, index, disabled, feedback }) {
+function QuestionItem({ item: { content, answerOptions, type }, index, disabled, feedback }) {
 
   const classes = useQuestionItemStyles();
   const _questionIndex = Number(index) + 1;
@@ -82,7 +91,7 @@ function QuestionItem({ item: { content, answerOptions }, index, disabled, feedb
       <ListItemText className={classes.text} primary={<Editor editorState={content} readOnly={true} />} />
     </ListItem>
     <Divider />
-    <Answers disabled={disabled} feedback={feedback?.[index]} answerOptions={answerOptions} questionIndex={index}  />
+    <Answers disabled={disabled} type={type} feedback={feedback?.[index]} answerOptions={answerOptions} questionIndex={index}  />
   </Paper>;
 }
 QuestionItem = React.memo(QuestionItem);
@@ -169,11 +178,14 @@ function filterReply({ lastSubmittedReply, feedback } = {}) {
 
     if (!feedback[questionIndex]) continue;
     const questionFeedback = feedback[questionIndex];
-    if (questionFeedback instanceof Array) {
+    if (reply[questionIndex] instanceof Array) {
       for (const answerOptionIndex in questionFeedback) {
         const answerFeedback = questionFeedback[answerOptionIndex];
         if (answerFeedback === false) reply[questionIndex] = reply[questionIndex].filter(val => val !== Number(answerOptionIndex));
       }
+    } else if (typeof reply[questionIndex] === 'number') {
+      const hasMarkedCorrectly = feedback[questionIndex] ? feedback[questionIndex].includes(true) : null;
+      if (!hasMarkedCorrectly) reply[questionIndex] = undefined;
     }
   }
   return reply;

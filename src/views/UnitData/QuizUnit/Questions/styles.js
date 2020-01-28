@@ -6,6 +6,9 @@ export const QuestionForm = makeStyles({
   },
   text: {
     width: '100%'
+  },
+  type: {
+    width: '300px'
   }
 });
 
@@ -16,7 +19,7 @@ export const QuestionItem = makeStyles({
     padding: '32px 24px',
   },
   item: {
-    alignItems: 'end'
+    alignItems: 'baseline'
   },
   index: {
     fontWeight: 'bold'
@@ -37,5 +40,8 @@ export default makeStyles({
   },
   addIcon: {
     marginRight: '6px'
-  }
+  },
+  error: {
+    marginTop: '8px'
+  },
 });
