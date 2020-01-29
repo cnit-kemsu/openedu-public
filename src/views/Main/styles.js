@@ -186,7 +186,7 @@ export const QuestionItem1 = makeStyles({
     padding: '32px 24px',
   },
   item: {
-    alignItems: 'end'
+    alignItems: 'baseline'
   },
   index: {
     fontWeight: 'bold'
@@ -202,7 +202,7 @@ export const QuestionItem1 = makeStyles({
 
 export const AnswerItem1 = makeStyles({
   root: {
-    alignItems: 'end',
+    alignItems: 'baseline',
     margin: '4px',
     border: '2px solid #fff0',
   },

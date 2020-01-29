@@ -52,10 +52,12 @@ function AnswerItem({ item: { content }, hasMarkedCorrectly, type, index, disabl
       <Typography className={classes.index}>{answerIndex}.</Typography>
 
       {type === 'MultipleChoice' && <ListItemIcon>
-      <RightAnswerCheckbox arrayValue={index} disabled={disabled || markedCorrectly != null} name={questionIndex} />
+        <RightAnswerCheckbox arrayValue={index} disabled={disabled || markedCorrectly != null} name={questionIndex} />
       </ListItemIcon>}
 
-      {type === 'SingleChoice' && <ListItemIcon><RadioButton classes={rightAnswerRadioButtonClasses} disabled={disabled || hasMarkedCorrectly || markedCorrectly != null} value={index} /></ListItemIcon>}
+      {type === 'SingleChoice' && <ListItemIcon>
+        <RadioButton classes={rightAnswerRadioButtonClasses} disabled={disabled || hasMarkedCorrectly || markedCorrectly != null} value={index} />
+      </ListItemIcon>}
 
     </div>
     <ListItemText className={classes.text} primary={<Editor editorState={content} readOnly={true} />} />
@@ -168,7 +170,50 @@ function hasTime(timeLimit, started) {
   return false;
 }
 
-function filterReply({ lastSubmittedReply, feedback } = {}) {
+// function createFeedback(currentUserLastAttempt, questions) {
+
+//   if (UserInfo.role !== 'student') {
+//     const reply = [];
+//     for (const questionIndex in questions) {
+//       const { type, answerOptions, correctAnswerIndex } = questions[questionIndex];
+//       reply.push([]);
+//       const questionReply = reply[questionIndex];
+//       if (type === 'MultipleChoice') {
+//         for (const answerOptionIndex in answerOptions) {
+//           const { correct } = answerOptions[answerOptionIndex];
+//           if (correct) questionReply[answerOptionIndex] = true;
+//         }
+//       } else if (type === 'SingleChoice') {
+//         questionReply[correctAnswerIndex] = true;
+//       }
+//     }
+//     return reply;
+//   }
+
+//   return currentUserLastAttempt?.feedback;
+// }
+
+function filterReply({ lastSubmittedReply, feedback }, questions) {
+
+  if (UserInfo.role !== 'student') {
+    const reply = [];
+    for (const questionIndex in questions) {
+      const { type, answerOptions, correctAnswerIndex } = questions[questionIndex];
+      if (type === 'MultipleChoice') {
+        reply.push([]);
+        const questionReply = reply[questionIndex];
+        for (const answerOptionIndex in answerOptions) {
+          const { correct } = answerOptions[answerOptionIndex];
+          if (correct) questionReply.push(Number(answerOptionIndex));
+        }
+      } else if (type === 'SingleChoice') {
+        reply.push(correctAnswerIndex);
+        //questionReply[correctAnswerIndex] = correctAnswerIndex;
+      }
+    }
+    return reply;
+  }
+
   if (!lastSubmittedReply) return [];
 
   if (!feedback) return lastSubmittedReply;
@@ -232,7 +277,7 @@ function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, cur
   const forceUpdate = useForceUpdate();
   const makeQuizAttempt = useMutation(MAKE_QUIZ_ATTEMPT, { onComplete: refetchUnitDelivery }, { id });
 
-  const form = useForm(makeQuizAttempt, { reply: filterReply(currentUserLastAttempt) });
+  const form = useForm(makeQuizAttempt, { reply: filterReply(currentUserLastAttempt || {}, questions) });
 
   const canSubmitQuizReply = UserInfo.role === 'student'
     && hasTime(timeLimit, currentUserLastAttempt?.startDate)
@@ -248,7 +293,7 @@ function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, cur
           <QuizState {...{ id, timeLimit, totalAttempts, maxScore, currentUserLastAttempt, forceUpdate }} />
         </div>
 
-        <Questions questions={questions} feedback={currentUserLastAttempt?.feedback} disabled={!canSubmitQuizReply} />
+        <Questions questions={questions} feedback={/*createFeedback(currentUserLastAttempt, questions)*/currentUserLastAttempt?.feedback} disabled={!canSubmitQuizReply} />
 
         {canSubmitQuizReply && <UpdateFab {...{ loading, errors }}>Отправить результат</UpdateFab>}
 

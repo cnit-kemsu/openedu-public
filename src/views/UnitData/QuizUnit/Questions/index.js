@@ -24,7 +24,6 @@ function validateQuestions(value) {
     const answerOptions = question.answerOptions;
     if (answerOptions == null || answerOptions?.length < 2) errors[index] = [null, 'Необходимо добавить хотя бы два ответа'];
 
-    console.log('debug', question.correctAnswerIndex);
     if (question.type === 'SingleChoice' && (question.correctAnswerIndex == null || question.correctAnswerIndex === '')) errors[index] = [null, 'Необходимо указать правильный ответ'];
     if (question.type === 'MultipleChoice' && !question.correctAnswerIndex) {   
       const correctAnswersCount = answerOptions.reduce(correctAnswer, 0);

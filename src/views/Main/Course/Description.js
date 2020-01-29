@@ -7,8 +7,10 @@ import { History, useRoutes } from '@kemsu/router';
 import { Editor } from '@kemsu/editor';
 import { dispdate } from '@lib/dispdate';
 import Content from './Content';
+import Progress from './Progress';
 import Instructors from './Instructors';
 import { Description as useStyles, InfoItem as useInfoItemStyles } from './styles';
+import { UserInfo } from '@lib/UserInfo';
 
 function InfoItem({ icon, name, value }) {
 
@@ -23,12 +25,14 @@ InfoItem = memo(InfoItem);
 
 const routes = [
   [/.+\/about$/, () => ([({ description }) => <Editor editorState={description} readOnly={true} />, 0])],
-  [/.+\/content$/, () => ([({ sections, isCurrentUserEnrolled }) => <Content {...{ sections, isCurrentUserEnrolled }} />, 1])]
+  [/.+\/content$/, () => ([({ sections, isCurrentUserEnrolled }) => <Content {...{ sections, isCurrentUserEnrolled }} />, 1])],
+  [/.+\/progress$/, () => ([({ isCurrentUserEnrolled, id }) => <Progress {...{ isCurrentUserEnrolled, id }} />, 2])]
 ];
 
 function handleTabChange(value, id) {
   if (value === 0) History.push(`/course-delivery/${id}/about`);
   if (value === 1) History.push(`/course-delivery/${id}/content`);
+  if (value === 2) History.push(`/course-delivery/${id}/progress`);
 }
 
 function Description({ course: { id, description, instructors, startDate, enrollmentEndDate, sections, isCurrentUserEnrolled } }) {
@@ -47,11 +51,12 @@ function Description({ course: { id, description, instructors, startDate, enroll
           >
             <Tab label="О курсе" className={classes.tab} />
             <Tab label="Содержание" className={classes.tab} />
+            {(isCurrentUserEnrolled ||UserInfo.role !== 'student') && <Tab label="Достижения" className={classes.tab} />}
           </Tabs>
         }
 
         <div className="section">
-          {renderView != null && renderView({ description, sections, isCurrentUserEnrolled })}
+          {renderView != null && renderView({ description, sections, isCurrentUserEnrolled, id })}
         </div>
 
       </div>
