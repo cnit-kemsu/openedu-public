@@ -12,6 +12,17 @@ import { SubsectionView as useStyles } from './styles';
 import RouteBackBtn from '@components/RouteBackBtn';
 import { UserInfo } from '@lib/UserInfo';
 
+import { dispstr } from '@lib/dispstr';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Avatar from '@material-ui/core/Avatar';
+import { useDialog, DialogModal, Dialog } from '@kemsu/core';
+import green from '@material-ui/core/colors/green';
+import amber from '@material-ui/core/colors/amber';
+
 export const PROGRESS = ({ id = 'Int!' }) => `
   progress(courseId: ${id}) {
     certificateAvailable
@@ -20,6 +31,7 @@ export const PROGRESS = ({ id = 'Int!' }) => `
       score
       maxScore
     }
+    userData
   }
 `;
 
@@ -39,30 +51,85 @@ function SingleStudentProgress({ progress, sendSertificate }) {
   }
   
   return <div>
-    <Typography variant="h6">Баллы за тесты</Typography>
+    <Typography style={{ marginBottom: '12px' }} variant="h6">Баллы за тесты</Typography>
     {units.map(
       (unitProgress, index) => <div key={index}>
-        <Typography style={{ paddingTop: '12px' }} variant="h6">{unitProgress.unitName}: {unitProgress.score == null ? 'не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
+        <Typography style={{ paddingTop: '12px' }}>{unitProgress.unitName}: {unitProgress.score == null ? 'не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
       </div>
     )}
 
-    {sendSertificate && <>
-      <Divider style={{ marginTop: '12px' }} />
+    <Divider style={{ marginTop: '24px' }} />
+    <div>
+      <Typography style={{ paddingTop: '12px', display: 'inline-block', marginRight: '12px' }} variant="h6">Всего: {allScores} из {maxAllScores}</Typography>
       <div>
-        <Typography style={{ paddingTop: '12px', display: 'inline-block', marginRight: '12px' }} variant="h6">Всего: {allScores} из {maxAllScores}</Typography>
-        <div>
-          {certificateAvailable && <Button onClick={() => sendSertificate()} variant="outlined" color="primary">Прислать сертификат на почту</Button>}
-        </div>
+        {UserInfo.role === 'student' && <Button size="small" disabled={!certificateAvailable} onClick={() => sendSertificate()} style={{ marginTop: '12px' }} variant="outlined" color="primary">Прислать сертификат на почту</Button>}
       </div>
-    </>}
+    </div>
     
   </div>;
 }
 SingleStudentProgress = React.memo(SingleStudentProgress);
 
+function UserProgressDialog(close, { progress, email, firstname, lastname, middlename }) {
+  return <Dialog onClose={close} title="Достижения пользователя">
+    <div style={{ width: '400px' }}>
+      <Typography style={{ paddingBottom: '24px', marginTop: '-12px',  }}>
+        {email}, {dispstr(firstname, lastname, middlename)}
+      </Typography>
+      <SingleStudentProgress {...{ progress }} />
+    </div>
+  </Dialog>;
+}
+
 function MultipleStudentsProgress({ progress }) {
-  console.log('123');
-  return <div>asd111</div>;
+  const dialog = useDialog();
+
+  return <div>
+    
+    <List>
+
+      {progress.map(
+        ({ units, certificateAvailable, userData: { firstname, lastname, middlename, picture, email, maxAllScores, allScores } }, index) => <ListItem key={index}>
+
+          <ListItemAvatar>{
+            picture
+            ? <Avatar src={'/files/' + picture.fileSourceKey} />
+            : <Avatar><AccountCircle /></Avatar>
+          }</ListItemAvatar>
+
+          <ListItemText primary={email} secondary={<>
+            {dispstr(firstname, lastname, middlename) + ' '}
+          </>} />
+
+          <div style={{
+            display: 'flex',
+            width: '100%',
+            width: '350px',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <Typography style={{ fontSize: '14px' }}>Всего баллов: {allScores} из {maxAllScores}</Typography>
+            <Typography style={{
+              color: certificateAvailable ? green[600] : amber[700],
+              fontSize: '14px'
+            }}>{certificateAvailable ? 'Закончил' : 'Не закончил'}</Typography>
+            <Button style={{
+              padding: '6px',
+              fontSize: '12px'
+              
+            }} size="small" color="primary" variant="outlined" onClick={() => dialog.open({ email, firstname, lastname, middlename, progress: [{ units, certificateAvailable }] })}>подробнее</Button>
+          </div>
+          
+        </ListItem>
+      )}
+
+      <DialogModal mgr={dialog}>
+        {UserProgressDialog}
+      </DialogModal>
+
+    </List>
+    
+  </div>;
 }
 MultipleStudentsProgress = React.memo(MultipleStudentsProgress);
 
@@ -71,67 +138,14 @@ function Progress({ id }) {
   const [{ progress }, loading, errors] = useQuery(PROGRESS, { id });
   const sendSertificate = useMutation(SEND_SERTIFICATE, {}, { id });
 
-  // let allScores = 0;
-  // let maxAllScores = 0;
-  // if (units) for (const progress of units) {
-  //   if (!progress.quiz.finalCertification) continue;
-  //   allScores += progress.score;
-  //   maxAllScores += progress.quiz.maxScore;
-  // }
-
   return <Loader loading={loading} errors={errors}>
     {progress !== undefined && <div>
 
       {UserInfo.role === 'student' && <SingleStudentProgress progress={progress} sendSertificate={sendSertificate} />}
       {UserInfo.role !== 'student' && <MultipleStudentsProgress progress={progress} />}
-      {/* <Typography variant={userId ? 'h6' : 'h4'}>Баллы за тесты</Typography>
-      {units.map(
-        (progress, index) => <div key={index}>
-          <Typography style={{ paddingTop: '12px' }} variant={userId ? undefined : 'h6'}>{progress.unitName}: {progress.score == null ? 'не было попыток' : `${progress.score} из ${progress.quiz.maxScore}`}</Typography>
-        </div>
-      )}
-
-      <Divider style={{ marginTop: '12px' }} />
-      <div>
-        <Typography style={{ paddingTop: '12px', display: 'inline-block', marginRight: '12px' }} variant={userId ? undefined : 'h6'}>Всего: {allScores} из {maxAllScores}</Typography>
-        {certificateAvailable && <Button onClick={() => sendSertificate()} variant="outlined" color="primary">Прислать сертификат на почту</Button>}
-      </div> */}
 
     </div>}
   </Loader>;
 }
-
-// function Progress({ id, userId }) {
-  
-//   const [{ progress } = {}, loading, errors] = useQuery(PROGRESS, { id });
-//   const sendSertificate = useMutation(SEND_SERTIFICATE, {}, { id });
-//   if (UserInfo.role === 'student') return <StudentProgress progress={progress} />
-//   let allScores = 0;
-//   let maxAllScores = 0;
-//   if (units) for (const progress of units) {
-//     if (!progress.quiz.finalCertification) continue;
-//     allScores += progress.score;
-//     maxAllScores += progress.quiz.maxScore;
-//   }
-
-//   return <Loader loading={loading} errors={errors}>
-//     {units && <div>
-
-//       <Typography variant={userId ? 'h6' : 'h4'}>Баллы за тесты</Typography>
-//       {units.map(
-//         (progress, index) => <div key={index}>
-//           <Typography style={{ paddingTop: '12px' }} variant={userId ? undefined : 'h6'}>{progress.unitName}: {progress.score == null ? 'не было попыток' : `${progress.score} из ${progress.quiz.maxScore}`}</Typography>
-//         </div>
-//       )}
-
-//       <Divider style={{ marginTop: '12px' }} />
-//       <div>
-//         <Typography style={{ paddingTop: '12px', display: 'inline-block', marginRight: '12px' }} variant={userId ? undefined : 'h6'}>Всего: {allScores} из {maxAllScores}</Typography>
-//         {certificateAvailable && <Button onClick={() => sendSertificate()} variant="outlined" color="primary">Прислать сертификат на почту</Button>}
-//       </div>
-
-//     </div>}
-//   </Loader>;
-// }
 
 export default React.memo(Progress);
