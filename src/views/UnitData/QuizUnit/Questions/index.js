@@ -25,10 +25,10 @@ function validateQuestions(value) {
     if (answerOptions == null || answerOptions?.length < 2) errors[index] = [null, 'Необходимо добавить хотя бы два ответа'];
 
     if (question.type === 'SingleChoice' && (question.correctAnswerIndex == null || question.correctAnswerIndex === '')) errors[index] = [null, 'Необходимо указать правильный ответ'];
-    if (question.type === 'MultipleChoice' && !question.correctAnswerIndex) {   
-      const correctAnswersCount = answerOptions.reduce(correctAnswer, 0);
+    if (question.type === 'MultipleChoice' && !question.correctAnswerIndex) { 
+      const correctAnswersCount = answerOptions?.reduce(correctAnswer, 0) || 0;
       if (correctAnswersCount === 0) errors[index] = [null, "Необходимо указать хотя бы один ответ 'правильным'"];
-      if (correctAnswersCount === answerOptions.length) errors[index] = [null, "Необходимо указать хотя бы один ответ 'неправильным'"];
+      else if (correctAnswersCount === answerOptions.length) errors[index] = [null, "Необходимо указать хотя бы один ответ 'неправильным'"];
     }
   }
   return [errors, null];

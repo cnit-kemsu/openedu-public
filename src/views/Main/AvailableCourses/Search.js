@@ -7,7 +7,7 @@ import { TextField } from '@kemsu/inputs';
 import { Search as useStyles } from './styles';
 
 function searchCourse({ searchName }) {
-  History.push('/', { 'search-name': searchName });
+  History.push(Location.path, { 'search-name': searchName });
 }
 
 function Search() {

@@ -90,7 +90,7 @@ class TimeoutTextField extends PureComponent {
 }
 
 export const INSTRUCTORS = ({ search = 'String!' }) => `
-  instructors(nameLike: ${search}) {
+  allUsers(searchText: ${search} roles: [INSTRUCTOR, ADMIN]) {
     id
     email
     firstname
@@ -142,11 +142,11 @@ function UserItem1({ id, email, firstname, lastname, middlename, picture }, { re
 }
 
 function InstructorList({ search, push, closePicker }) {
-  const [{ instructors }, loading, errors] = useQuery(INSTRUCTORS, { search });
-  const userItems = useElementArray(UserItem, instructors, { key: user => user.id, push, closePicker });
+  const [{ allUsers }, loading, errors] = useQuery(INSTRUCTORS, { search });
+  const userItems = useElementArray(UserItem, allUsers, { key: user => user.id, push, closePicker });
 
   return <Paper><Loader loading={loading} errors={errors}>
-    {instructors && <List>
+    {allUsers && <List>
       {userItems}
     </List>}
   </Loader></Paper>;
@@ -160,10 +160,10 @@ function Instructors1({ _push }) {
   for (const instr of instructors) removeKeys[instr.values] = instr.delete;
   const keys = React.useMemo(() => _keys, [_keys.length]);
 
-  const [{ users }, loading, errors] = useQuery(USERS, { keys });
-  const userItems = useElementArray(UserItem1, users, { key: user => user.id, push, removeKeys });
+  const [{ allUsers }, loading, errors] = useQuery(USERS, { keys });
+  const userItems = useElementArray(UserItem1, allUsers, { key: user => user.id, push, removeKeys });
   return <Loader loading={loading} errors={errors}>
-    {users && <List>
+    {allUsers && <List>
       {userItems}
     </List>}
   </Loader>;
@@ -181,7 +181,7 @@ export default class Instructors extends PureComponent {
   openPicker({ currentTarget, value }) {
     
     this.value = value;
-    console.log(this.value);
+    //console.log(this.value);
     if (this.value != null) this.pickerChildren = <InstructorList search={this.value} push={this.push.current} closePicker={this.picker.current.close} />;
     this.picker.current.open(currentTarget);
   }

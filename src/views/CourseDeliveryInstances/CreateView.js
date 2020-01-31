@@ -40,7 +40,7 @@ const CREATE_COURSE_DELIVERY_INSTANCE = ({
   courseDesignTemplateId = 'Int!',
   startDate = 'String',
   enrollmentEndDate = 'String',
-  instructorKeys = 'JSON'
+  instructorKeys = '[Int!]'
 }) => `
   createCourseDeliveryInstance(
     templateId: ${courseDesignTemplateId}

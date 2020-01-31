@@ -118,7 +118,7 @@ EditUserProfile = React.memo(EditUserProfile);
 
 function UserProfile({ edit }) {
 
-  console.log('edit:', edit);
+  //console.log('edit:', edit);
   const [{ userProfile }, loading, errors] = useQuery(USER_PROFILE);
 
   //const classes = useUserProfileStyles();
