@@ -96,6 +96,7 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     startDate
     enrollmentEndDate
     data
+    price
     instructors {
       id
       email

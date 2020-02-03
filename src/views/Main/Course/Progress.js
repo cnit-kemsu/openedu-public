@@ -52,11 +52,20 @@ function SingleStudentProgress({ progress, sendSertificate }) {
   
   return <div>
     <Typography style={{ marginBottom: '12px' }} variant="h6">Баллы за тесты</Typography>
-    {units.map(
-      (unitProgress, index) => <div key={index}>
-        <Typography style={{ paddingTop: '12px' }}>{unitProgress.unitName}: {unitProgress.score == null ? 'не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
-      </div>
-    )}
+    <table><tbody>
+      {units.map(
+        (unitProgress, index) => <tr key={index}>
+          <td style={{ paddingRight: '36px', paddingTop: '12px' }}>
+            <Typography>{unitProgress.unitName}`</Typography>
+          </td>
+          <td style={{ paddingRight: '24px', paddingTop: '12px', minWidth: '300px' }}>
+            <Typography style={{
+              color: unitProgress.score != null ? '#3f51b5' : amber[700]
+            }}>{unitProgress.score == null ? 'не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
+          </td>
+        </tr>
+      )}
+    </tbody></table>
 
     <Divider style={{ marginTop: '24px' }} />
     <div>
@@ -72,7 +81,7 @@ SingleStudentProgress = React.memo(SingleStudentProgress);
 
 function UserProgressDialog(close, { progress, email, firstname, lastname, middlename }) {
   return <Dialog onClose={close} title="Достижения пользователя">
-    <div style={{ width: '400px' }}>
+    <div style={{ width: '1000px' }}>
       <Typography style={{ paddingBottom: '24px', marginTop: '-12px',  }}>
         {email}, {dispstr(firstname, lastname, middlename)}
       </Typography>
@@ -123,7 +132,7 @@ function MultipleStudentsProgress({ progress }) {
         </ListItem>
       )}
 
-      <DialogModal mgr={dialog}>
+      <DialogModal mgr={dialog} maxWidth={false}>
         {UserProgressDialog}
       </DialogModal>
 
