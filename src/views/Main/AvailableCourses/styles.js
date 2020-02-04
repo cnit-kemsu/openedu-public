@@ -9,9 +9,10 @@ export const CourseList = makeStyles({
   },
   items: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 400px)',
+    gridTemplateColumns: 'repeat(3, 350px)',
     gridAutoRows: '450px',
-    padding: '50px'
+    padding: '50px',
+    gridGap: '32px'
   },
   emptyMsg: {
     textAlign: 'center'

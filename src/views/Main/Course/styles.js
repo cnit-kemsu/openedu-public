@@ -31,7 +31,10 @@ export const Header = makeStyles(theme => ({
   },
   pictureContainer: {
     maxWidth: '480px',
-    maxHeight: '300px'
+    maxHeight: '300px',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center'
   },
   picture: {
     //border: `1px solid ${theme.palette.primary.light}`,

@@ -21,7 +21,7 @@ export default function CourseItem({ id, picture, name, summary, isCurrentUserEn
   const classes = useStyles();
   return <Card className={classes.root}>
 
-    <CardMedia className={classes.picture} component="img" src={picture ? ('/files/' + picture.fileSourceKey) : defaultCourseImage} />
+    <CardMedia onClick={() => routeToCourseView(id, isCurrentUserEnrolled)} className={classes.picture} component="img" src={picture ? ('/files/' + picture.fileSourceKey) : defaultCourseImage} />
 
     <CardContent className={classes.content}>
       <Typography variant="h6">{name}</Typography>
