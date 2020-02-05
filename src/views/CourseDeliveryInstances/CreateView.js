@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { useMutation } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
-import { DateTimePicker } from '@kemsu/inputs';
+import { DateTimePicker, TextField } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
@@ -31,6 +31,7 @@ function CreateCourseDeliveryInstance() {
   return <div className={classes.root}>
     <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
+    <TextField className={classes.summary} name="price" label="Цена" />
     <Instructors />
   </div>;
 }
@@ -40,12 +41,14 @@ const CREATE_COURSE_DELIVERY_INSTANCE = ({
   courseDesignTemplateId = 'Int!',
   startDate = 'String',
   enrollmentEndDate = 'String',
-  instructorKeys = '[Int!]'
+  instructorKeys = '[Int!]',
+  price = 'Float'
 }) => `
   createCourseDeliveryInstance(
     templateId: ${courseDesignTemplateId}
     startDate: ${startDate}
     enrollmentEndDate: ${enrollmentEndDate}
+    price: ${price}
     instructorKeys: ${instructorKeys}
   )
 `;

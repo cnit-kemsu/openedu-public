@@ -81,6 +81,7 @@ function CourseHeader({ course: { id, name, summary, picture, price, enrollmentE
               ? <Button color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
               : <div>
                 <Typography color="primary">Чтобы записаться на курс, вам необходимо произвести оплату</Typography>
+                <Typography color="primary">Стоимость курса: {price} руб.</Typography>
                 <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button>  
               </div>
               ) : <Typography color="secondary" variant="h6">Регистрация на курс закончена</Typography>

@@ -49,7 +49,7 @@ function EditCourseDeliveryInstance() {
     <TextField className={classes.laborInput_hours} name="data.labourInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
     <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
     <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
-    <TextField className={classes.summary} name="price" label="Цена" multiline />
+    <TextField className={classes.summary} name="price" label="Цена" />
     <DateTimePicker className={classes.startDate} name="startDate" validate={validateStartDate} label="Дата начала" />
     <DateTimePicker className={classes.enrollmentEndDate} name="enrollmentEndDate" validate={validateEnrollmentEndDate} label="Дата окончания регистрации" />
     <Instructors />
