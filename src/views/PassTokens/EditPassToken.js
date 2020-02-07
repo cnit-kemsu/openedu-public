@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
+import { TextField } from '@kemsu/inputs';
 import { useMutation, useQuery } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
 import { Link, FormErrors, Notifications, Loader } from '@kemsu/core';
@@ -8,12 +9,19 @@ import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
+import Courses from './Courses';
+import Emails from './Emails';
 import { PassTokenForm as useStyles } from './styles';
 
 function EditPassToken() {
   
   const classes = useStyles();
   return <div className={classes.root}>
+
+    <TextField name="name" />
+    <TextField name="summary" multiline />
+    <Courses />
+    <Emails />
     
   </div>;
 }
@@ -21,15 +29,17 @@ EditPassToken = React.memo(EditPassToken);
 
 const UPDATE_PASSTOKEN = ({
   id = 'Int!',
-  courseId = 'Int!',
-  emails = '[String!]!',
-  comments = 'String'
+  name = 'String!',
+  comments = 'String',
+  courseKeys = '[Int!]',
+  emails = '[String!]'
 }) => `
   updateRole(
     id: ${id}
-    courseId: ${courseId}
-    emails: ${emails}
+    name: ${name}
     comments: ${comments}
+    courseKeys: ${courseKeys}
+    emails: ${emails}
   )
 `;
 function onComplete() {
@@ -40,9 +50,10 @@ function onComplete() {
 export const PASSTOKEN = ({ id = 'Int!' }) => `
   passToken(id: ${id}) {
     id
-    courseId
-    emails
+    name
     comments
+    courseKeys
+    emails
   }
 `;
 

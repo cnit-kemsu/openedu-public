@@ -3,31 +3,41 @@ import Typography from '@material-ui/core/Typography';
 import { History } from '@kemsu/router';
 import { useMutation } from '@kemsu/graphql-client';
 import { useForm, Fields } from '@kemsu/form';
-import { DateTimePicker, TextField } from '@kemsu/inputs';
+import { TextField } from '@kemsu/inputs';
 import { Link, FormErrors, Notifications } from '@kemsu/core';
 import AdminView from '@components/AdminView';
 import RouteBackBtn from '@components/RouteBackBtn';
 import CreateFab from '@components/CreateFab';
 import ResetButton from '@components/ResetButton';
+import Courses from './Courses';
+import Emails from './Emails';
 import { CourseReleaseForm as useStyles } from './styles';
 
 function CreatePassToken() {
   
   const classes = useStyles();
   return <div className={classes.root}>
+
+    <TextField name="name" />
+    <TextField name="summary" multiline />
+    <Courses />
+    <Emails />
+
   </div>;
 }
 CreatePassToken = React.memo(CreatePassToken);
 
 const CREATE_PASSTOKEN = ({
-  courseId = 'Int!',
-  emails = '[String!]!',
-  comments = 'String'
+  name = 'String!',
+  comments = 'String',
+  courseKeys = '[Int!]',
+  emails = '[String!]'
 }) => `
   createPassToken(
-    courseId: ${courseId}
-    emails: ${emails}
+    name: ${name}
     comments: ${comments}
+    courseKeys: ${courseKeys}
+    emails: ${emails}
   )
 `;
 function onComplete() {
