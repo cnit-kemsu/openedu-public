@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-export class PickerTextField extends PureComponent {
+export default class PickerTextField extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -13,7 +13,7 @@ export class PickerTextField extends PureComponent {
     const currentTarget = event.currentTarget;
     const value = currentTarget.value;
     if (this.timeout) clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => this.props.onChange({ currentTarget, value }), this.props.timeout || 1000);
+    this.timeout = setTimeout(() => this.props.onChange(currentTarget, value), this.props.timeout || 1000);
   }
 
   render() {

@@ -6,6 +6,7 @@ import UsersView from '@views/Users';
 import CourseDesignTemplatesView from '@views/CourseDesignTemplates';
 import CourseDeliveryInstancesView from '@views/CourseDeliveryInstances';
 import UnitDataView from '@views/UnitData';
+import PassTokensView from '@views/PassTokens';
 import { AdminLayout as useStyles } from './styles';
 
 const routes = [
@@ -13,7 +14,8 @@ const routes = [
   [/.+\/course-design-templates/, () => <CourseDesignTemplatesView />],
   [/.+\/course-delivery-instances/, () => <CourseDeliveryInstancesView />],
   [/.+\/design-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} isDelivery={false} />],
-  [/.+\/delivery-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} isDelivery />]
+  [/.+\/delivery-units\/(?<id>\d+)/, ({ id }) => <UnitDataView id={Number(id)} isDelivery />],
+  [/.+\/pass-tokens/, ({ id }) => <PassTokensView id={Number(id)} />]
 ];
 
 function AdminLayout() {

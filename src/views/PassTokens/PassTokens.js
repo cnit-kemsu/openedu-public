@@ -19,10 +19,8 @@ export const TOTAL_PASSTOKENS = () => `
 export const PASSTOKENS = ({ offset = 'Int' }) => `
   allPassTokens(offset: ${offset}, limit: ${limit}) {
     id
+    name
     comments
-    course {
-      name
-    }
   }
 `;
 
@@ -60,7 +58,7 @@ export default (props => {
       <Typography color="textPrimary">Пропуска</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>
-      <Users {...{ menu, ...props}} />
+      <PassTokens {...{ menu, ...props}} />
     </AdminView.Paper>
     <Fab icon={AddIcon} onClick={routeToCreatePassTokenView}>
       Создать

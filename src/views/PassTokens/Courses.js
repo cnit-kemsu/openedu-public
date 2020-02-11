@@ -15,103 +15,19 @@ import { useElementArray, useMenu, useDialog, Loader, List, ListNavigator, MenuM
 import { dispstr } from '@lib/dispstr';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Paper from '@material-ui/core/Paper';
+import Picker from '@components/Picker';
+import PickerTextField from '@components/PickerTextField';
 
-class Picker extends PureComponent {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      target: null,
-      open: false
-    };
-    this.popper = React.createRef(); 
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  open(target) {
-    if (!this.state.open) {
-      this.setState({
-        target,
-        open: true
-      });
-      document.addEventListener('mousedown', this.handleClickOutside);
-    }
-  }
-  
-  close() {
-    this.onClose();
-    this.setState({ target: null, open: false });
-  }
-
-  componentWillUnmount() {
-    if (this.state.open) this.onClose();
-  }
-
-  onClose() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-
-  handleClickOutside(event) {
-    if (!this.popper.current.contains(event.target)) this.close();
-  }
- 
-  render() {
-    return <Popper ref={this.popper}
-      open={this.state.open}
-      anchorEl={this.state.target}
-    >
-      {this.props.children}
-    </Popper>;
-  }
-}
-
-class TimeoutTextField extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(event) {
-    event.preventDefault();
-    const currentTarget = event.currentTarget;
-    const value = currentTarget.value;
-    if (this.timeout) clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => this.props.onChange({ currentTarget, value }), this.props.timeout || 1000);
-  }
-
-  render() {
-    const { onChange, timeout, ...props } = this.props;
-    return <TextField {...props} onChange={this.onChange} />;
-  }
-}
-
-export const INSTRUCTORS = ({ search = 'String!' }) => `
-  allUsers(searchText: ${search} roles: [INSTRUCTOR, ADMIN]) {
+export const SEARCH_COURSES = ({ search = 'String', excludeKeys = '[Int]' }) => `
+  allCourses: allCourseDeliveryInstances(searchName: ${search} excludeKeys: ${excludeKeys} defunct: false) {
     id
-    email
-    firstname
-    lastname
-    middlename
+    name
+    creationDate
     picture
   }
 `;
 
-export const USERS = ({ keys = '[Int]' }) => `
-  allUsers(keys: ${keys}) {
-    id
-    email
-    firstname
-    lastname
-    middlename
-    picture
-  }
-`;
-
-function UserItem({ id, email, firstname, lastname, middlename, picture }, { push, closePicker }) {
+function CourseSearchItem({ id, name, creationDate, picture, push, closePicker }) {
 
   return <ListItem>
     <ListItemAvatar>{
@@ -119,14 +35,14 @@ function UserItem({ id, email, firstname, lastname, middlename, picture }, { pus
       ? <Avatar src={'/files/' + picture.fileSourceKey} />
       : <Avatar><AccountCircle /></Avatar>
     }</ListItemAvatar>
-    <ListItemText primary={email} secondary={<>
-      {dispstr(firstname, lastname, middlename) + ' '}
-      <span style={{ cursor: 'pointer', color: '#3f51b5' }} onClick={() => { push(id); closePicker(); }}>добавить</span>
+    <ListItemText primary={name} secondary={<>
+      {creationDate}
+      <span style={{ cursor: 'pointer', color: '#3f51b5' }} onClick={() => { push({ id, name, creationDate, picture }); closePicker(); }}>добавить</span>
     </>} />
   </ListItem>;
 }
 
-function UserItem1({ id, email, firstname, lastname, middlename, picture }, { removeKeys }) {
+function CourseItem({ name, picture, creationDate, remove }) {
 
   return <ListItem>
     <ListItemAvatar>{
@@ -134,65 +50,75 @@ function UserItem1({ id, email, firstname, lastname, middlename, picture }, { re
       ? <Avatar src={'/files/' + picture.fileSourceKey} />
       : <Avatar><AccountCircle /></Avatar>
     }</ListItemAvatar>
-    <ListItemText primary={email} secondary={dispstr(firstname, lastname, middlename)} />
+    <ListItemText primary={name} secondary={creationDate} />
     <ListItemSecondaryAction>
-      <DeleteIconButton onClick={() => removeKeys[id]()} />
+      <DeleteIconButton onClick={remove} />
     </ListItemSecondaryAction>
   </ListItem>;
 }
 
-function InstructorList({ search, push, closePicker }) {
-  const [{ allUsers }, loading, errors] = useQuery(INSTRUCTORS, { search });
-  const userItems = useElementArray(UserItem, allUsers, { key: user => user.id, push, closePicker });
+function CourseSearchList({ search, push, closePicker, excludeKeys }) {
+  const [{ allCourses }, loading, errors] = useQuery(SEARCH_COURSES, { search: search.current, excludeKeys: excludeKeys.current }, { skip: !search.current });
 
   return <Paper><Loader loading={loading} errors={errors}>
-    {allUsers && <List>
-      {userItems}
+    {allCourses && <List>
+      {allCourses.map(course => 
+        <CourseSearchItem key={course.id} {...course} {...{ push: push.current, closePicker }} />
+      )}
     </List>}
   </Loader></Paper>;
 }
 
-function Instructors1({ _push }) {
-  const [instructors, { push }] = useFieldArray(null, 'instructorKeys');
-  _push.current = push;
-  const _keys = instructors.map(el => el.values);
-  const removeKeys = {};
-  for (const instr of instructors) removeKeys[instr.values] = instr.delete;
-  const keys = React.useMemo(() => _keys, [_keys.length]);
+function CourseList({ setPush, setExcludeKeys }) {
 
-  const [{ allUsers }, loading, errors] = useQuery(USERS, { keys });
-  const userItems = useElementArray(UserItem1, allUsers, { key: user => user.id, push, removeKeys });
-  return <Loader loading={loading} errors={errors}>
-    {allUsers && <List>
-      {userItems}
-    </List>}
-  </Loader>;
+  const [courses, { push }] = useFieldArray(null, 'courseKeys');
+  setPush(push);
+  setExcludeKeys(courses);
+
+  return <List>{courses.map(course =>
+    <CourseItem key={course.values.id} {...course.values} remove={course.delete} />
+  )}</List>;
 }
 
-export default class Instructors extends PureComponent {
+export default class Courses extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.picker = React.createRef();
-    this.openPicker = this.openPicker.bind(this);
-    this.push = { current: null };
-  }
+    this.state = {
+      update: false
+    };
 
-  openPicker({ currentTarget, value }) {
-    
-    this.value = value;
-    //console.log(this.value);
-    if (this.value != null) this.pickerChildren = <InstructorList search={this.value} push={this.push.current} closePicker={this.picker.current.close} />;
-    this.picker.current.open(currentTarget);
+    this.picker = React.createRef();
+
+    this.value = { current: null };
+    this.openPicker = (currentTarget, value) => {
+      this.setState(old => ({ update: !old.update }));
+      this.value.current = value;
+      this.picker.current.open(currentTarget);
+    };
+
+    this.excludeKeys = { current: [] };
+    this.setExcludeKeys = courses => {
+      this.excludeKeys.current = courses?.map(course => course.values.id) || [];
+    };
+
+    this.push = { current: null };
+    this.setPush = push => { this.push.current = push; };
+
+    this.closePicker = () => this.picker.current.close();
   }
 
   render() {
     return <Paper style={{ marginTop: '24px', padding : '12px' }}>
+
       <Picker ref={this.picker}>
-          {() => this.pickerChildren}
+        <CourseSearchList search={this.value} push={this.push} excludeKeys={this.excludeKeys} closePicker={this.closePicker} />
       </Picker>
-      <TimeoutTextField label="Поиск преподавателей" onChange={this.openPicker} />
-      <Instructors1 _push={this.push} />
+
+      <PickerTextField style={{ width: '100%' }} label="Поиск курсов" onChange={this.openPicker} />
+
+      <CourseList setPush={this.setPush} setExcludeKeys={this.setExcludeKeys} />
+
     </Paper>;
   }
 }

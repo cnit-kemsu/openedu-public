@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Popper from '@material-ui/core/Popper';
 
-export class Picker extends PureComponent {
+export default class Picker extends PureComponent {
 
   constructor(props) {
     super(props);

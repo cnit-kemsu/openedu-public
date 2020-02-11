@@ -10,18 +10,18 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
 import Courses from './Courses';
-import Emails from './Emails';
-import { PassTokenForm as useStyles } from './styles';
+//import Emails from './Emails';
+import { TokenForm as useStyles } from './styles';
 
 function EditPassToken() {
   
   const classes = useStyles();
   return <div className={classes.root}>
 
-    <TextField name="name" />
-    <TextField name="summary" multiline />
+    <TextField className={classes.name} name="name" label="Название" />
+    <TextField className={classes.comments} name="comments" label="Комментарии" multiline />
     <Courses />
-    <Emails />
+    {/* <Emails /> */}
     
   </div>;
 }
@@ -29,12 +29,12 @@ EditPassToken = React.memo(EditPassToken);
 
 const UPDATE_PASSTOKEN = ({
   id = 'Int!',
-  name = 'String!',
+  name = 'String',
   comments = 'String',
   courseKeys = '[Int!]',
   emails = '[String!]'
 }) => `
-  updateRole(
+  updatePassToken(
     id: ${id}
     name: ${name}
     comments: ${comments}
@@ -52,16 +52,28 @@ export const PASSTOKEN = ({ id = 'Int!' }) => `
     id
     name
     comments
-    courseKeys
+    courseKeys: courses {
+      id
+      name
+      creationDate
+      picture
+    }
     emails
   }
 `;
+
+function mapValues({ courseKeys, ...values }) {
+  return {
+    courseKeys: courseKeys && courseKeys.map(({ id }) => id),
+    ...values
+  };
+}
 
 export default (
   ({ id }) => {
     const [{ passToken }, loading, errors] = useQuery(PASSTOKEN, { id });
     const updatePassToken = useMutation(UPDATE_PASSTOKEN, { onComplete }, { id });
-    const form = useForm(updatePassToken, passToken);
+    const form = useForm(updatePassToken, passToken, null, { mapValues });
 
     return <Fields comp={form}>
       <AdminView.AppBar>

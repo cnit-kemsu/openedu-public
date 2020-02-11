@@ -14,6 +14,9 @@ function Navigation() {
     <NavItem name="course-delivery-instances">
       <ListItemText primary="Реализация курсов" />
     </NavItem>
+    <NavItem name="pass-tokens">
+      <ListItemText primary="Пропуски" />
+    </NavItem>
   </List>;
 }
 

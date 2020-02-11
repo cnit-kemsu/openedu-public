@@ -10,7 +10,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import CreateFab from '@components/CreateFab';
 import ResetButton from '@components/ResetButton';
 import Courses from './Courses';
-import Emails from './Emails';
+//import Emails from './Emails';
 import { CourseReleaseForm as useStyles } from './styles';
 
 function CreatePassToken() {
@@ -21,7 +21,7 @@ function CreatePassToken() {
     <TextField name="name" />
     <TextField name="summary" multiline />
     <Courses />
-    <Emails />
+    {/* <Emails /> */}
 
   </div>;
 }
