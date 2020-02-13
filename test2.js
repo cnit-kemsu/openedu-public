@@ -1,5 +1,13 @@
+const net = require('net');
 const tls = require('tls');
 const fs = require('fs');
+
+class Socket {
+    constructor() {
+        
+    }
+}
+
 
 const PORT = 587;
 const HOST = 'smtp.gmail.com';
