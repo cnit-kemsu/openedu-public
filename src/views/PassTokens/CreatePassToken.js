@@ -44,8 +44,8 @@ function onComplete() {
   History.push('/admin/pass-tokens');
   Notifications.push('Пропуск был успешно создан.', 'success');
 }
-export default (({ courseDesignTemplateId }) => {
-  const createPassToken = useMutation(CREATE_PASSTOKEN, { onComplete }, { courseDesignTemplateId });
+export default (() => {
+  const createPassToken = useMutation(CREATE_PASSTOKEN, { onComplete });
   const form = useForm(createPassToken);
 
   return <Fields comp={form}>
@@ -58,7 +58,7 @@ export default (({ courseDesignTemplateId }) => {
     </AdminView.AppBar>
     <AdminView.Breadcrumbs>
       <Typography>Администрирование</Typography>
-      <Link styled path="/admin/pass-tokens">Пропуска</Link>
+      <Link styled path="/admin/pass-tokens">Пропуски</Link>
       <Typography color="textPrimary">Создать пропуск</Typography>
     </AdminView.Breadcrumbs>
     <AdminView.Paper>

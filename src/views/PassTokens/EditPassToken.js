@@ -85,7 +85,7 @@ export default (
       </AdminView.AppBar>
       <AdminView.Breadcrumbs>
         <Typography>Администрирование</Typography>
-        <Link styled path="/admin/pass-tokens">Пропуска</Link>
+        <Link styled path="/admin/pass-tokens">Пропуски</Link>
         <Typography color="textPrimary">Изменить</Typography>
       </AdminView.Breadcrumbs>
       <AdminView.Paper>
