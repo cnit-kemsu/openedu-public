@@ -19,7 +19,7 @@ import Picker from '@components/Picker';
 import PickerTextField from '@components/PickerTextField';
 
 export const SEARCH_USERS = ({ search = 'String', excludeKeys = '[Int]' }) => `
-  allUsers(searchName: ${search} excludeKeys: ${excludeKeys} defunct: false) {
+  allUsers(searchName: ${search} excludeKeys: ${excludeKeys} roles: [STUDENT]) {
     id
     name
     creationDate
