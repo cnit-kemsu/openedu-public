@@ -40,7 +40,7 @@ function PassTokens({ offset, menu }) {
 }
 PassTokens = React.memo(PassTokens);
 
-function routeToCreatePassTokenView() { History.push('/admin/pass-token/create'); }
+function routeToCreatePassTokenView() { History.push('/admin/pass-tokens/create'); }
 
 export default (props => {
   const confirmDeleteDialog = useDialog();

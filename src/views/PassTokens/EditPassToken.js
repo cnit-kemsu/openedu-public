@@ -10,7 +10,7 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import UpdateFab from '@components/UpdateFab';
 import ResetButton from '@components/ResetButton';
 import Courses from './Courses';
-//import Emails from './Emails';
+import Emails from './Emails';
 import { TokenForm as useStyles } from './styles';
 
 function EditPassToken() {
@@ -21,7 +21,7 @@ function EditPassToken() {
     <TextField className={classes.name} name="name" label="Название" />
     <TextField className={classes.comments} name="comments" label="Комментарии" multiline />
     <Courses />
-    {/* <Emails /> */}
+    <Emails />
     
   </div>;
 }
@@ -58,13 +58,21 @@ export const PASSTOKEN = ({ id = 'Int!' }) => `
       creationDate
       picture
     }
-    emails
+    emails: users {
+      id
+      email
+      lastname
+      firstname
+      middlename
+      picture
+    }
   }
 `;
 
-function mapValues({ courseKeys, ...values }) {
+function mapValues({ courseKeys, emails, ...values }) {
   return {
     courseKeys: courseKeys && courseKeys.map(({ id }) => id),
+    emails: emails && emails.map(({ email }) => email),
     ...values
   };
 }

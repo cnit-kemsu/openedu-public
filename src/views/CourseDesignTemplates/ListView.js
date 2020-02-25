@@ -21,6 +21,7 @@ export const ALL_COURSE_DESIGN_TEMPLATES = ({ offset = 'Int' }) => `
     id
     name
     summary
+    picture
   }
 `;
 

@@ -23,6 +23,7 @@ export const ALL_COURSE_DELIVERY_INSTANCES = ({ offset = 'Int' }) => `
     creationDate
     startDate
     enrollmentEndDate
+    picture
   }
 `;
 

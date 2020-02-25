@@ -18,16 +18,29 @@ import Paper from '@material-ui/core/Paper';
 import Picker from '@components/Picker';
 import PickerTextField from '@components/PickerTextField';
 
+// export const SEARCH_USERS = ({ search = 'String', excludeKeys = '[Int]' }) => `
+//   allUsers(searchText: ${search} excludeKeys: ${excludeKeys} roles: [STUDENT]) {
+//     id
+//     email
+//     lastname
+//     firstname
+//     middlename
+//     picture
+//   }
+// `;
+
 export const SEARCH_USERS = ({ search = 'String', excludeKeys = '[Int]' }) => `
-  allUsers(searchName: ${search} excludeKeys: ${excludeKeys} roles: [STUDENT]) {
+  allUsers(searchText: ${search} excludeKeys: ${excludeKeys}) {
     id
-    name
-    creationDate
+    email
+    lastname
+    firstname
+    middlename
     picture
   }
 `;
 
-function CourseSearchItem({ id, name, creationDate, picture, push, closePicker }) {
+function UserSearchItem({ id, lastname, firstname, midllename, email, picture, push, closePicker }) {
 
   return <ListItem>
     <ListItemAvatar>{
@@ -35,14 +48,14 @@ function CourseSearchItem({ id, name, creationDate, picture, push, closePicker }
       ? <Avatar src={'/files/' + picture.fileSourceKey} />
       : <Avatar><AccountCircle /></Avatar>
     }</ListItemAvatar>
-    <ListItemText primary={name} secondary={<>
-      {creationDate}
-      <span style={{ cursor: 'pointer', color: '#3f51b5' }} onClick={() => { push({ id, name, creationDate, picture }); closePicker(); }}>добавить</span>
+    <ListItemText primary={email} secondary={<>
+      {dispstr(lastname, firstname, midllename)}
+      <span style={{ cursor: 'pointer', color: '#3f51b5' }} onClick={() => { push({ id, lastname, firstname, midllename, email, picture }); closePicker(); }}>добавить</span>
     </>} />
   </ListItem>;
 }
 
-function CourseItem({ name, picture, creationDate, remove }) {
+function UserItem({ lastname, firstname, midllename, email, picture, remove }) {
 
   return <ListItem>
     <ListItemAvatar>{
@@ -50,33 +63,33 @@ function CourseItem({ name, picture, creationDate, remove }) {
       ? <Avatar src={'/files/' + picture.fileSourceKey} />
       : <Avatar><AccountCircle /></Avatar>
     }</ListItemAvatar>
-    <ListItemText primary={name} secondary={creationDate} />
+    <ListItemText primary={email} secondary={dispstr(lastname, firstname, midllename)} />
     <ListItemSecondaryAction>
       <DeleteIconButton onClick={remove} />
     </ListItemSecondaryAction>
   </ListItem>;
 }
 
-function CourseSearchList({ search, push, closePicker, excludeKeys }) {
-  const [{ allCourses }, loading, errors] = useQuery(SEARCH_COURSES, { search: search.current, excludeKeys: excludeKeys.current }, { skip: !search.current });
+function UserSearchList({ search, push, closePicker, excludeKeys }) {
+  const [{ allUsers }, loading, errors] = useQuery(SEARCH_USERS, { search: search.current, excludeKeys: excludeKeys.current }, { skip: !search.current });
 
   return <Paper><Loader loading={loading} errors={errors}>
-    {allCourses && <List>
-      {allCourses.map(course => 
-        <CourseSearchItem key={course.id} {...course} {...{ push: push.current, closePicker }} />
+    {allUsers && <List>
+      {allUsers.map(user => 
+        <UserSearchItem key={user.email} {...user} {...{ push: push.current, closePicker }} />
       )}
     </List>}
   </Loader></Paper>;
 }
 
-function CourseList({ setPush, setExcludeKeys }) {
+function EmailList({ setPush, setExcludeKeys }) {
 
-  const [courses, { push }] = useFieldArray(null, 'courseKeys');
+  const [users, { push }] = useFieldArray(null, 'emails');
   setPush(push);
-  setExcludeKeys(courses);
+  setExcludeKeys(users);
 
-  return <List>{courses.map(course =>
-    <CourseItem key={course.values.id} {...course.values} remove={course.delete} />
+  return <List>{users.map(user =>
+    <UserItem key={user.values.email} {...user.values} remove={user.delete} />
   )}</List>;
 }
 
@@ -112,12 +125,12 @@ export default class Emails extends PureComponent {
     return <Paper style={{ marginTop: '24px', padding : '12px' }}>
 
       <Picker ref={this.picker}>
-        <CourseSearchList search={this.value} push={this.push} excludeKeys={this.excludeKeys} closePicker={this.closePicker} />
+        <UserSearchList search={this.value} push={this.push} excludeKeys={this.excludeKeys} closePicker={this.closePicker} />
       </Picker>
 
-      <PickerTextField style={{ width: '100%' }} label="Поиск курсов" onChange={this.openPicker} />
+      <PickerTextField style={{ width: '100%', display: 'flex', alignItems: 'center' }} showButton label="Поиск пользователей или эл. почта" onChange={this.openPicker} onClick={email => this.push.current({ email })} />
 
-      <CourseList setPush={this.setPush} setExcludeKeys={this.setExcludeKeys} />
+      <EmailList setPush={this.setPush} setExcludeKeys={this.setExcludeKeys} />
 
     </Paper>;
   }

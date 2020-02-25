@@ -8,15 +8,15 @@ import SchoolIcon from '@material-ui/icons/School';
 import MoreIconButton from '@components/MoreIconButton';
 import { CourseItem as useStyles } from './styles';
 
-export default function CourseDesignTemplateItem({ id, ...item }, { menu }) {
+export default function CourseDesignTemplateItem({ id, picture, ...item }, { menu }) {
 
   const classes = useStyles();
   return <ListItem>
-    <ListItemAvatar>
-      <Avatar>
-        <SchoolIcon />
-      </Avatar>
-    </ListItemAvatar>
+    <ListItemAvatar>{
+      picture
+      ? <Avatar src={'/files/' + picture.fileSourceKey} />
+      : <Avatar><SchoolIcon /></Avatar>
+    }</ListItemAvatar>
     <ListItemText className={classes.text} primary={item.name} secondary={item.summary} />
     <ListItemSecondaryAction>
       <MoreIconButton onClick={event => menu.open(event, { id, item })} />

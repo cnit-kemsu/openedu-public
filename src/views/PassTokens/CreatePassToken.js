@@ -10,18 +10,18 @@ import RouteBackBtn from '@components/RouteBackBtn';
 import CreateFab from '@components/CreateFab';
 import ResetButton from '@components/ResetButton';
 import Courses from './Courses';
-//import Emails from './Emails';
-import { CourseReleaseForm as useStyles } from './styles';
+import Emails from './Emails';
+import { TokenForm as useStyles } from './styles';
 
 function CreatePassToken() {
   
   const classes = useStyles();
   return <div className={classes.root}>
 
-    <TextField name="name" />
-    <TextField name="summary" multiline />
+<TextField className={classes.name} name="name" label="Название" />
+    <TextField className={classes.comments} name="comments" label="Комментарии" multiline />
     <Courses />
-    {/* <Emails /> */}
+    <Emails />
 
   </div>;
 }
@@ -44,9 +44,18 @@ function onComplete() {
   History.push('/admin/pass-tokens');
   Notifications.push('Пропуск был успешно создан.', 'success');
 }
+
+function mapValues({ courseKeys, emails, ...values }) {
+  return {
+    courseKeys: courseKeys && courseKeys.map(({ id }) => id),
+    emails: emails && emails.map(({ email }) => email),
+    ...values
+  };
+}
+
 export default (() => {
   const createPassToken = useMutation(CREATE_PASSTOKEN, { onComplete });
-  const form = useForm(createPassToken);
+  const form = useForm(createPassToken, null, null, { mapValues });
 
   return <Fields comp={form}>
     <AdminView.AppBar>
