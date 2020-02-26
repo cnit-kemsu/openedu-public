@@ -41,6 +41,7 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
     summary
     description
     picture
+    logo
     price
     startDate
     enrollmentEndDate

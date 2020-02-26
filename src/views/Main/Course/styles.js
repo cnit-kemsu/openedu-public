@@ -79,6 +79,13 @@ export const Description = makeStyles(theme => ({
       }
     }
   },
+  logoContainer: {
+    textAlign: 'center',
+    marginBottom: '32px'
+  },
+  logo: {
+    maxHeight: '200px'
+  },
   tabs: {
     marginBottom: '32px'
   },

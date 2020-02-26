@@ -26,6 +26,7 @@ function CreateCourseDesignTemplate() {
     <TextField className={classes.laborInput_hours} name="data.labourInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
     <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
     <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
+    <DragAndDropImageDialog className={classes.picture} name="logo" label="Логотип" />
   </div>;
 }
 CreateCourseDesignTemplate = React.memo(CreateCourseDesignTemplate);
@@ -35,6 +36,7 @@ const CREATE_COURSE_DESIGN_TEMPLATE = ({
   summary = 'String',
   description = 'JSON',
   picture = 'JSON',
+  logo = 'JSON',
   data = 'JSON'
 }) => `
   createCourseDesignTemplate(
@@ -42,6 +44,7 @@ const CREATE_COURSE_DESIGN_TEMPLATE = ({
     summary: ${summary}
     description: ${description}
     picture: ${picture}
+    logo: ${logo}
     data: ${data}
   )
 `;

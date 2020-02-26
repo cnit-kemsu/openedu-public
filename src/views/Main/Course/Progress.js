@@ -23,10 +23,16 @@ import { useDialog, DialogModal, Dialog } from '@kemsu/core';
 import green from '@material-ui/core/colors/green';
 import amber from '@material-ui/core/colors/amber';
 
+import { Mutation, refetch } from '@kemsu/graphql-client';
+import { ConfirmDialog, Notifications } from '@kemsu/core';
+import confirmDeleteProps from '@components/confirmDeleteProps';
+import DialogContentText from '@material-ui/core/DialogContentText';
+
 export const PROGRESS = ({ id = 'Int!' }) => `
   progress(courseId: ${id}) {
     certificateAvailable
     units {
+      id
       unitName
       score
       maxScore
@@ -39,8 +45,27 @@ const SEND_SERTIFICATE = ({ id = 'Int!' }) => `
   sendSertificate(courseId: ${id})
 `;
 
-function SingleStudentProgress({ progress, sendSertificate }) {
+const DELETE_ATTEMPT = ({ userId = 'Int!', unitId = 'Int!' }) => `
+  deleteQuizAttempt(userId: ${userId} unitId: ${unitId})
+`;
+function onComplete() {
+  refetch(PROGRESS);
+  Notifications.push('Попытка была успешно удалена.', 'success');
+}
+const deleteAttempt = new Mutation(DELETE_ATTEMPT, { onComplete }).commit;
+
+export function ConfirmDeleteAttemptDialog(close, { userId, unitId }) {
+  
+  return <ConfirmDialog onClose={close} onConfirm={() => deleteAttempt({ userId, unitId })} title="Удаление попытка" {...confirmDeleteProps}>
+    <DialogContentText>
+      Вы действительно хотите удалить попытку?
+    </DialogContentText>
+  </ConfirmDialog>;
+}
+
+function SingleStudentProgress({ progress, userId, sendSertificate }) {
   const { units, certificateAvailable } = progress[0];
+  const confirmDeleteDialog = useDialog();
 
   let allScores = 0;
   let maxAllScores = 0;
@@ -56,13 +81,14 @@ function SingleStudentProgress({ progress, sendSertificate }) {
       {units.map(
         (unitProgress, index) => <tr key={index}>
           <td style={{ paddingRight: '36px', paddingTop: '12px' }}>
-            <Typography>{unitProgress.unitName}`</Typography>
+            <Typography>{unitProgress.unitName}</Typography>
           </td>
           <td style={{ paddingRight: '24px', paddingTop: '12px', minWidth: '300px' }}>
             <Typography style={{
               color: unitProgress.score != null ? '#3f51b5' : amber[700]
             }}>{unitProgress.score == null ? 'не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
           </td>
+          {UserInfo.role !== 'student' && unitProgress.score != null && <td><Button variant="outlined" color="primary" onClick={() => { close(); confirmDeleteDialog.open({ userId, unitId: unitProgress.id }); }}>Удалить</Button></td>}
         </tr>
       )}
     </tbody></table>
@@ -74,18 +100,22 @@ function SingleStudentProgress({ progress, sendSertificate }) {
         {UserInfo.role === 'student' && <Button size="small" disabled={!certificateAvailable} onClick={() => sendSertificate()} style={{ marginTop: '12px' }} variant="outlined" color="primary">Прислать сертификат на почту</Button>}
       </div>
     </div>
+
+    <DialogModal mgr={confirmDeleteDialog}>
+      {ConfirmDeleteAttemptDialog}
+    </DialogModal>
     
   </div>;
 }
 SingleStudentProgress = React.memo(SingleStudentProgress);
 
-function UserProgressDialog(close, { progress, email, firstname, lastname, middlename }) {
+function UserProgressDialog(close, { id, progress, email, firstname, lastname, middlename }) {
   return <Dialog onClose={close} title="Достижения пользователя">
     <div style={{ width: '1000px' }}>
-      <Typography style={{ paddingBottom: '24px', marginTop: '-12px',  }}>
-        {email}, {dispstr(firstname, lastname, middlename)}
+      <Typography style={{ paddingBottom: '24px', marginTop: '-12px'  }}>
+        {email}, {dispstr(lastname, firstname, middlename)}
       </Typography>
-      <SingleStudentProgress {...{ progress }} />
+      <SingleStudentProgress {...{ progress, userId: id }} />
     </div>
   </Dialog>;
 }
@@ -98,7 +128,7 @@ function MultipleStudentsProgress({ progress }) {
     <List>
 
       {progress.map(
-        ({ units, certificateAvailable, userData: { firstname, lastname, middlename, picture, email, maxAllScores, allScores } }, index) => <ListItem key={index}>
+        ({ units, certificateAvailable, userData: { id, firstname, lastname, middlename, picture, email, maxAllScores, allScores } }, index) => <ListItem key={index}>
 
           <ListItemAvatar>{
             picture
@@ -107,7 +137,7 @@ function MultipleStudentsProgress({ progress }) {
           }</ListItemAvatar>
 
           <ListItemText primary={email} secondary={<>
-            {dispstr(firstname, lastname, middlename) + ' '}
+            {dispstr(lastname, firstname, middlename) + ' '}
           </>} />
 
           <div style={{
@@ -126,7 +156,7 @@ function MultipleStudentsProgress({ progress }) {
               padding: '6px',
               fontSize: '12px'
               
-            }} size="small" color="primary" variant="outlined" onClick={() => dialog.open({ email, firstname, lastname, middlename, progress: [{ units, certificateAvailable }] })}>подробнее</Button>
+            }} size="small" color="primary" variant="outlined" onClick={() => dialog.open({ id, email, firstname, lastname, middlename, progress: [{ units, certificateAvailable }] })}>подробнее</Button>
           </div>
           
         </ListItem>

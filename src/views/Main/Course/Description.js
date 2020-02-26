@@ -35,7 +35,7 @@ function handleTabChange(value, id) {
   if (value === 2) History.push(`/course-delivery/${id}/progress`);
 }
 
-function Description({ course: { id, description, instructors, startDate, enrollmentEndDate, sections, isCurrentUserEnrolled } }) {
+function Description({ course: { id, description, instructors, startDate, logo, enrollmentEndDate, sections, isCurrentUserEnrolled } }) {
 
   const [renderView, tabValue] = useRoutes(routes, {}) || [];
 
@@ -69,6 +69,10 @@ function Description({ course: { id, description, instructors, startDate, enroll
             {enrollmentEndDate && <InfoItem icon={<CalendarIcon />} name="Окончание регистрации" value={dispdate(enrollmentEndDate)} />}
           </tbody>
         </table>
+
+        {logo && <div className={classes.logoContainer}>
+          <img className={classes.logo} src={'/files/' + logo.fileSourceKey} />
+        </div>}
 
         {instructors.length > 0 && <>
           <div className={classes.instructors  + ' section'}>

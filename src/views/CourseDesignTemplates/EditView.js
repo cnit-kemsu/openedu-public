@@ -26,6 +26,7 @@ function EditCourseDesignTemplate() {
     <TextField className={classes.laborInput_hours} name="data.labourInput_hours" multiline={true} label="Трудоемкость (в часах)" multiline />
     <TextField className={classes.outcomes} name="data.outcomes" multiline={true} label="Результаты обучения" multiline />
     <TextField className={classes.competencies} name="data.competencies" multiline={true} label="Направленные на формирование компетенций" multiline />
+    <DragAndDropImageDialog className={classes.picture} name="logo" label="Логотип" />
   </div>;
 }
 EditCourseDesignTemplate = React.memo(EditCourseDesignTemplate);
@@ -36,6 +37,7 @@ const UPDATE_COURSE_DESIGN_TEMPLATE = ({
   summary = 'String',
   description = 'JSON',
   picture = 'JSON',
+  logo = 'JSON',
   data = 'JSON'
 }) => `
   updateCourseDesignTemplate(
@@ -44,6 +46,7 @@ const UPDATE_COURSE_DESIGN_TEMPLATE = ({
     summary: ${summary}
     description: ${description}
     picture: ${picture}
+    logo: ${logo}
     data: ${data}
   )
 `;
@@ -58,6 +61,7 @@ export const COURSE_DESIGN_TEMPLATE = ({ id = 'Int!' }) => `
     summary
     description
     picture
+    logo
     data
   }
 `;
