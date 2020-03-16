@@ -1,4 +1,5 @@
 import { Publisher } from '@kemsu/publisher';
+import { setAuthHeader } from '@lib/client';
 
 export class UserInfo {
   static updateEvent = new Publisher();
@@ -30,6 +31,9 @@ export class UserInfo {
   static get isAdmin() {
     return UserInfo.role === 'admin' || UserInfo.role === 'superuser';
   }
+  static get isInstructor() {
+    return UserInfo.role === 'instructor';
+  }
 
   static update({ role, email, verified, complete, bearer, picture }) {
     if (role !== undefined) localStorage.setItem('user.role', role);
@@ -41,6 +45,7 @@ export class UserInfo {
       if (picture) localStorage.setItem('user.pictureFileId', picture.fileSourceKey);
       else localStorage.removeItem('user.pictureFileId');
     }
+    setAuthHeader(bearer);
     UserInfo.updateEvent.publish();
   }
 
@@ -51,6 +56,7 @@ export class UserInfo {
     localStorage.removeItem('user.complete');
     localStorage.removeItem('user.bearer');
     localStorage.removeItem('user.pictureFileId');
+    setAuthHeader(null);
     UserInfo.updateEvent.publish();
   }
 }

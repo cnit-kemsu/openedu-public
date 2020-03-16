@@ -30,4 +30,5 @@ GraphqlClient.onError = error => {
 
 export function setAuthHeader(bearer) {
   if (bearer) GraphqlClient.headers['x-access-token'] = bearer;
+  else delete GraphqlClient.headers['x-access-token'];
 }

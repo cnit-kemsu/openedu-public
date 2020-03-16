@@ -51,7 +51,7 @@ function Description({ course: { id, description, instructors, startDate, logo, 
           >
             <Tab label="О курсе" className={classes.tab} />
             <Tab label="Содержание" className={classes.tab} />
-            {(isCurrentUserEnrolled ||UserInfo.role !== 'student') && <Tab label="Достижения" className={classes.tab} />}
+            {(isCurrentUserEnrolled || UserInfo.isAdmin) && <Tab label="Достижения" className={classes.tab} />}
           </Tabs>
         }
 

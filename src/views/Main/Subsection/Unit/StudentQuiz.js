@@ -120,8 +120,9 @@ class Timer extends PureComponent {
   constructor(props) {
     super(props);
 
-    const { timeLimit, started } = props;
-    let remainedTime = timeLimit * 60 - Math.floor((new Date() - new Date(started)) / 1000);
+    const { timeLimit, started, currentTime } = props;
+    this.diff = new Date().getTime() - new Date(currentTime).getTime();
+    let remainedTime = timeLimit * 60 - Math.floor((this.diff + new Date().getTime() - new Date(started).getTime()) / 1000);
     if (remainedTime < 0) {
       remainedTime = 0;
       this.shoudUpdate = false;
@@ -137,7 +138,7 @@ class Timer extends PureComponent {
     const { timeLimit, started, onExpired } = this.props;
     if (this.shoudUpdate) {
       this.setState({
-        remainedTime: timeLimit * 60 - Math.floor((new Date() - new Date(started)) / 1000)
+        remainedTime: timeLimit * 60 - Math.floor((this.diff + new Date().getTime() - new Date(started).getTime()) / 1000)
       });
       if (this.state.remainedTime > 0) setTimeout(this.makeTick, 1000);
       else onExpired();
@@ -251,12 +252,12 @@ function QuizInfo({ id, timeLimit, totalAttempts, maxScore }) {
 }
 QuizInfo = React.memo(QuizInfo);
 
-function QuizState({ timeLimit, totalAttempts, maxScore, currentUserLastAttempt, forceUpdate }) {
+function QuizState({ timeLimit, totalAttempts, maxScore, currentUserLastAttempt, currentTime, forceUpdate }) {
 
   const { startDate, repliesCount, score } = currentUserLastAttempt || {};
 
   if (UserInfo.role === 'student') return <span>
-    {timeLimit && currentUserLastAttempt != null && currentUserLastAttempt?.score !== maxScore && currentUserLastAttempt?.repliesCount < totalAttempts && <Timer onExpired={forceUpdate} started={startDate} timeLimit={timeLimit} />}
+    {timeLimit && currentUserLastAttempt != null && currentUserLastAttempt?.score !== maxScore && currentUserLastAttempt?.repliesCount < totalAttempts && <Timer onExpired={forceUpdate} started={startDate} currentTime={currentTime} timeLimit={timeLimit} />}
     <Typography>Число использованных попыток: {repliesCount || 0} из {totalAttempts}</Typography>
     {repliesCount >= totalAttempts && <Typography color="error">У вас закончились попытки</Typography>}
     <Typography>Количество баллов: {score || 0} из {maxScore}</Typography>
@@ -270,7 +271,7 @@ function QuizState({ timeLimit, totalAttempts, maxScore, currentUserLastAttempt,
 }
 QuizState = React.memo(QuizState);
 
-function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, currentUserLastAttempt, loading, errors }) {
+function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, currentUserLastAttempt, currentTime, loading, errors }) {
   
   if (UserInfo.role === 'student' && currentUserLastAttempt == null) return <QuizInfo {...{ id, timeLimit, totalAttempts, maxScore }} />;
 
@@ -290,7 +291,7 @@ function Quiz({ id, data: { questions, timeLimit, totalAttempts, maxScore }, cur
       <Fields comp={form}>
 
         <div style={{ padding: '16px', marginBottom: '24px' }}>
-          <QuizState {...{ id, timeLimit, totalAttempts, maxScore, currentUserLastAttempt, forceUpdate }} />
+          <QuizState {...{ id, timeLimit, totalAttempts, maxScore, currentUserLastAttempt, currentTime, forceUpdate }} />
         </div>
 
         <Questions questions={questions} feedback={/*createFeedback(currentUserLastAttempt, questions)*/currentUserLastAttempt?.feedback} disabled={!canSubmitQuizReply} />

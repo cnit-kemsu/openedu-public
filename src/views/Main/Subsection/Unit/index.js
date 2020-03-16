@@ -13,6 +13,7 @@ export const UNIT_DELIVERY = ({ id = 'Int!' }) => `
     type
     data
     currentUserLastAttempt
+    currentTime
   }
 `;
 
@@ -31,7 +32,7 @@ function Unit({ id }) {
         {type === 'DOCUMENT' && <Document data={data} />}
         {type === 'FILE_DOCUMENT' && <FileDocument data={data} />}
         {type === 'VIDEO' && <Video data={data} />}
-        {type === 'QUIZ' && <Quiz loading={loading} errors={errors} id={id} data={data} currentUserLastAttempt={unit.currentUserLastAttempt} />}
+        {type === 'QUIZ' && <Quiz loading={loading} errors={errors} id={id} data={data} currentUserLastAttempt={unit.currentUserLastAttempt} currentTime={unit.currentTime} />}
 
       </>}
     

@@ -8,7 +8,7 @@ function Subsection({ id, name, summary, /*sectionIndex, index: subsectionIndex,
 
   if (units.length === 0) return null;
 
-  const hasAccess = UserInfo.isAdmin || (isCurrentUserEnrolled && new Date() >= new Date(accessDate));
+  const hasAccess = UserInfo.isAdmin || (isCurrentUserEnrolled && (UserInfo.isInstructor || new Date() >= new Date(accessDate)));
 
   const unitItems = units.map(
     (props, index) =>
