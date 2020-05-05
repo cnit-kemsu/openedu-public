@@ -12,6 +12,9 @@ import CompleteAccountView from './Complete';
 import UserProfile from './UserProfile';
 import useStyles from './styles';
 
+import ResetPasswordView from './ResetPassword';
+import ResetPasswordTokenView from './ResetPasswordToken';
+
 function handleTabChange(event, value) {
   if (value === 0) History.push('/account/signin');
   if (value === 1) History.push('/account/signup');
@@ -23,7 +26,10 @@ const routes = [
   [/.+\/verify$/, () => ([<VerifyAccountView />])],
   [/.+\/confirm$/, () => ([<ConfirmAccountView />])],
   [/.+\/complete$/, () => ([<CompleteAccountView />])],
-  [/.+\/profile(?<edit>\/edit)?$/, ({ edit }) => ([<UserProfile edit={Boolean(edit)} />])]
+  [/.+\/profile(?<edit>\/edit)?$/, ({ edit }) => ([<UserProfile edit={Boolean(edit)} />])],
+
+  [/.+\/reset-password$/, () => ([<ResetPasswordView />])],
+  [/.+\/reset-password-start$/, () => ([<ResetPasswordTokenView />])],
 ];
 
 function AccountView() {

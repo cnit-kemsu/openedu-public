@@ -8,6 +8,7 @@ import { setAuthHeader } from '@lib/client';
 import { UserInfo } from '@lib/UserInfo';
 import { validateEmail, validatePassword } from '@lib/validate';
 import { SignIn as useStyles } from './styles';
+import { Button } from '@material-ui/core';
 
 const SIGN_INTO_ACCOUNT = ({
   email = 'String!',
@@ -43,6 +44,9 @@ function SignIntoAccount() {
     <TextField name="password" validate={validatePassword}
       type="password" label="Пароль" className={classes.password}
     />
+    <div>
+      <Button style={{ marginTop: '24px' }} color="primary" onClick={() => History.push('/account/reset-password-start')}>Забыли пароль?</Button>
+    </div>
   </Form>;
 }
 
