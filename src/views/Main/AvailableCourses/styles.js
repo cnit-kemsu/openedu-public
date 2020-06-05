@@ -28,7 +28,11 @@ export const CourseItem = makeStyles({
     overflow: 'hidden'
   },
   picture: {
-    height: '200px'
+    height: '200px',
+    cursor: 'pointer'
+  },
+  name: {
+    cursor: 'pointer'
   },
   actions: {
     justifyContent: 'space-between'

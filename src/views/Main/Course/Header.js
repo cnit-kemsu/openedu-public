@@ -78,11 +78,17 @@ function CourseHeader({ course: { id, name, summary, picture, price, enrollmentE
             : (
               availableToEnroll ? (
               price == null
-              ? <Button color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
+              ? <div>
+                <Typography color="primary">Чтобы получить доступ к материалам курса, вам необходимо записаться на курс</Typography>
+                <Button style={{ marginTop: '12px' }} color="primary" variant="contained" onClick={() => performIfSignedIn(enroll, { id })}>Записаться на курс</Button>
+              </div>
               : <div>
-                <Typography color="primary">Чтобы записаться на курс, вам необходимо произвести оплату</Typography>
-                <Typography color="primary">Стоимость курса: {price} руб.</Typography>
-                <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button>  
+                <Typography color="primary">Чтобы получить доступ к материалам курса, вам необходимо произвести оплату</Typography>
+                <div ыен className={classes.priceContainer}>
+                  <Button className={classes.purchaseButton} color="primary" variant="contained" onClick={() => performIfSignedIn(purchase, { id })}>Перейти к оплате</Button> 
+                  <Typography color="primary" className={classes.price}>Стоимость курса: {price} руб.</Typography>
+                </div>
+                 
               </div>
               ) : <Typography color="secondary" variant="h6">Регистрация на курс закончена</Typography>
             )}

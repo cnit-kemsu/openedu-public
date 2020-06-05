@@ -10,7 +10,7 @@ function UserItem({ email, firstname, lastname, middlename, picture }) {
 
   return <ListItem>
     <ListItemAvatar>{displayAvatar(picture)}</ListItemAvatar>
-    <ListItemText primary={email} secondary={dispstr(firstname, lastname, middlename)} />
+    <ListItemText primary={email} secondary={dispstr(lastname, firstname, middlename)} />
   </ListItem>;
 }
 

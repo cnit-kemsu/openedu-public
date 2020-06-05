@@ -86,7 +86,7 @@ function SingleStudentProgress({ progress, userId, sendSertificate }) {
           <td style={{ paddingRight: '24px', paddingTop: '12px', minWidth: '300px' }}>
             <Typography style={{
               color: unitProgress.score != null ? '#3f51b5' : amber[700]
-            }}>{unitProgress.score == null ? 'не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
+            }}>{unitProgress.score == null ? 'Еще не было попыток' : `${unitProgress.score} из ${unitProgress.maxScore}`}</Typography>
           </td>
           {UserInfo.role !== 'student' && <td><Button variant="outlined" color="primary" onClick={() => { close(); confirmDeleteDialog.open({ userId, unitId: unitProgress.id }); }}>Удалить</Button></td>}
         </tr>

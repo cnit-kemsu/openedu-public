@@ -20,6 +20,14 @@ export const Header = makeStyles(theme => ({
     maxWidth: '720px',
     paddingRight: '48px'
   },
+  price: {
+    fontWeight: 'bold',
+    marginLeft: '16px'
+  },
+  priceContainer: {
+    display: 'inline-flex',
+    alignItems: 'baseline'
+  },
   name: {
     paddingBottom: '12px'
   },
