@@ -74,23 +74,11 @@ export const COURSE_DELIVERY_INSTANCE = ({ id = 'Int!' }) => `
   }
 `;
 
-
-
-
-
-
-
-
 // function handleTabChange(id, value) {
 //   if (value === 0) History.push(`/course-delivery/${id}`);
 //   if (value === 1) History.push(`/course-delivery/${id}/content`);
 //   if (value === 2) History.push(`/course-delivery/${id}/progress`);
 // }
-
-
-
-
-
 
 function CourseView({ id, showType, userId }) {
   

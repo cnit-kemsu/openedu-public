@@ -3,22 +3,11 @@ import Answers from "@views/UnitData/QuizUnit/Questions/Answers";
 import { QuestionItem } from "@views/UnitData/QuizUnit/Questions/QuestionItem";
 
 export const Main = makeStyles({
-  // myCourses: {
-  //   maxWidth: '1100px',
-  //   margin: 'auto',
-  //   paddingTop: '36px',
-  //   paddingBottom: '12px'
-  // },
   root: {
   },
   greetingContainer: {
-    // height: '350px',
-    // display: 'flex',
-    // justifyContent: 'center',
-    // overflow: 'hidden'
   },
   greetingImg: {
-    //height: '100%'
     width: '100%'
   }
 });

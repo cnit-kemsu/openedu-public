@@ -1,7 +1,7 @@
 import React, { memo, useMemo, useEffect } from 'react';
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandIcon from '@material-ui/icons/AddCircle';
 import CollapseIcon from '@material-ui/icons/RemoveCircle';
 import { Publisher } from '@kemsu/publisher';
@@ -74,23 +74,23 @@ function ExpansionPanel({ defaultExpanded, scope, summary, details, id }) {
   useEffect(expansion.handleSubscriptions, []);
 
   const classes = useStyles();
-  return <MuiExpansionPanel square
+  return <Accordion square
     classes={{ root: classes.root, expanded: classes.rootExpanded }}
     expanded={expansion.expanded}
     onChange={expansion.toggleExpand}
   >
-    <ExpansionPanelSummary classes={{ root: classes.summaryRoot, content: classes.summaryContent, expanded: classes.summaryExpanded, expandIcon: classes.expandIcon }}
+    <AccordionSummary classes={{ root: classes.summaryRoot, content: classes.summaryContent, expanded: classes.summaryExpanded, expandIcon: classes.expandIcon }}
       expandIcon={expansion.expanded ? <CollapseIcon color="primary" /> : <ExpandIcon color="primary" />}
     >
       <div className={classes.summaryContent} onClick={clickSummary}>
         {summary}
       </div>
       
-    </ExpansionPanelSummary>
-    <ExpansionPanelDetails className={classes.detailsRoot}>
+    </AccordionSummary>
+    <AccordionDetails className={classes.detailsRoot}>
       {details}
-    </ExpansionPanelDetails>
-  </MuiExpansionPanel>;
+    </AccordionDetails>
+  </Accordion>;
 }
 
 export default memo(ExpansionPanel);

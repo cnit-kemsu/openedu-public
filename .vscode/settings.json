@@ -1,24 +1,32 @@
 {
   "javascript.referencesCodeLens.enabled": false,
   "javascript.validate.enable": false,
-
   "javascript.implicitProjectConfig.checkJs": false,
-  
-  "editor.tabSize": 2,
-  "editor.autoIndent": true,
   
   "emmet.triggerExpansionOnTab": true,
 
-  "eslint.validate": [
-    "javascript", "html"
-  ],
+  "editor.tabSize": 2,
+  "editor.tokenColorCustomizations": {
+    "[Default Dark+]": {
+      "textMateRules": [
+        {
+          "scope": ["variable.other.constant", "variable.other.enummember"],
+          "settings": {
+              "foreground": "#9cdcfe"
+          }
+        }
+      ]
+    }
+  },
+
+  "explorer.autoReveal": false,
 
   "files.exclude": {
     "node_modules": true,
     "package-lock.json": true
   },
 
-  "todohighlight.keywords":[
+  "todohighlight.keywords": [
     {
       "text": "DEBUG",
       "color": "#ddddff",
@@ -26,10 +34,7 @@
     }
   ],
 
-  "explorer.autoReveal": false,
-
   "code-runner.executorMap": {
     "javascript": "node -r @babel/register"
   }
-
 }

@@ -92,7 +92,7 @@ export const ExpansionItem = makeStyles(theme => ({
     backgroundColor: '#0000',
     boxShadow: 'none',
     '&::before': {
-      height: '0px'
+      display: 'none'
     }
   },
   rootExpanded: {

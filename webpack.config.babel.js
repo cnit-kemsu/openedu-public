@@ -81,7 +81,6 @@ export default {
       '/graphql': 'http://localhost:443/graphql',
       '/files': 'http://localhost:443/'
     },
-    contentBase: './test/server',
     historyApiFallback: true,
     watchContentBase: true,
     disableHostCheck: true,
